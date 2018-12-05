@@ -15,7 +15,7 @@ class DatasRepository{
           false),
           Data(2,
               "Сиэтл",
-              "https://s.zagranitsa.com/images/articles/4671/426x270/27de142f95eacfdbf18647859a2b45cf.jpg",
+              "https://www.first-americans.spb.ru/wp-content/uploads/2013/04/%D0%A1%D0%B8%D1%8D%D1%82%D0%BB-%D1%88%D1%82%D0%B0%D1%82-%D0%B2%D0%B0%D1%88%D0%B8%D0%BD%D0%B3%D1%82%D0%BE%D0%BD.jpg",
               "Description",
               "",
               "",

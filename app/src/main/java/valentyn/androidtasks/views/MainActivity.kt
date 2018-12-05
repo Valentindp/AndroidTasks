@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = DatasAdapter(DatasRepository().getDataset(),this)
+        viewAdapter = DatasAdapter(DatasRepository().getDataset())
 
         recyclerView = findViewById<RecyclerView>(R.id.datas_recyclerView).apply {
             setHasFixedSize(true)
