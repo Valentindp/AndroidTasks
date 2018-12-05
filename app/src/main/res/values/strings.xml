@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">AndroidTasks</string>
+    <string name="button_selected_name1">Selected</string>
+    <string name="button_selected_name2">Unselected</string>
+
 </resources>

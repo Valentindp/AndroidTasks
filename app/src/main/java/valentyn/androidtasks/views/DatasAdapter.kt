@@ -1,6 +1,5 @@
 package valentyn.androidtasks.views
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -10,9 +9,9 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_data.view.*
 
 import valentyn.androidtasks.R
-import valentyn.androidtasks.models.Data
+import valentyn.androidtasks.models.City
 
-class DatasAdapter(private val mDataset: List<Data>) :
+class DatasAdapter(private val mDataset: List<City>) :
     RecyclerView.Adapter<DatasAdapter.DataViewHolder>() {
 
 
@@ -32,25 +31,25 @@ class DatasAdapter(private val mDataset: List<Data>) :
     class DataViewHolder(val view: View) : RecyclerView.ViewHolder(view){
 
         private var v: View = view
-        private var data: Data? = null
+        private var city: City? = null
 
-        fun bindData(data: Data) {
-            this.data = data
+        fun bindData(city: City) {
+            this.city = city
 
             Picasso.get()
-                .load(data.url)
+                .load(city.url)
                 .fit()
                 .error(R.drawable.ic_error_black_24dp)
                 .into(view.PhotoView)
 
-            view.nameTextView.text = data.name
-            view.descriptionTextView.text = data.about
-            if (data.Select){
-                view.selectedTextView.text =  "Selected"
+            view.nameTextView.text = city.name
+            view.descriptionTextView.text = city.about
+            if (city.Select){
+                view.selectedTextView.text = R.string.button_selected_name1.toString()
                 view.selectedTextView.setTextColor(Color.GREEN)
             } else
             {
-                view.selectedTextView.text =  "Unselected"
+                view.selectedTextView.text =  R.string.button_selected_name2.toString()
                 view.selectedTextView.setTextColor(Color.GRAY)
             }
         }
