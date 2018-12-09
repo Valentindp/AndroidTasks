@@ -1,18 +1,14 @@
 package valentyn.androidtasks.adapters
 
-import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_data.view.*
 
 import valentyn.androidtasks.R
 import valentyn.androidtasks.models.City
-import valentyn.androidtasks.presenters.CityRepository
-
 
 class CitysAdapter(private val mDataset: List<City>, val clickListener: (City) -> Unit) :
     RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
