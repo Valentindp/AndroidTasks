@@ -12,7 +12,8 @@ import valentyn.androidtasks.models.City
 
 class CityActivity : AppCompatActivity() {
 
-    var mChangeData : Boolean = false
+    var mSelect : Boolean = false
+    var mCity: City? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +25,9 @@ class CityActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
 
         val city = intent.getSerializableExtra(CITY_KEY) as City
+
+        mCity = city
+        mSelect = city.Select
 
         CitySiteTextView.setText(city.Site)
         CityNameTextView.setText(city.name)
@@ -41,7 +45,6 @@ class CityActivity : AppCompatActivity() {
 
         SelectedButton.setOnClickListener {
             city.Select = !city.Select
-            mChangeData = true
             SelectedButton.setText(city.getTextSelected())
             SelectedButton.setTextColor(city.getColorSelected())
         }
@@ -70,7 +73,7 @@ class CityActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        if (mChangeData){setResult(1)}
+        if (mSelect != mCity?.Select){setResult(1)}
         finish()
         return true
     }

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_data.view.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.models.City
 
-class CitysAdapter(private val mDataset: List<City>, val clickListener: (City) -> Unit) :
+class CitysAdapter(private val mDataset: List<City>, val clickListener: (City, Int) -> Unit) :
     RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
 
 
@@ -25,7 +25,7 @@ class CitysAdapter(private val mDataset: List<City>, val clickListener: (City) -
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
 
-        holder.bindData(mDataset.get(position), clickListener)
+        holder.bindData(position, mDataset.get(position), clickListener)
     }
 
     class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view){
@@ -33,7 +33,7 @@ class CitysAdapter(private val mDataset: List<City>, val clickListener: (City) -
         private var v: View = view
         private var city: City? = null
 
-        fun bindData(city: City, clickListener: (City) -> Unit) {
+        fun bindData(position: Int, city: City, clickListener: (City, Int) -> Unit) {
             this.city = city
 
             Picasso.get()
@@ -46,7 +46,7 @@ class CitysAdapter(private val mDataset: List<City>, val clickListener: (City) -
             view.descriptionTextView.text = city.about
             view.selectedTextView.setText(city.getTextSelected())
             view.selectedTextView.setTextColor(city.getColorSelected())
-            view.setOnClickListener { clickListener(city)}
+            view.setOnClickListener { clickListener(city, position)}
         }
 
         fun getCity(): City {return this.city!! }

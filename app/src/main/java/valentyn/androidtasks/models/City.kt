@@ -10,7 +10,7 @@ class City (CityId: Int,
                  CityAbout: String,
                  CityCountry: String,
                  CitySite: String,
-                   CitySelect: Boolean) : Serializable
+                 CitySelect: Boolean) : Serializable
  {
      val id: Int = CityId
      val name: String = CityName
