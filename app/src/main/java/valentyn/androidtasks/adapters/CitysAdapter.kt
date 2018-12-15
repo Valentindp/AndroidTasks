@@ -14,8 +14,10 @@ class CitysAdapter(private val mDataset: List<City>, val clickListener: (City, I
     RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): CityViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CityViewHolder {
 
         return CityViewHolder(
             LayoutInflater.from(parent.context)
@@ -28,9 +30,8 @@ class CitysAdapter(private val mDataset: List<City>, val clickListener: (City, I
         holder.bindData(position, mDataset.get(position), clickListener)
     }
 
-    class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view){
+    class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        private var v: View = view
         private var city: City? = null
 
         fun bindData(position: Int, city: City, clickListener: (City, Int) -> Unit) {
@@ -46,10 +47,9 @@ class CitysAdapter(private val mDataset: List<City>, val clickListener: (City, I
             view.descriptionTextView.text = city.about
             view.selectedTextView.setText(city.getTextSelected())
             view.selectedTextView.setTextColor(city.getColorSelected())
-            view.setOnClickListener { clickListener(city, position)}
+            view.setOnClickListener { clickListener(city, position) }
         }
 
-        fun getCity(): City {return this.city!! }
     }
 
     override fun getItemCount() = mDataset.size

@@ -29,10 +29,10 @@ class CityActivity : AppCompatActivity() {
         mCity = city
         mSelect = city.Select
 
-        CitySiteTextView.setText(city.Site)
-        CityNameTextView.setText(city.name)
-        CityDescriptionTextView.setText(city.about)
-        CityСountryTextView.setText(city.country)
+        citySiteTextView.setText(city.Site)
+        cityNameTextView.setText(city.name)
+        cityDescriptionTextView.setText(city.about)
+        cityСountryTextView.setText(city.country)
 
         SelectedButton.setText(city.getTextSelected())
         SelectedButton.setTextColor(city.getColorSelected())
@@ -41,16 +41,14 @@ class CityActivity : AppCompatActivity() {
             .load(city.url)
             .fit()
             .error(R.drawable.ic_error_black_24dp)
-            .into(CityPhotoView)
+            .into(сityPhotoView)
 
         SelectedButton.setOnClickListener {
             city.Select = !city.Select
             SelectedButton.setText(city.getTextSelected())
             SelectedButton.setTextColor(city.getColorSelected())
         }
-
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_city_menu,menu)
@@ -59,7 +57,6 @@ class CityActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_share -> {
-            Toast.makeText(this,"Share action",Toast.LENGTH_LONG).show()
             true
         }
         android.R.id.home ->{

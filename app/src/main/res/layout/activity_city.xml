@@ -1,95 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFF">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/сityPhotoView"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_bg">
+
+            <LinearLayout
+                android:id="@+id/descLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@id/SelectedButton"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/descriptionView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/info" />
+
+                <TextView
+                    android:id="@+id/cityDescriptionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:ellipsize="end" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/SelectedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:background="@android:color/transparent"
+                android:onClick="onClickSelect"
+                android:text="@string/button_selected_name1"
+                android:textAllCaps="false" />
+
+            <LinearLayout
+                android:id="@+id/countryLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/descLL"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/countryView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/mountain" />
+
+                <TextView
+                    android:id="@+id/cityСountryTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:ellipsize="end" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/siteLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/countryLL"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/siteView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/web" />
+
+                <TextView
+                    android:id="@+id/citySiteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:ellipsize="end" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
 
     <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:id="@+id/CityPhotoView" android:layout_alignParentStart="true"
-            android:layout_marginTop="0dp" android:layout_marginStart="0dp"
-            android:layout_alignTop="@+id/toolbar_city"/>
+        android:id="@+id/сityPhotoView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignTop="@id/toolbar_city"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_error_black_24dp" />
 
     <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@android:color/transparent"
-            app:titleTextColor="#fff"
-            app:subtitleTextColor="#f5fbff"
-            android:padding="1dp"/>
+        android:id="@+id/toolbar_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize" />
 
     <TextView
-            android:layout_width="280dp"
-            android:layout_height="wrap_content" android:id="@+id/CityNameTextView"
-            android:layout_marginLeft="10dp" android:layout_marginStart="10dp"
-            android:layout_marginRight="10dp" android:layout_marginBottom="20dp"
-            android:layout_alignStart="@+id/CityPhotoView"
-            android:layout_alignBottom="@+id/CityPhotoView"
-            android:textStyle="bold"
-            android:textSize="36sp"
-            android:textColor="#ffffff"
-            android:background="@android:color/transparent"/>
-
-
-    <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp" app:srcCompat="@drawable/web" android:layout_alignParentStart="true"
-            android:id="@+id/SiteView"
-            android:layout_below="@+id/СountryView" android:layout_marginStart="20dp" android:layout_marginEnd="0dp"
-            android:layout_marginBottom="10dp"/>
-    <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp" app:srcCompat="@drawable/mountain" android:layout_alignParentStart="true"
-            android:id="@+id/СountryView"
-            android:layout_below="@+id/DescriptionView" android:layout_marginStart="20dp" android:layout_marginEnd="0dp"
-            android:layout_marginBottom="10dp"/>
-    <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp" app:srcCompat="@drawable/info" android:layout_alignParentStart="true"
-            android:id="@+id/DescriptionView"
-            android:layout_below="@+id/CityPhotoView" android:layout_marginStart="20dp" android:layout_marginEnd="0dp"
-            android:layout_marginBottom="30dp" android:layout_marginTop="20dp"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp" android:id="@+id/CitySiteTextView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp" android:layout_marginLeft="10dp" android:layout_marginStart="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/CityСountryTextView" android:layout_marginBottom="10dp"
-            android:layout_toEndOf="@+id/SiteView"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp" android:id="@+id/CityСountryTextView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp" android:layout_marginLeft="10dp" android:layout_marginStart="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/CityDescriptionTextView" android:layout_toEndOf="@+id/СountryView"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp" android:id="@+id/CityDescriptionTextView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="9dp" android:layout_marginLeft="10dp" android:layout_marginStart="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_below="@+id/CityPhotoView" android:layout_marginBottom="0dp"
-            android:layout_toEndOf="@+id/DescriptionView" android:layout_marginTop="20dp"/>
-    <Button
-            android:layout_width="80dp"
-            android:background="@android:color/transparent"
-            android:layout_height="30dp" android:layout_below="@+id/CityPhotoView"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/SelectedButton" android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp" android:textAllCaps="false" android:layout_marginEnd="10dp"
-            android:onClick="ClickSelect"/>
-
+        android:id="@+id/cityNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/сityPhotoView"
+        android:layout_alignBottom="@id/сityPhotoView"
+        android:layout_marginStart="@dimen/defaultMargin"
+        android:layout_marginLeft="@dimen/defaultMargin"
+        android:layout_marginTop="@dimen/defaultMargin"
+        android:layout_marginEnd="@dimen/defaultMargin"
+        android:layout_marginRight="@dimen/defaultMargin"
+        android:layout_marginBottom="@dimen/defaultMargin"
+        android:background="@android:color/transparent"
+        android:ellipsize="end"
+        android:textColor="#ffffff"
+        android:textSize="36sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

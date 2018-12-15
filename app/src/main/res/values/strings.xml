@@ -2,5 +2,7 @@
     <string name="app_name">Сities</string>
     <string name="button_selected_name1">Selected</string>
     <string name="button_selected_name2">Unselected</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_favorite">Favorite</string>
 
 </resources>
