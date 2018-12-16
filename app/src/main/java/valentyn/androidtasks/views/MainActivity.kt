@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.CitysAdapter
 import valentyn.androidtasks.models.City
-import valentyn.androidtasks.presenters.CityRepository
+import valentyn.androidtasks.repository.CityRepository
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mViewAdapter: CitysAdapter
     private lateinit var mViewManager: LinearLayoutManager
-    private lateinit var mDataset:List<City>
+    private val mDataset:List<City> = CityRepository.getInstance().mDataset
     private var mPosition:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         mViewManager = LinearLayoutManager(this)
-        mDataset = CityRepository().getDataset()
         mViewAdapter = CitysAdapter(mDataset, { city: City, position: Int ->  CityClicked(city, position)})
 
         mRecyclerView = datas_recyclerView.apply {
