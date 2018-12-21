@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         if (resultCode == RESULT_OK) {
             val city = intent?.getSerializableExtra(CityActivity.CITY_KEY) as City
-            mDataset.filter { it.id == city.id }.map { it.Select = city.Select }
+            mDataset.filter { it.id == city.id }.map { it.select = city.select }
             city_recyclerView.adapter?.notifyDataSetChanged()
         }
     }

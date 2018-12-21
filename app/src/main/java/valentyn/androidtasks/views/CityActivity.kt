@@ -20,15 +20,15 @@ class CityActivity : AppCompatActivity() {
         setContentView(R.layout.activity_city)
 
         setSupportActionBar(toolbar_city)
-        getSupportActionBar()?.setDisplayShowTitleEnabled(false);
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
         val city = intent.getSerializableExtra(CITY_KEY) as City
 
         mCity = city
 
-        citySiteTextView.text = city.Site
+        citySiteTextView.text = city.site
         cityNameTextView.text = city.name
         cityDescriptionTextView.text = city.about
         cityСountryTextView.text = city.country
@@ -43,7 +43,7 @@ class CityActivity : AppCompatActivity() {
             .into(сityPhotoView)
 
         selectedButton.setOnClickListener {
-            city.Select = !city.Select
+            city.select = !city.select
             selectedButton.setText(city.getTextSelected())
             selectedButton.setTextColor(city.getColorSelected())
         }

@@ -17,18 +17,18 @@ class City (cityId: Int,
      val url: String = cityUrl
      var about: String = cityAbout
      var country: String = cityCountry
-     var Site: String = citySite
-     var Select: Boolean = citySelect
+     var site: String = citySite
+     var select: Boolean = citySelect
 
      fun getTextSelected():Int{
-         if (this.Select){
+         if (this.select){
              return R.string.button_selected
          }else{
             return R.string.button_unselected
          }
      }
      fun getColorSelected():Int {
-         if (this.Select) {
+         if (this.select) {
              return Color.GREEN
          } else {
              return Color.GRAY
