@@ -4,27 +4,27 @@ import android.graphics.Color
 import valentyn.androidtasks.R
 import java.io.Serializable
 
-class City (CityId: Int,
-                 CityName: String,
-                 CityUrl: String,
-                 CityAbout: String,
-                 CityCountry: String,
-                 CitySite: String,
-                 CitySelect: Boolean) : Serializable
+class City (cityId: Int,
+                 cityName: String,
+                 cityUrl: String,
+                 cityAbout: String,
+                 cityCountry: String,
+                 citySite: String,
+                 citySelect: Boolean) : Serializable
  {
-     val id: Int = CityId
-     val name: String = CityName
-     val url: String = CityUrl
-     var about: String = CityAbout
-     var country: String = CityCountry
-     var Site: String = CitySite
-     var Select: Boolean = CitySelect
+     val id: Int = cityId
+     val name: String = cityName
+     val url: String = cityUrl
+     var about: String = cityAbout
+     var country: String = cityCountry
+     var Site: String = citySite
+     var Select: Boolean = citySelect
 
      fun getTextSelected():Int{
          if (this.Select){
-             return R.string.button_selected_name1
+             return R.string.button_selected
          }else{
-            return R.string.button_selected_name2
+            return R.string.button_unselected
          }
      }
      fun getColorSelected():Int {

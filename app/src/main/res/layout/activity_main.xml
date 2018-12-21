@@ -18,7 +18,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/datas_recyclerView"
+        android:id="@+id/city_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/list_border"

@@ -1,5 +1,6 @@
 package valentyn.androidtasks.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -12,7 +13,6 @@ import valentyn.androidtasks.models.City
 
 class CityActivity : AppCompatActivity() {
 
-    var mSelect : Boolean = false
     var mCity: City? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,15 +27,14 @@ class CityActivity : AppCompatActivity() {
         val city = intent.getSerializableExtra(CITY_KEY) as City
 
         mCity = city
-        mSelect = city.Select
 
-        citySiteTextView.setText(city.Site)
-        cityNameTextView.setText(city.name)
-        cityDescriptionTextView.setText(city.about)
-        cityСountryTextView.setText(city.country)
+        citySiteTextView.text = city.Site
+        cityNameTextView.text = city.name
+        cityDescriptionTextView.text = city.about
+        cityСountryTextView.text = city.country
 
-        SelectedButton.setText(city.getTextSelected())
-        SelectedButton.setTextColor(city.getColorSelected())
+        selectedButton.setText(city.getTextSelected())
+        selectedButton.setTextColor(city.getColorSelected())
 
         Picasso.get()
             .load(city.url)
@@ -43,10 +42,10 @@ class CityActivity : AppCompatActivity() {
             .error(R.drawable.ic_error_black_24dp)
             .into(сityPhotoView)
 
-        SelectedButton.setOnClickListener {
+        selectedButton.setOnClickListener {
             city.Select = !city.Select
-            SelectedButton.setText(city.getTextSelected())
-            SelectedButton.setTextColor(city.getColorSelected())
+            selectedButton.setText(city.getTextSelected())
+            selectedButton.setTextColor(city.getColorSelected())
         }
     }
 
@@ -70,9 +69,15 @@ class CityActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        if (mSelect != mCity?.Select){setResult(1)}
         finish()
         return true
+    }
+
+    override fun finish() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(CityActivity.CITY_KEY, mCity)
+        setResult(RESULT_OK, intent)
+        super.finish()
     }
 
 

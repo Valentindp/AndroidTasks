@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@drawable/states_selector_list">
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/cityItemMargin"
+        android:layout_marginTop="@dimen/cityItemMargin"
+        android:layout_marginEnd="@dimen/cityItemMargin"
+        android:layout_marginBottom="@dimen/cityItemMargin"
+        android:layout_toEndOf="@id/photoView"
+        android:ellipsize="end"
+        android:padding="@dimen/cityItemTextPadding"
+        android:textSize="16sp"
+        tools:text="descriptionTextView" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/descriptionTextView"
+        android:layout_marginStart="@dimen/cityItemMargin"
+        android:layout_marginTop="@dimen/cityItemMargin"
+        android:layout_marginEnd="@dimen/cityItemMargin"
+        android:layout_marginBottom="@dimen/cityItemMargin"
+        android:layout_toStartOf="@id/selectedTextView"
+        android:layout_toEndOf="@id/photoView"
+        android:ellipsize="end"
+        android:padding="@dimen/cityItemTextPadding"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        tools:text="nameTextView" />
+
+    <ImageView
+        android:id="@+id/photoView"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/cityItemMargin"
+        android:layout_marginTop="@dimen/cityItemMargin"
+        android:layout_marginEnd="@dimen/cityItemMargin"
+        android:layout_marginBottom="@dimen/cityItemMargin"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_error_black_24dp" />
+
+    <TextView
+        android:id="@+id/selectedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/cityItemMargin"
+        android:layout_marginTop="@dimen/cityItemMargin"
+        android:layout_marginEnd="@dimen/cityItemMargin"
+        android:text="@string/button_selected" />
+
+</RelativeLayout>

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,11 +15,8 @@ import valentyn.androidtasks.repository.CityRepository
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mViewAdapter: CitysAdapter
     private lateinit var mViewManager: LinearLayoutManager
-    private val mDataset:List<City> = CityRepository.getInstance().mDataset
-    private var mPosition:Int = 0
+    private val mDataset: List<City> = CityRepository.mDataset
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,17 +25,16 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         mViewManager = LinearLayoutManager(this)
-        mViewAdapter = CitysAdapter(mDataset, { city: City, position: Int ->  CityClicked(city, position)})
 
-        mRecyclerView = datas_recyclerView.apply {
+        city_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = mViewManager
-            adapter = mViewAdapter
+            adapter = CitysAdapter(mDataset, { city: City -> cityClicked(city) })
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_main,menu)
+        menuInflater.inflate(R.menu.toolbar_main, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -57,8 +52,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun CityClicked(city: City, position: Int) {
-        mPosition = position
+    private fun cityClicked(city: City) {
         val intent = Intent(this, CityActivity::class.java)
         intent.putExtra(CityActivity.CITY_KEY, city)
         startActivityForResult(intent, 1)
@@ -66,11 +60,10 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
 
-        if (requestCode == 1) {
-            if (resultCode == 1) {
-                mDataset.get(mPosition).Select =  !mDataset.get(mPosition).Select
-                mViewAdapter.notifyDataSetChanged()
-            }
+        if (resultCode == RESULT_OK) {
+            val city = intent?.getSerializableExtra(CityActivity.CITY_KEY) as City
+            mDataset.filter { it.id == city.id }.map { it.Select = city.Select }
+            city_recyclerView.adapter?.notifyDataSetChanged()
         }
     }
 

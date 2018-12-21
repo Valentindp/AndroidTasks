@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="defaultMargin">10dp</dimen>
+    <dimen name="cityStartEndMargin">10dp</dimen>
+    <dimen name="cityTopEndMargin">20dp</dimen>
+    <dimen name="cityItemMargin">4dp</dimen>
+    <dimen name="cityItemTextPadding">4dp</dimen>
+    <dimen name="cityDrawablePadding">10dp</dimen>
 </resources>
