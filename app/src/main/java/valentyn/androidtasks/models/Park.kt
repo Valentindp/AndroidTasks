@@ -4,7 +4,7 @@ import android.graphics.Color
 import valentyn.androidtasks.R
 import java.io.Serializable
 
-class City (val id: Int,
+class Park (val id: Int,
             val name: String,
             val url: String,
             var about: String,
@@ -24,9 +24,7 @@ class City (val id: Int,
          if (this.select)
              return Color.GREEN
           else
-             return  Color.GRAY
-
-
+             return Color.GRAY
      }
  }
 

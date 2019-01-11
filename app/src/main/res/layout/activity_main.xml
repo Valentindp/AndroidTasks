@@ -17,11 +17,18 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/city_recyclerView"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs_main"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="fixed"
+        android:background="@color/colorTab"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_height="match_parent"
-        android:background="@drawable/list_border"
-        android:listSelector="@drawable/states_selector_list" />
+        android:layout_width="match_parent"/>
+
+
 
 </LinearLayout>

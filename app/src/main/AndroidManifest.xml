@@ -17,7 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".views.CityActivity"/>
+        <activity android:name=".views.CityActivity"></activity>
+        <activity android:name=".views.ParkActivity"></activity>
     </application>
 
 </manifest>

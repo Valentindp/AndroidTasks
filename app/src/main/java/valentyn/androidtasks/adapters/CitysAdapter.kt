@@ -27,14 +27,14 @@ class CitysAdapter(private val mDataset: List<City>, val clickListener: (City) -
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
 
-        holder.bindData(position, mDataset.get(position), clickListener)
+        holder.bindData(mDataset.get(position), clickListener)
     }
 
     class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         private var city: City? = null
 
-        fun bindData(position: Int, city: City, clickListener: (City) -> Unit) {
+        fun bindData(city: City, clickListener: (City) -> Unit) {
             this.city = city
 
             Picasso.get()

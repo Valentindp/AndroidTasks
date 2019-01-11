@@ -5,4 +5,10 @@
     <dimen name="cityItemMargin">4dp</dimen>
     <dimen name="cityItemTextPadding">4dp</dimen>
     <dimen name="cityDrawablePadding">10dp</dimen>
+
+    <dimen name="parkStartEndMargin">10dp</dimen>
+    <dimen name="parkTopEndMargin">20dp</dimen>
+    <dimen name="parkItemTextPadding">4dp</dimen>
+    <dimen name="parkDrawablePadding">10dp</dimen>
+    <dimen name="parkItemMargin">4dp</dimen>
 </resources>

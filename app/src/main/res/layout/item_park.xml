@@ -5,18 +5,19 @@
     android:layout_height="80dp"
     android:background="@drawable/states_selector_list">
 
+
     <TextView
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="@dimen/cityItemMargin"
-        android:layout_marginTop="@dimen/cityItemMargin"
-        android:layout_marginEnd="@dimen/cityItemMargin"
+        android:layout_marginStart="@dimen/parkItemMargin"
+        android:layout_marginTop="@dimen/parkItemMargin"
+        android:layout_marginEnd="@dimen/parkItemMargin"
         android:layout_toStartOf="@id/selectedTextView"
         android:layout_toEndOf="@id/photoView"
         android:ellipsize="end"
-        android:padding="@dimen/cityItemTextPadding"
+        android:padding="@dimen/parkItemTextPadding"
         android:textSize="20sp"
         android:textStyle="bold|italic"
         tools:text="nameTextView" />
@@ -27,13 +28,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/nameTextView"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/cityItemMargin"
-        android:layout_marginTop="@dimen/cityItemMargin"
-        android:layout_marginEnd="@dimen/cityItemMargin"
-        android:layout_marginBottom="@dimen/cityItemMargin"
+        android:layout_marginStart="@dimen/parkItemMargin"
+        android:layout_marginTop="@dimen/parkItemMargin"
+        android:layout_marginEnd="@dimen/parkItemMargin"
+        android:layout_marginBottom="@dimen/parkItemMargin"
         android:layout_toEndOf="@id/photoView"
         android:ellipsize="end"
-        android:padding="@dimen/cityItemTextPadding"
+        android:padding="@dimen/parkItemTextPadding"
         android:textSize="16sp"
         tools:text="descriptionTextView" />
 
@@ -43,10 +44,10 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_gravity="center"
-        android:layout_marginStart="@dimen/cityItemMargin"
-        android:layout_marginTop="@dimen/cityItemMargin"
-        android:layout_marginEnd="@dimen/cityItemMargin"
-        android:layout_marginBottom="@dimen/cityItemMargin"
+        android:layout_marginStart="@dimen/parkItemMargin"
+        android:layout_marginTop="@dimen/parkItemMargin"
+        android:layout_marginEnd="@dimen/parkItemMargin"
+        android:layout_marginBottom="@dimen/parkItemMargin"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_error_black_24dp" />
 
@@ -56,9 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="@dimen/cityItemMargin"
-        android:layout_marginTop="@dimen/cityItemMargin"
-        android:layout_marginEnd="@dimen/cityItemMargin"
+        android:layout_marginStart="@dimen/parkItemMargin"
+        android:layout_marginTop="@dimen/parkItemMargin"
+        android:layout_marginEnd="@dimen/parkItemMargin"
         android:text="@string/button_selected" />
 
 </RelativeLayout>
