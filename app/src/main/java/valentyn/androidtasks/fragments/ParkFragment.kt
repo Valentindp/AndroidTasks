@@ -18,7 +18,7 @@ import valentyn.androidtasks.views.ParkActivity
 
 class ParkFragment : Fragment()  {
 
-    private val mDataset: List<Park> = ParkRepository.DataParks
+    private val dataset: List<Park> = ParkRepository.dataParks
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -27,16 +27,15 @@ class ParkFragment : Fragment()  {
         view.park_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = ParksAdapter(mDataset, { park: Park -> cityClicked(park) })
+            adapter = ParksAdapter(dataset, { park: Park -> cityClicked(park) })
         }
-        return view//super.onCreateView(inflater, container, savedInstanceState)
+        return view
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-
         if (resultCode == AppCompatActivity.RESULT_OK) {
             val park = intent?.getSerializableExtra(ParkActivity.PARK_KEY) as Park
-            mDataset.filter { it.id == park.id }.map { it.select = park.select }
+            dataset.filter { it.id == park.id }.map { it.select = park.select }
             park_recyclerView.adapter?.notifyDataSetChanged()
         }
     }
@@ -46,6 +45,5 @@ class ParkFragment : Fragment()  {
         intent.putExtra(ParkActivity.PARK_KEY, park)
         startActivityForResult(intent, 1)
     }
-
 }
 

@@ -6,14 +6,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import valentyn.androidtasks.R
-import android.widget.Toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_city.*
 import valentyn.androidtasks.models.City
 
 class CityActivity : AppCompatActivity() {
 
-    var mCity: City? = null
+    var city: City? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +25,7 @@ class CityActivity : AppCompatActivity() {
 
         val city = intent.getSerializableExtra(CITY_KEY) as City
 
-        mCity = city
+        this.city = city
 
         citySiteTextView.text = city.site
         cityNameTextView.text = city.name
@@ -70,7 +69,7 @@ class CityActivity : AppCompatActivity() {
 
     override fun finish() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(CityActivity.CITY_KEY, mCity)
+        intent.putExtra(CityActivity.CITY_KEY, city)
         setResult(RESULT_OK, intent)
         super.finish()
     }

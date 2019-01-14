@@ -4,7 +4,7 @@ import valentyn.androidtasks.models.Park
 
 object ParkRepository {
 
-    val DataParks: List<Park> = listOf(
+    val dataParks: List<Park> = listOf(
         Park(
             1,
             "Йеллоустоун",

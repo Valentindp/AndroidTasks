@@ -12,7 +12,7 @@ import valentyn.androidtasks.models.Park
 
 class ParkActivity : AppCompatActivity() {
 
-    var mPark: Park? = null
+    var park: Park? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class ParkActivity : AppCompatActivity() {
 
         val park = intent.getSerializableExtra(PARK_KEY) as Park
 
-        mPark = park
+        this.park = park
 
         parkSiteTextView.text = park.site
         parkNameTextView.text = park.name
@@ -70,7 +70,7 @@ class ParkActivity : AppCompatActivity() {
 
     override fun finish() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(ParkActivity.PARK_KEY, mPark)
+        intent.putExtra(ParkActivity.PARK_KEY, park)
         setResult(RESULT_OK, intent)
         super.finish()
     }

@@ -4,7 +4,7 @@ import valentyn.androidtasks.models.City
 
 object CityRepository {
 
-    val DataCitys: List<City> = listOf(
+    val dataCitys: List<City> = listOf(
         City(
             1,
             "Сан-Франциско",

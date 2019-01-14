@@ -18,25 +18,25 @@ import valentyn.androidtasks.views.CityActivity
 
 class CityFragment : Fragment()  {
 
-    private val mDataset: List<City> = CityRepository.DataCitys
+    private val dataset: List<City> = CityRepository.dataCitys
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_city, container, false)
 
-        view.city_recyclerView.apply {
+        city_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = CitysAdapter(mDataset, { city: City -> cityClicked(city) })
+            adapter = CitysAdapter(dataset, { city: City -> cityClicked(city) })
         }
-        return view //super.onCreateView(inflater, container, savedInstanceState)
+        return view
     }
 
      override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
 
         if (resultCode == AppCompatActivity.RESULT_OK) {
             val city = intent?.getSerializableExtra(CityActivity.CITY_KEY) as City
-            mDataset.filter { it.id == city.id }.map { it.select = city.select }
+            dataset.filter { it.id == city.id }.map { it.select = city.select }
             city_recyclerView.adapter?.notifyDataSetChanged()
         }
     }
@@ -46,7 +46,5 @@ class CityFragment : Fragment()  {
         intent.putExtra(CityActivity.CITY_KEY, city)
         startActivityForResult(intent, 1)
     }
-
-
 }
 

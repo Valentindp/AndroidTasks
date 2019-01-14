@@ -14,7 +14,7 @@ class FragmentsPagerAdapter internal constructor(
     applicationContext: Context
 ) : FragmentPagerAdapter(fm) {
 
-    val mApplicationContext = applicationContext
+    val context = applicationContext
     private val COUNT = 2
 
     override fun getItem(position: Int): Fragment? {
@@ -32,10 +32,10 @@ class FragmentsPagerAdapter internal constructor(
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
-            0 -> mApplicationContext.getString(R.string.city_page_title)
-            1 -> mApplicationContext.getString(R.string.park_page_title)
+            0 -> context.getString(R.string.city_page_title)
+            1 -> context.getString(R.string.park_page_title)
             else -> {
-                return mApplicationContext.getString(R.string.Unknown)
+                return context.getString(R.string.Unknown)
             }
         }
     }

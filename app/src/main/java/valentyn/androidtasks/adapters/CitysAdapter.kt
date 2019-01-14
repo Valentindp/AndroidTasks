@@ -10,15 +10,13 @@ import kotlinx.android.synthetic.main.item_city.view.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.models.City
 
-class CitysAdapter(private val mDataset: List<City>, val clickListener: (City) -> Unit) :
+class CitysAdapter(private val dataset: List<City>, val clickListener: (City) -> Unit) :
     RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
-
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): CityViewHolder {
-
         return CityViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_city, parent, false)
@@ -26,17 +24,11 @@ class CitysAdapter(private val mDataset: List<City>, val clickListener: (City) -
     }
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
-
-        holder.bindData(mDataset.get(position), clickListener)
+        holder.bindData(dataset.get(position), clickListener)
     }
 
     class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-
-        private var city: City? = null
-
         fun bindData(city: City, clickListener: (City) -> Unit) {
-            this.city = city
-
             Picasso.get()
                 .load(city.url)
                 .fit()
@@ -49,9 +41,8 @@ class CitysAdapter(private val mDataset: List<City>, val clickListener: (City) -
             view.selectedTextView.setTextColor(city.getColorSelected())
             view.setOnClickListener { clickListener(city) }
         }
-
     }
 
-    override fun getItemCount() = mDataset.size
+    override fun getItemCount() = dataset.size
 
 }
