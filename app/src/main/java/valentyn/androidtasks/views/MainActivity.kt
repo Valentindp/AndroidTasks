@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        viewPager.adapter = FragmentsPagerAdapter(supportFragmentManager)
+        viewPager.adapter = FragmentsPagerAdapter(supportFragmentManager, applicationContext)
 
         tabs_main.setupWithViewPager(viewPager)
 

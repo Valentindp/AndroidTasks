@@ -1,5 +1,6 @@
 package valentyn.androidtasks.adapters
 
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -8,8 +9,12 @@ import valentyn.androidtasks.fragments.CityFragment
 import valentyn.androidtasks.fragments.ParkFragment
 
 
-class FragmentsPagerAdapter internal constructor(fm: FragmentManager) : FragmentPagerAdapter(fm)  {
+class FragmentsPagerAdapter internal constructor(
+    fm: FragmentManager,
+    applicationContext: Context
+) : FragmentPagerAdapter(fm) {
 
+    val mApplicationContext = applicationContext
     private val COUNT = 2
 
     override fun getItem(position: Int): Fragment? {
@@ -27,10 +32,10 @@ class FragmentsPagerAdapter internal constructor(fm: FragmentManager) : Fragment
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
-            0 -> "Сities"
-            1 -> "Parks"
+            0 -> mApplicationContext.getString(R.string.city_page_title)
+            1 -> mApplicationContext.getString(R.string.park_page_title)
             else -> {
-                return "Unknown"
+                return mApplicationContext.getString(R.string.Unknown)
             }
         }
     }

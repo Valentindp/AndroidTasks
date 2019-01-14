@@ -59,19 +59,14 @@ class CityActivity : AppCompatActivity() {
             true
         }
         android.R.id.home ->{
-            onSupportNavigateUp()
+            onBackPressed()
+            true
         }
-
         else -> {
-
             super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
-    }
 
     override fun finish() {
         val intent = Intent(this, MainActivity::class.java)
