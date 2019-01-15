@@ -20,16 +20,19 @@ class CityFragment : Fragment()  {
 
     private val dataset: List<City> = CityRepository.dataCitys
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        val view = inflater.inflate(R.layout.fragment_city, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_city, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         city_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = CitysAdapter(dataset, { city: City -> cityClicked(city) })
         }
-        return view
     }
 
      override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

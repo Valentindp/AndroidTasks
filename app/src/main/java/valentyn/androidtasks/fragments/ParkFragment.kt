@@ -20,16 +20,18 @@ class ParkFragment : Fragment()  {
 
     private val dataset: List<Park> = ParkRepository.dataParks
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_park, container, false)
+    }
 
-        val view = inflater.inflate(R.layout.fragment_park, container, false)
-
-        view.park_recyclerView.apply {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        park_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = ParksAdapter(dataset, { park: Park -> cityClicked(park) })
         }
-        return view
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

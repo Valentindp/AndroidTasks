@@ -35,7 +35,7 @@ class FragmentsPagerAdapter internal constructor(
             0 -> context.getString(R.string.city_page_title)
             1 -> context.getString(R.string.park_page_title)
             else -> {
-                return context.getString(R.string.Unknown)
+                return context.getString(R.string.unknown)
             }
         }
     }
