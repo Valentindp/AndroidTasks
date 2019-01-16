@@ -24,8 +24,7 @@ class Park(
         parcel.readString(),
         parcel.readString(),
         parcel.readByte() != 0.toByte()
-    ) {
-    }
+    )
 
     fun getTextSelected(): Int {
         return if (this.select)

@@ -7,10 +7,10 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.FragmentsPagerAdapter
+import android.support.v4.view.ViewPager
+
 
 class MainActivity : AppCompatActivity() {
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,9 +18,11 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        viewPager.adapter = FragmentsPagerAdapter(supportFragmentManager, applicationContext)
+        viewPager.adapter = FragmentsPagerAdapter(supportFragmentManager)
 
-        tabs_main.setupWithViewPager(viewPager)
+        bottomBar.setOnTabSelectListener { tabId ->
+            viewPager.setCurrentItem(tabId)
+        }
 
     }
 

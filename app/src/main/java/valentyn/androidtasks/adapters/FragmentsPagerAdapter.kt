@@ -10,11 +10,9 @@ import valentyn.androidtasks.fragments.ParkFragment
 
 
 class FragmentsPagerAdapter internal constructor(
-    fm: FragmentManager,
-    applicationContext: Context
+    fm: FragmentManager
 ) : FragmentPagerAdapter(fm) {
 
-    private val context = applicationContext
     private val COUNT = 2
 
     override fun getItem(position: Int): Fragment? {
@@ -28,16 +26,6 @@ class FragmentsPagerAdapter internal constructor(
 
     override fun getCount(): Int {
         return COUNT
-    }
-
-    override fun getPageTitle(position: Int): CharSequence {
-        return when (position) {
-            0 -> context.getString(R.string.city_page_title)
-            1 -> context.getString(R.string.park_page_title)
-            else -> {
-                return context.getString(R.string.unknown)
-            }
-        }
     }
 
 }

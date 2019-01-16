@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_city.*
-import kotlinx.android.synthetic.main.fragment_city.view.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.CitysAdapter
 import valentyn.androidtasks.models.City
