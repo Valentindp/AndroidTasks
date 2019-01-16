@@ -16,10 +16,9 @@ import valentyn.androidtasks.models.Park
 import valentyn.androidtasks.repository.ParkRepository
 import valentyn.androidtasks.views.ParkActivity
 
-class ParkFragment : Fragment()  {
+class ParkFragment : Fragment() {
 
     private val dataset: List<Park> = ParkRepository.dataParks
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_park, container, false)
@@ -30,7 +29,7 @@ class ParkFragment : Fragment()  {
         park_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = ParksAdapter(dataset, { park: Park -> cityClicked(park) })
+            adapter = ParksAdapter(dataset) { park: Park -> cityClicked(park) }
         }
     }
 

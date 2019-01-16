@@ -14,7 +14,7 @@ class FragmentsPagerAdapter internal constructor(
     applicationContext: Context
 ) : FragmentPagerAdapter(fm) {
 
-    val context = applicationContext
+    private val context = applicationContext
     private val COUNT = 2
 
     override fun getItem(position: Int): Fragment? {

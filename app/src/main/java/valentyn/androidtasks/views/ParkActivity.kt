@@ -12,44 +12,53 @@ import valentyn.androidtasks.models.Park
 
 class ParkActivity : AppCompatActivity() {
 
-    var park: Park? = null
+    private var park: Park? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_park)
 
         setSupportActionBar(toolbar_park)
-        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
-
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(false)
+            setDisplayHomeAsUpEnabled(true)
+        }
 
         val park = intent.getSerializableExtra(PARK_KEY) as Park
 
         this.park = park
+        setModelValues(park)
+    }
+
+    private fun setModelValues(park: Park) {
 
         parkSiteTextView.text = park.site
         parkNameTextView.text = park.name
         parkDescriptionTextView.text = park.about
         parkСountryTextView.text = park.country
 
-        selectedButton.setText(park.getTextSelected())
-        selectedButton.setTextColor(park.getColorSelected())
+        selectedButton.apply {
+            setText(park.getTextSelected())
+            setTextColor(park.getColorSelected())
+
+            setOnClickListener {
+                park.select = !park.select
+                selectedButton.apply {
+                    setText(park.getTextSelected())
+                    setTextColor(park.getColorSelected())
+                }
+            }
+        }
 
         Picasso.get()
             .load(park.url)
             .fit()
             .error(R.drawable.ic_error_black_24dp)
             .into(сityPhotoView)
-
-        selectedButton.setOnClickListener {
-            park.select = !park.select
-            selectedButton.setText(park.getTextSelected())
-            selectedButton.setTextColor(park.getColorSelected())
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_park_menu,menu)
+        menuInflater.inflate(R.menu.toolbar_park_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -57,13 +66,11 @@ class ParkActivity : AppCompatActivity() {
         R.id.action_share -> {
             true
         }
-        android.R.id.home ->{
+        android.R.id.home -> {
             onBackPressed()
             true
         }
-
         else -> {
-
             super.onOptionsItemSelected(item)
         }
     }
@@ -75,11 +82,9 @@ class ParkActivity : AppCompatActivity() {
         super.finish()
     }
 
-
     companion object {
 
         const val PARK_KEY = "PARK_KEY"
 
     }
-
 }

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_park.view.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.models.Park
 
-class ParksAdapter(private val dataset: List<Park>, val clickListener: (Park) -> Unit) :
+class ParksAdapter(private val dataset: List<Park>, private val clickListener: (Park) -> Unit) :
     RecyclerView.Adapter<ParksAdapter.ParkViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -24,25 +24,28 @@ class ParksAdapter(private val dataset: List<Park>, val clickListener: (Park) ->
     }
 
     override fun onBindViewHolder(holder: ParkViewHolder, position: Int) {
-        holder.bindData(dataset.get(position), clickListener)
+        holder.bindData(dataset[position], clickListener)
     }
 
     class ParkViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+
         fun bindData(park: Park, clickListener: (Park) -> Unit) {
+
             Picasso.get()
                 .load(park.url)
                 .fit()
                 .error(R.drawable.ic_error_black_24dp)
                 .into(view.photoView)
 
-            view.nameTextView.text = park.name
-            view.descriptionTextView.text = park.about
-            view.selectedTextView.setText(park.getTextSelected())
-            view.selectedTextView.setTextColor(park.getColorSelected())
-            view.setOnClickListener { clickListener(park) }
+            view.apply {
+                nameTextView.text = park.name
+                descriptionTextView.text = park.about
+                selectedTextView.setText(park.getTextSelected())
+                selectedTextView.setTextColor(park.getColorSelected())
+                setOnClickListener { clickListener(park) }
+            }
         }
     }
 
     override fun getItemCount() = dataset.size
-
 }

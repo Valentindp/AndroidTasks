@@ -12,28 +12,43 @@ import valentyn.androidtasks.models.City
 
 class CityActivity : AppCompatActivity() {
 
-    var city: City? = null
+    private var city: City? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_city)
 
         setSupportActionBar(toolbar_city)
-        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
-
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(false)
+            setDisplayHomeAsUpEnabled(true)
+        }
 
         val city = intent.getSerializableExtra(CITY_KEY) as City
 
         this.city = city
+        setModelValues(city)
+    }
+
+    private fun setModelValues(city: City) {
 
         citySiteTextView.text = city.site
         cityNameTextView.text = city.name
         cityDescriptionTextView.text = city.about
         cityСountryTextView.text = city.country
 
-        selectedButton.setText(city.getTextSelected())
-        selectedButton.setTextColor(city.getColorSelected())
+        selectedButton.apply {
+            setText(city.getTextSelected())
+            setTextColor(city.getColorSelected())
+
+            setOnClickListener {
+                city.select = !city.select
+                selectedButton.apply {
+                    setText(city.getTextSelected())
+                    setTextColor(city.getColorSelected())
+                }
+            }
+        }
 
         Picasso.get()
             .load(city.url)
@@ -41,15 +56,10 @@ class CityActivity : AppCompatActivity() {
             .error(R.drawable.ic_error_black_24dp)
             .into(сityPhotoView)
 
-        selectedButton.setOnClickListener {
-            city.select = !city.select
-            selectedButton.setText(city.getTextSelected())
-            selectedButton.setTextColor(city.getColorSelected())
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_city_menu,menu)
+        menuInflater.inflate(R.menu.toolbar_city_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -57,7 +67,7 @@ class CityActivity : AppCompatActivity() {
         R.id.action_share -> {
             true
         }
-        android.R.id.home ->{
+        android.R.id.home -> {
             onBackPressed()
             true
         }
@@ -66,14 +76,12 @@ class CityActivity : AppCompatActivity() {
         }
     }
 
-
     override fun finish() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(CityActivity.CITY_KEY, city)
         setResult(RESULT_OK, intent)
         super.finish()
     }
-
 
     companion object {
 
