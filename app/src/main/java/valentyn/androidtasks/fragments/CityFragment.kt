@@ -37,7 +37,7 @@ class CityFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
 
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            val city = intent?.getSerializableExtra(CityActivity.CITY_KEY) as City
+            val city = intent?.getParcelableExtra(CityActivity.CITY_KEY) as City
             dataset.filter { it.id == city.id }.map { it.select = city.select }
             city_recyclerView.adapter?.notifyDataSetChanged()
         }

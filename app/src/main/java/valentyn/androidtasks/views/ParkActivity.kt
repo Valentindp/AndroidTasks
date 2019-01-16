@@ -24,7 +24,7 @@ class ParkActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val park = intent.getSerializableExtra(PARK_KEY) as Park
+        val park = intent.getParcelableExtra(PARK_KEY) as Park
 
         this.park = park
         setModelValues(park)

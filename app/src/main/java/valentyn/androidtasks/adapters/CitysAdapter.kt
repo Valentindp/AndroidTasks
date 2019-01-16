@@ -24,7 +24,7 @@ class CitysAdapter(private val dataset: List<City>, private val clickListener: (
     }
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
-        holder.bindData(dataset.get(position), clickListener)
+        holder.bindData(dataset[position], clickListener)
     }
 
     class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {

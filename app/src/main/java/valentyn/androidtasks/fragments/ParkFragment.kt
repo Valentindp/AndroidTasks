@@ -35,7 +35,7 @@ class ParkFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            val park = intent?.getSerializableExtra(ParkActivity.PARK_KEY) as Park
+            val park = intent?.getParcelableExtra(ParkActivity.PARK_KEY) as Park
             dataset.filter { it.id == park.id }.map { it.select = park.select }
             park_recyclerView.adapter?.notifyDataSetChanged()
         }

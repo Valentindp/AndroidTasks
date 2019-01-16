@@ -24,7 +24,7 @@ class CityActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val city = intent.getSerializableExtra(CITY_KEY) as City
+        val city = intent.getParcelableExtra(CITY_KEY) as City
 
         this.city = city
         setModelValues(city)
