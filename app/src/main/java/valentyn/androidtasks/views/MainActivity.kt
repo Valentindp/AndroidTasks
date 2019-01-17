@@ -18,8 +18,12 @@ class MainActivity : AppCompatActivity() {
 
         viewPager.adapter = FragmentsPagerAdapter(supportFragmentManager)
 
-        bottomBar.setOnTabSelectListener {  tabId ->
-            viewPager.currentItem = tabId
+        bottomBar.setOnTabSelectListener { tabId ->
+            when (tabId) {
+                R.id.tab_city -> viewPager.currentItem = 0
+                R.id.tab_park -> viewPager.currentItem = 1
+            }
+
         }
 
     }
