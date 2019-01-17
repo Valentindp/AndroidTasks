@@ -23,9 +23,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.tab_city -> viewPager.currentItem = 0
                 R.id.tab_park -> viewPager.currentItem = 1
             }
-
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
