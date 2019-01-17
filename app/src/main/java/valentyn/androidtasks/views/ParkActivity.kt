@@ -7,59 +7,58 @@ import android.view.Menu
 import android.view.MenuItem
 import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_city.*
-import valentyn.androidtasks.models.City
+import kotlinx.android.synthetic.main.activity_park.*
+import valentyn.androidtasks.models.Park
 
-class CityActivity : AppCompatActivity() {
+class ParkActivity : AppCompatActivity() {
 
-    private var city: City? = null
+    private var park: Park? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_city)
+        setContentView(R.layout.activity_park)
 
-        setSupportActionBar(toolbar_city)
+        setSupportActionBar(toolbar_park)
         supportActionBar?.apply {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val city = intent.getParcelableExtra(CITY_KEY) as City
+        val park = intent.getParcelableExtra(PARK_KEY) as Park
 
-        this.city = city
-        setModelValues(city)
+        this.park = park
+        setModelValues(park)
     }
 
-    private fun setModelValues(city: City) {
+    private fun setModelValues(park: Park) {
 
-        citySiteTextView.text = city.site
-        cityNameTextView.text = city.name
-        cityDescriptionTextView.text = city.about
-        cityСountryTextView.text = city.country
+        parkSiteTextView.text = park.site
+        parkNameTextView.text = park.name
+        parkDescriptionTextView.text = park.about
+        parkСountryTextView.text = park.country
 
         selectedButton.apply {
-            setText(city.getTextSelected())
-            setTextColor(city.getColorSelected())
+            setText(park.getTextSelected())
+            setTextColor(park.getColorSelected())
 
             setOnClickListener {
-                city.select = !city.select
+                park.select = !park.select
                 selectedButton.apply {
-                    setText(city.getTextSelected())
-                    setTextColor(city.getColorSelected())
+                    setText(park.getTextSelected())
+                    setTextColor(park.getColorSelected())
                 }
             }
         }
 
         Picasso.get()
-            .load(city.url)
+            .load(park.url)
             .fit()
             .error(R.drawable.ic_error_black_24dp)
             .into(сityPhotoView)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_city_menu, menu)
+        menuInflater.inflate(R.menu.toolbar_park_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -78,15 +77,14 @@ class CityActivity : AppCompatActivity() {
 
     override fun finish() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(CityActivity.CITY_KEY, city)
+        intent.putExtra(ParkActivity.PARK_KEY, park)
         setResult(RESULT_OK, intent)
         super.finish()
     }
 
     companion object {
 
-        const val CITY_KEY = "CITY_KEY"
+        const val PARK_KEY = "PARK_KEY"
 
     }
-
 }

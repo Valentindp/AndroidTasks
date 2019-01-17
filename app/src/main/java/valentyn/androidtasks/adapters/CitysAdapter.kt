@@ -5,53 +5,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_data.view.*
+import kotlinx.android.synthetic.main.item_city.view.*
 
 import valentyn.androidtasks.R
 import valentyn.androidtasks.models.City
 
-class CitysAdapter(private val mDataset: List<City>, val clickListener: (City, Int) -> Unit) :
+class CitysAdapter(private val dataset: List<City>, private val clickListener: (City) -> Unit) :
     RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
-
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): CityViewHolder {
-
         return CityViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_data, parent, false)
+                .inflate(R.layout.item_city, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
-
-        holder.bindData(position, mDataset.get(position), clickListener)
+        holder.bindData(dataset[position], clickListener)
     }
 
     class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        private var city: City? = null
-
-        fun bindData(position: Int, city: City, clickListener: (City, Int) -> Unit) {
-            this.city = city
+        fun bindData(city: City, clickListener: (City) -> Unit) {
 
             Picasso.get()
                 .load(city.url)
                 .fit()
                 .error(R.drawable.ic_error_black_24dp)
-                .into(view.PhotoView)
+                .into(view.photoView)
 
-            view.nameTextView.text = city.name
-            view.descriptionTextView.text = city.about
-            view.selectedTextView.setText(city.getTextSelected())
-            view.selectedTextView.setTextColor(city.getColorSelected())
-            view.setOnClickListener { clickListener(city, position) }
+            view.apply {
+                nameTextView.text = city.name
+                descriptionTextView.text = city.about
+                selectedTextView.setText(city.getTextSelected())
+                selectedTextView.setTextColor(city.getColorSelected())
+                setOnClickListener { clickListener(city) }
+            }
         }
-
     }
 
-    override fun getItemCount() = mDataset.size
+    override fun getItemCount() = dataset.size
 
 }

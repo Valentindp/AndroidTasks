@@ -6,7 +6,7 @@ import android.os.Parcelable
 import valentyn.androidtasks.R
 import java.io.Serializable
 
-class City(
+class Park(
     val id: Int,
     val name: String,
     val url: String,
@@ -54,12 +54,12 @@ class City(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<City> {
-        override fun createFromParcel(parcel: Parcel): City {
-            return City(parcel)
+    companion object CREATOR : Parcelable.Creator<Park> {
+        override fun createFromParcel(parcel: Parcel): Park {
+            return Park(parcel)
         }
 
-        override fun newArray(size: Int): Array<City?> {
+        override fun newArray(size: Int): Array<Park?> {
             return arrayOfNulls(size)
         }
     }
