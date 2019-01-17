@@ -1,10 +1,8 @@
 package valentyn.androidtasks.adapters
 
-import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import valentyn.androidtasks.R
 import valentyn.androidtasks.fragments.CityFragment
 import valentyn.androidtasks.fragments.ParkFragment
 

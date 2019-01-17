@@ -1,0 +1,12 @@
+<tabs xmlns:android="http://schemas.android.com/apk/res/android">
+    <tab
+            id="@+id/tab_city"
+            icon="@drawable/home_city"
+            android:title="@strings/city_page_title"
+            barColorWhenSelected="#3D5A83"/>
+    <tab
+            id="@+id/tab_park"
+            icon="@drawable/flower_tulip"
+            android:title="@strings/park_page_title"
+            barColorWhenSelected="#428551"/>
+</tabs>

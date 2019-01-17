@@ -7,8 +7,6 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.FragmentsPagerAdapter
-import android.support.v4.view.ViewPager
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,8 +18,8 @@ class MainActivity : AppCompatActivity() {
 
         viewPager.adapter = FragmentsPagerAdapter(supportFragmentManager)
 
-        bottomBar.setOnTabSelectListener { tabId ->
-            viewPager.setCurrentItem(tabId)
+        bottomBar.setOnTabSelectListener {  tabId ->
+            viewPager.currentItem = tabId
         }
 
     }
