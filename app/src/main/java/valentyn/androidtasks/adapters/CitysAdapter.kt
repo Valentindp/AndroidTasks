@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_city.view.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.models.City
 
-class CitysAdapter(private val dataset: List<City>, private val clickListener: (City) -> Unit) :
+class CitysAdapter(private val dataset: List<City>, private val clickListener: (City) -> Unit):
     RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
 
     override fun onCreateViewHolder(

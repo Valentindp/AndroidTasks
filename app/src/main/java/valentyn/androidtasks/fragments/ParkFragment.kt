@@ -10,14 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_park.*
 import valentyn.androidtasks.R
-import valentyn.androidtasks.adapters.ParksAdapter
 import valentyn.androidtasks.models.Park
-import valentyn.androidtasks.repository.ParkRepository
+import valentyn.androidtasks.presenters.ParkFragmentPresenter
 import valentyn.androidtasks.views.ParkActivity
 
 class ParkFragment : Fragment() {
 
-    private val dataset: List<Park> = ParkRepository.dataParks
+    private val presenter: ParkFragmentPresenter = ParkFragmentPresenter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_park, container, false)
@@ -28,22 +27,15 @@ class ParkFragment : Fragment() {
         park_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = ParksAdapter(dataset) { park: Park -> cityClicked(park) }
+            adapter = presenter.getAdapter()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            val park = intent?.getParcelableExtra(ParkActivity.PARK_KEY) as Park
-            dataset.filter { it.id == park.id }.map { it.select = park.select }
+            presenter.updateElement(intent?.getParcelableExtra(ParkActivity.PARK_KEY) as Park)
             park_recyclerView.adapter?.notifyDataSetChanged()
         }
-    }
-
-    private fun cityClicked(park: Park) {
-        val intent = Intent(activity, ParkActivity::class.java)
-        intent.putExtra(ParkActivity.PARK_KEY, park)
-        startActivityForResult(intent, 1)
     }
 }
 
