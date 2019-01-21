@@ -27,7 +27,7 @@ class ParkFragment : Fragment() {
         park_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = presenter.getAdapter()
+            adapter = presenter.getRecyclerViewAdapter()
         }
     }
 

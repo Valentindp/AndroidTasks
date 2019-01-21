@@ -17,7 +17,7 @@ class CityFragmentPresenter(private val fragment: CityFragment) {
         fragment.startActivityForResult(intent, 1)
     }
 
-    fun getAdapter(): CitysAdapter = CitysAdapter(dataset) { city: City -> onCityClicked(city) }
+    fun getRecyclerViewAdapter(): CitysAdapter = CitysAdapter(dataset) { city: City -> onCityClicked(city) }
 
     fun updateElement(city: City): Unit {
         dataset.filter { it.id == city.id }.map { it.select = city.select }

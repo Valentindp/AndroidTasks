@@ -29,7 +29,7 @@ class CityFragment : Fragment() {
         city_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = presenter.getAdapter()
+            adapter = presenter.getRecyclerViewAdapter()
         }
     }
 

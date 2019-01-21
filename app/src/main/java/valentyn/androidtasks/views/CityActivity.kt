@@ -9,10 +9,13 @@ import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_city.*
 import valentyn.androidtasks.models.City
+import valentyn.androidtasks.presenters.CityActivityPresenter
 
-class CityActivity : AppCompatActivity() {
+class CityActivity : AppCompatActivity(), ElementView {
+
 
     private var city: City? = null
+    private var presenter: CityActivityPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,7 @@ class CityActivity : AppCompatActivity() {
         }
 
         val city = intent.getParcelableExtra(CITY_KEY) as City
+        presenter = CityActivityPresenter(this, intent.getParcelableExtra(CITY_KEY) as City)
 
         this.city = city
         setModelValues(city)
@@ -50,12 +54,30 @@ class CityActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun setOnClickListenerSelectedButton() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setElementView() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setTextSelectedButton() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setColorSelectedButton() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun loadPhoto(url: String) {
         Picasso.get()
-            .load(city.url)
+            .load(url)
             .fit()
             .error(R.drawable.ic_error_black_24dp)
             .into(сityPhotoView)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -17,7 +17,7 @@ class ParkFragmentPresenter(private val fragment: ParkFragment) {
         fragment.startActivityForResult(intent, 1)
     }
 
-    fun getAdapter(): ParksAdapter = ParksAdapter(dataset) { park: Park -> onParkClicked(park) }
+    fun getRecyclerViewAdapter(): ParksAdapter = ParksAdapter(dataset) { park: Park -> onParkClicked(park) }
 
     fun updateElement(park: Park): Unit {
         dataset.filter { it.id == park.id }.map { it.select = park.select }
