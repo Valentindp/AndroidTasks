@@ -1,6 +1,5 @@
 package valentyn.androidtasks.views
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -8,11 +7,11 @@ import android.view.MenuItem
 import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_park.*
-import valentyn.androidtasks.models.Park
+import valentyn.androidtasks.presenters.ParkActivityPresenter
 
-class ParkActivity : AppCompatActivity() {
+class ParkActivity : AppCompatActivity(), ElementContract.View {
 
-    private var park: Park? = null
+    private var presenter: ParkActivityPresenter = ParkActivityPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,38 +23,45 @@ class ParkActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val park = intent.getParcelableExtra(PARK_KEY) as Park
-
-        this.park = park
-        setModelValues(park)
+        presenter.onAttach(this)
     }
 
-    private fun setModelValues(park: Park) {
+    override fun setOnClickListenerSelectedButton() {
+        selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
+    }
 
-        parkSiteTextView.text = park.site
-        parkNameTextView.text = park.name
-        parkDescriptionTextView.text = park.about
-        parkСountryTextView.text = park.country
+    override fun updateTextSelectedButton(value: Int) {
+        selectedButton.setText(value)
+    }
 
-        selectedButton.apply {
-            setText(park.getTextSelected())
-            setTextColor(park.getColorSelected())
+    override fun updateColorSelectedButton(value: Int) {
+        selectedButton.setTextColor(value)
+    }
 
-            setOnClickListener {
-                park.select = !park.select
-                selectedButton.apply {
-                    setText(park.getTextSelected())
-                    setTextColor(park.getColorSelected())
-                }
-            }
-        }
+    override fun updateSiteTextView(site: String) {
+        parkSiteTextView.text = site
+    }
 
+    override fun updateNameTextView(name: String) {
+        parkNameTextView.text = name
+    }
+
+    override fun updateDescriptionTextView(description: String) {
+        parkDescriptionTextView.text = description
+    }
+
+    override fun updateCountryTextView(country: String) {
+        parkСountryTextView.text = country
+    }
+
+    override fun loadPhoto(url: String) {
         Picasso.get()
-            .load(park.url)
+            .load(url)
             .fit()
             .error(R.drawable.ic_error_black_24dp)
             .into(сityPhotoView)
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_park_menu, menu)
@@ -76,9 +82,7 @@ class ParkActivity : AppCompatActivity() {
     }
 
     override fun finish() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(ParkActivity.PARK_KEY, park)
-        setResult(RESULT_OK, intent)
+        presenter.onFinish()
         super.finish()
     }
 

@@ -2,11 +2,14 @@ package valentyn.androidtasks.views
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.FragmentsPagerAdapter
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,6 +49,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
+
+
+
+
 
 
 
