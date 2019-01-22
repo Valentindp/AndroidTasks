@@ -24,12 +24,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
-
         presenter.onAttach(this)
-        presenter.apply {
-            city = intent.getParcelableExtra(CITY_KEY) as City
-            init()
-        }
     }
 
     override fun setOnClickListenerSelectedButton() {
@@ -87,12 +82,9 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun finish() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(CityActivity.CITY_KEY, presenter.city)
-        setResult(RESULT_OK, intent)
+        presenter.onFinish()
         super.finish()
     }
-
 
     companion object {
 

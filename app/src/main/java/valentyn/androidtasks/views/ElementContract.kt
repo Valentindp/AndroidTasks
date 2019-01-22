@@ -38,5 +38,9 @@ interface ElementContract {
         fun updateColorSelectedButton()
 
         fun loadPhoto()
+
+        fun init()
+
+        fun onFinish()
     }
 }

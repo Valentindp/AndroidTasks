@@ -1,52 +1,58 @@
 package valentyn.androidtasks.presenters
 
+import android.content.Intent
+import android.support.v7.app.AppCompatActivity
 import valentyn.androidtasks.models.City
+import valentyn.androidtasks.views.CityActivity
 import valentyn.androidtasks.views.ElementContract
+import valentyn.androidtasks.views.MainActivity
 
 class CityActivityPresenter() : ElementContract.Presenter {
 
-    private lateinit var cityActivity: ElementContract.View
-    lateinit var city: City
+    private lateinit var view: ElementContract.View
+    private lateinit var element: City
 
     override fun loadPhoto() {
-        cityActivity.loadPhoto(city.url)
+        view.loadPhoto(element.url)
     }
 
     override fun updateSiteTextView() {
-        cityActivity.updateSiteTextView(city.site)
+        view.updateSiteTextView(element.site)
     }
 
     override fun updateNameTextView() {
-        cityActivity.updateNameTextView(city.name)
+        view.updateNameTextView(element.name)
     }
 
     override fun updateDescriptionTextView() {
-        cityActivity.updateDescriptionTextView(city.about)
+        view.updateDescriptionTextView(element.about)
     }
 
     override fun updateCountryTextView() {
-        cityActivity.updateCountryTextView(city.country)
+        view.updateCountryTextView(element.country)
     }
 
     override fun updateTextSelectedButton() {
-        cityActivity.updateTextSelectedButton(city.getTextSelected())
+        view.updateTextSelectedButton(element.getTextSelected())
     }
 
     override fun updateColorSelectedButton() {
-        cityActivity.updateColorSelectedButton(city.getColorSelected())
+        view.updateColorSelectedButton(element.getColorSelected())
     }
 
     override fun onAttach(view: ElementContract.View) {
-        cityActivity = view
+        this.view = view
+        element = (view as CityActivity).intent.getParcelableExtra(CityActivity.CITY_KEY) as City
+        init()
     }
 
     override fun setOnClickListenerSelectedButton() {
-        city.select = !city.select
+        element.select = !element.select
         updateTextSelectedButton()
         updateColorSelectedButton()
     }
 
-    fun init() {
+    override fun init() {
         loadPhoto()
         updateTextSelectedButton()
         updateColorSelectedButton()
@@ -54,8 +60,12 @@ class CityActivityPresenter() : ElementContract.Presenter {
         updateNameTextView()
         updateDescriptionTextView()
         updateCountryTextView()
-        cityActivity.setOnClickListenerSelectedButton()
+        view.setOnClickListenerSelectedButton()
     }
 
-
+    override fun onFinish() {
+        val intent = Intent(view as CityActivity, MainActivity::class.java)
+        intent.putExtra(CityActivity.CITY_KEY, element)
+        (view as CityActivity).setResult(AppCompatActivity.RESULT_OK, intent)
+    }
 }
