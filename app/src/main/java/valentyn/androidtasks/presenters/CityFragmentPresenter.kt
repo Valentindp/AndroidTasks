@@ -19,7 +19,7 @@ class CityFragmentPresenter(private val fragment: CityFragment) {
 
     fun getRecyclerViewAdapter(): CitysAdapter = CitysAdapter(dataset) { city: City -> onCityClicked(city) }
 
-    fun updateElement(city: City): Unit {
+    fun updateSelect(city: City): Unit {
         dataset.filter { it.id == city.id }.map { it.select = city.select }
     }
 }

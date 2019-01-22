@@ -33,7 +33,7 @@ class ParkFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            presenter.updateElement(intent?.getParcelableExtra(ParkActivity.PARK_KEY) as Park)
+            presenter.updateSelect(intent?.getParcelableExtra(ParkActivity.PARK_KEY) as Park)
             park_recyclerView.adapter?.notifyDataSetChanged()
         }
     }

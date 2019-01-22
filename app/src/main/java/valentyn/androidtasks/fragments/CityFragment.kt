@@ -36,7 +36,7 @@ class CityFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
 
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            presenter.updateElement(intent?.getParcelableExtra(CityActivity.CITY_KEY) as City)
+            presenter.updateSelect(intent?.getParcelableExtra(CityActivity.CITY_KEY) as City)
             city_recyclerView.adapter?.notifyDataSetChanged()
         }
     }

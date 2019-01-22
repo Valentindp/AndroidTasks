@@ -11,11 +11,9 @@ import kotlinx.android.synthetic.main.activity_city.*
 import valentyn.androidtasks.models.City
 import valentyn.androidtasks.presenters.CityActivityPresenter
 
-class CityActivity : AppCompatActivity(), ElementView {
+class CityActivity : AppCompatActivity(), ElementContract.View {
 
-
-    private var city: City? = null
-    private var presenter: CityActivityPresenter? = null
+    private var presenter: CityActivityPresenter = CityActivityPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,49 +25,39 @@ class CityActivity : AppCompatActivity(), ElementView {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val city = intent.getParcelableExtra(CITY_KEY) as City
-        presenter = CityActivityPresenter(this, intent.getParcelableExtra(CITY_KEY) as City)
-
-        this.city = city
-        setModelValues(city)
-    }
-
-    private fun setModelValues(city: City) {
-
-        citySiteTextView.text = city.site
-        cityNameTextView.text = city.name
-        cityDescriptionTextView.text = city.about
-        cityСountryTextView.text = city.country
-
-        selectedButton.apply {
-            setText(city.getTextSelected())
-            setTextColor(city.getColorSelected())
-
-            setOnClickListener {
-                city.select = !city.select
-                selectedButton.apply {
-                    setText(city.getTextSelected())
-                    setTextColor(city.getColorSelected())
-                }
-            }
+        presenter.onAttach(this)
+        presenter.apply {
+            city = intent.getParcelableExtra(CITY_KEY) as City
+            init()
         }
-
     }
 
     override fun setOnClickListenerSelectedButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
     }
 
-    override fun setElementView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun updateTextSelectedButton(value: Int) {
+        selectedButton.setText(value)
     }
 
-    override fun setTextSelectedButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun updateColorSelectedButton(value: Int) {
+        selectedButton.setTextColor(value)
     }
 
-    override fun setColorSelectedButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun updateSiteTextView(site: String) {
+        citySiteTextView.text = site
+    }
+
+    override fun updateNameTextView(name: String) {
+        cityNameTextView.text = name
+    }
+
+    override fun updateDescriptionTextView(description: String) {
+        cityDescriptionTextView.text = description
+    }
+
+    override fun updateCountryTextView(country: String) {
+        cityСountryTextView.text = country
     }
 
     override fun loadPhoto(url: String) {
@@ -100,10 +88,11 @@ class CityActivity : AppCompatActivity(), ElementView {
 
     override fun finish() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(CityActivity.CITY_KEY, city)
+        intent.putExtra(CityActivity.CITY_KEY, presenter.city)
         setResult(RESULT_OK, intent)
         super.finish()
     }
+
 
     companion object {
 

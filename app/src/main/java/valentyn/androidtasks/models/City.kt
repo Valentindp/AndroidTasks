@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Parcel
 import android.os.Parcelable
 import valentyn.androidtasks.R
-import java.io.Serializable
 
 class City(
     val id: Int,
