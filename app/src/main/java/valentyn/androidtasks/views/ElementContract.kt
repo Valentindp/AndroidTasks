@@ -2,7 +2,8 @@ package valentyn.androidtasks.views
 
 interface ElementContract {
 
-    interface View  {
+    interface View : BaseContract.View {
+
         fun setOnClickListenerSelectedButton()
 
         fun updateSiteTextView(site: String)
@@ -17,10 +18,11 @@ interface ElementContract {
 
         fun updateColorSelectedButton(value: Int)
 
-        fun loadPhoto(url:String)
+        fun loadPhoto(url: String)
     }
 
-    interface Presenter  {
+    interface Presenter : BaseContract.Presenter<ElementContract.View> {
+
         fun setOnClickListenerSelectedButton()
 
         fun updateSiteTextView()
@@ -36,9 +38,5 @@ interface ElementContract {
         fun updateColorSelectedButton()
 
         fun loadPhoto()
-
-        fun onAttach(view: ElementContract.View)
-
     }
-
 }
