@@ -16,20 +16,20 @@ class CityActivityPresenter() : ElementContract.Presenter {
         view.loadPhoto(element.url)
     }
 
-    override fun updateSiteTextView() {
-        view.updateSiteTextView(element.site)
+    override fun updateSiteText() {
+        view.updateSiteText(element.site)
     }
 
-    override fun updateNameTextView() {
-        view.updateNameTextView(element.name)
+    override fun updateNameText() {
+        view.updateNameText(element.name)
     }
 
-    override fun updateDescriptionTextView() {
-        view.updateDescriptionTextView(element.about)
+    override fun updateDescriptionText() {
+        view.updateDescriptionText(element.about)
     }
 
-    override fun updateCountryTextView() {
-        view.updateCountryTextView(element.country)
+    override fun updateCountryText() {
+        view.updateCountryText(element.country)
     }
 
     override fun updateTextSelectedButton() {
@@ -40,13 +40,14 @@ class CityActivityPresenter() : ElementContract.Presenter {
         view.updateColorSelectedButton(element.getColorSelected())
     }
 
+
     override fun onAttach(view: ElementContract.View) {
         this.view = view
-        element = (view as CityActivity).intent.getParcelableExtra(CityActivity.CITY_KEY) as City
+        this.element = (view as CityActivity).intent.getParcelableExtra(CityActivity.CITY_KEY) as City
         init()
     }
 
-    override fun setOnClickListenerSelectedButton() {
+    fun setOnClickListenerSelectedButton() {
         element.select = !element.select
         updateTextSelectedButton()
         updateColorSelectedButton()
@@ -56,11 +57,10 @@ class CityActivityPresenter() : ElementContract.Presenter {
         loadPhoto()
         updateTextSelectedButton()
         updateColorSelectedButton()
-        updateSiteTextView()
-        updateNameTextView()
-        updateDescriptionTextView()
-        updateCountryTextView()
-        view.setOnClickListenerSelectedButton()
+        updateSiteText()
+        updateNameText()
+        updateDescriptionText()
+        updateCountryText()
     }
 
     override fun onFinish() {

@@ -4,15 +4,13 @@ interface ElementContract {
 
     interface View : BaseContract.View {
 
-        fun setOnClickListenerSelectedButton()
+        fun updateSiteText(site: String)
 
-        fun updateSiteTextView(site: String)
+        fun updateNameText(name: String)
 
-        fun updateNameTextView(name: String)
+        fun updateDescriptionText(description: String)
 
-        fun updateDescriptionTextView(description: String)
-
-        fun updateCountryTextView(country: String)
+        fun updateCountryText(country: String)
 
         fun updateTextSelectedButton(value: Int)
 
@@ -23,15 +21,13 @@ interface ElementContract {
 
     interface Presenter : BaseContract.Presenter<ElementContract.View> {
 
-        fun setOnClickListenerSelectedButton()
+        fun updateSiteText()
 
-        fun updateSiteTextView()
+        fun updateNameText()
 
-        fun updateNameTextView()
+        fun updateDescriptionText()
 
-        fun updateDescriptionTextView()
-
-        fun updateCountryTextView()
+        fun updateCountryText()
 
         fun updateTextSelectedButton()
 

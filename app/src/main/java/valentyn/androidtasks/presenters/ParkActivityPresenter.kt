@@ -16,20 +16,20 @@ class ParkActivityPresenter : ElementContract.Presenter {
         view.loadPhoto(element.url)
     }
 
-    override fun updateSiteTextView() {
-        view.updateSiteTextView(element.site)
+    override fun updateSiteText() {
+        view.updateSiteText(element.site)
     }
 
-    override fun updateNameTextView() {
-        view.updateNameTextView(element.name)
+    override fun updateNameText() {
+        view.updateNameText(element.name)
     }
 
-    override fun updateDescriptionTextView() {
-        view.updateDescriptionTextView(element.about)
+    override fun updateDescriptionText() {
+        view.updateDescriptionText(element.about)
     }
 
-    override fun updateCountryTextView() {
-        view.updateCountryTextView(element.country)
+    override fun updateCountryText() {
+        view.updateCountryText(element.country)
     }
 
     override fun updateTextSelectedButton() {
@@ -50,10 +50,10 @@ class ParkActivityPresenter : ElementContract.Presenter {
         loadPhoto()
         updateTextSelectedButton()
         updateColorSelectedButton()
-        updateSiteTextView()
-        updateNameTextView()
-        updateDescriptionTextView()
-        updateCountryTextView()
+        updateSiteText()
+        updateNameText()
+        updateDescriptionText()
+        updateCountryText()
         view.setOnClickListenerSelectedButton()
     }
 

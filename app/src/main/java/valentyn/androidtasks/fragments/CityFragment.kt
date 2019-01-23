@@ -10,14 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_city.*
 import valentyn.androidtasks.R
+import valentyn.androidtasks.adapters.CitysAdapter
 import valentyn.androidtasks.models.City
-import valentyn.androidtasks.presenters.CityFragmentPresenter
+import valentyn.androidtasks.repository.CityRepository
 import valentyn.androidtasks.views.CityActivity
-
 
 class CityFragment : Fragment() {
 
-    private val presenter: CityFragmentPresenter = CityFragmentPresenter(this)
+    private val dataset: List<City> = CityRepository.dataCitys
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_city, container, false)
@@ -29,14 +29,21 @@ class CityFragment : Fragment() {
         city_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = presenter.getRecyclerViewAdapter()
+            adapter = CitysAdapter(dataset) { city: City -> onCityClicked(city) }
         }
+    }
+
+    private fun onCityClicked(city: City) {
+        val intent = Intent(activity, CityActivity::class.java)
+        intent.putExtra(CityActivity.CITY_KEY, city)
+        startActivityForResult(intent, 1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
 
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            presenter.updateSelect(intent?.getParcelableExtra(CityActivity.CITY_KEY) as City)
+            val city = intent?.getParcelableExtra(CityActivity.CITY_KEY) as City
+            dataset.filter { it.id == city.id }.map { it.select = city.select }
             city_recyclerView.adapter?.notifyDataSetChanged()
         }
     }

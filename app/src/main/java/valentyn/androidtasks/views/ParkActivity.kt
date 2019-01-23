@@ -38,19 +38,19 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         selectedButton.setTextColor(value)
     }
 
-    override fun updateSiteTextView(site: String) {
+    override fun updateSiteText(site: String) {
         parkSiteTextView.text = site
     }
 
-    override fun updateNameTextView(name: String) {
+    override fun updateNameText(name: String) {
         parkNameTextView.text = name
     }
 
-    override fun updateDescriptionTextView(description: String) {
+    override fun updateDescriptionText(description: String) {
         parkDescriptionTextView.text = description
     }
 
-    override fun updateCountryTextView(country: String) {
+    override fun updateCountryText(country: String) {
         parkСountryTextView.text = country
     }
 

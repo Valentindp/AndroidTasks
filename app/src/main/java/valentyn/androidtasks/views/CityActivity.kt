@@ -23,9 +23,6 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
         presenter.onAttach(this)
-    }
-
-    override fun setOnClickListenerSelectedButton() {
         selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
     }
 
@@ -37,19 +34,19 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
         selectedButton.setTextColor(value)
     }
 
-    override fun updateSiteTextView(site: String) {
+    override fun updateSiteText(site: String) {
         citySiteTextView.text = site
     }
 
-    override fun updateNameTextView(name: String) {
+    override fun updateNameText(name: String) {
         cityNameTextView.text = name
     }
 
-    override fun updateDescriptionTextView(description: String) {
+    override fun updateDescriptionText(description: String) {
         cityDescriptionTextView.text = description
     }
 
-    override fun updateCountryTextView(country: String) {
+    override fun updateCountryText(country: String) {
         cityСountryTextView.text = country
     }
 
