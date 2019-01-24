@@ -6,6 +6,7 @@ interface BaseContract {
 
     interface Presenter<in T,E> {
         fun onAttach(view: T, model: E)
+        fun onDetach()
     }
 
     interface View {

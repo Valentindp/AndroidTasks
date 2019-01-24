@@ -88,6 +88,11 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         super.finish()
     }
 
+    override fun onDestroy() {
+        presenter.onDetach()
+        super.onDestroy()
+    }
+
     companion object {
 
         const val PARK_KEY = "PARK_KEY"

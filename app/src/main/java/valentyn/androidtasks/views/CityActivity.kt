@@ -85,6 +85,11 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
         super.finish()
     }
 
+    override fun onDestroy() {
+        presenter.onDetach()
+        super.onDestroy()
+    }
+
     companion object {
 
         const val CITY_KEY = "CITY_KEY"
