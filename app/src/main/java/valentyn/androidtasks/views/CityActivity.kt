@@ -1,5 +1,6 @@
 package valentyn.androidtasks.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -7,11 +8,12 @@ import android.view.MenuItem
 import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_city.*
-import valentyn.androidtasks.presenters.CityActivityPresenter
+import valentyn.androidtasks.models.City
+import valentyn.androidtasks.presenters.ElementPresenter
 
 class CityActivity : AppCompatActivity(), ElementContract.View {
 
-    private var presenter: CityActivityPresenter = CityActivityPresenter()
+    private var presenter: ElementPresenter = ElementPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +24,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
-        presenter.onAttach(this)
+        presenter.onAttach(this, intent.getParcelableExtra(CityActivity.CITY_KEY) as City)
         selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
     }
 
@@ -77,7 +79,9 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun finish() {
-        presenter.onFinish()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(CityActivity.CITY_KEY, presenter.element)
+        setResult(AppCompatActivity.RESULT_OK, intent)
         super.finish()
     }
 

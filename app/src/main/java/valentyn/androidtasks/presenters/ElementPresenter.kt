@@ -2,15 +2,16 @@ package valentyn.androidtasks.presenters
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
-import valentyn.androidtasks.models.Park
+import valentyn.androidtasks.models.City
+import valentyn.androidtasks.views.BaseContract
+import valentyn.androidtasks.views.CityActivity
 import valentyn.androidtasks.views.ElementContract
 import valentyn.androidtasks.views.MainActivity
-import valentyn.androidtasks.views.ParkActivity
 
-class ParkActivityPresenter : ElementContract.Presenter {
+class ElementPresenter() : ElementContract.Presenter {
 
     private lateinit var view: ElementContract.View
-    private lateinit var element: Park
+    lateinit var element: BaseContract.Model
 
     override fun loadPhoto() {
         view.loadPhoto(element.url)
@@ -40,7 +41,13 @@ class ParkActivityPresenter : ElementContract.Presenter {
         view.updateColorSelectedButton(element.getColorSelected())
     }
 
-    override fun setOnClickListenerSelectedButton() {
+    override fun onAttach(view: ElementContract.View, model: BaseContract.Model) {
+        this.view = view
+        this.element = model
+        init()
+    }
+
+    fun setOnClickListenerSelectedButton() {
         element.select = !element.select
         updateTextSelectedButton()
         updateColorSelectedButton()
@@ -54,18 +61,6 @@ class ParkActivityPresenter : ElementContract.Presenter {
         updateNameText()
         updateDescriptionText()
         updateCountryText()
-        view.setOnClickListenerSelectedButton()
     }
 
-    override fun onFinish() {
-        val intent = Intent(view as ParkActivity, MainActivity::class.java)
-        intent.putExtra(ParkActivity.PARK_KEY, element)
-        (view as ParkActivity).setResult(AppCompatActivity.RESULT_OK, intent)
-    }
-
-    override fun onAttach(view: ElementContract.View) {
-        this.view = view
-        element = (view as ParkActivity).intent.getParcelableExtra(ParkActivity.PARK_KEY) as Park
-        init()
-    }
 }

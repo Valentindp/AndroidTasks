@@ -4,17 +4,17 @@ import android.graphics.Color
 import android.os.Parcel
 import android.os.Parcelable
 import valentyn.androidtasks.R
-import java.io.Serializable
+import valentyn.androidtasks.views.BaseContract
 
 class Park(
-    val id: Int,
-    val name: String,
-    val url: String,
-    var about: String,
-    var country: String,
-    var site: String,
-    var select: Boolean
-) : Parcelable {
+    override val id: Int,
+    override val name: String,
+    override val url: String,
+    override var about: String,
+    override var country: String,
+    override var site: String,
+    override var select: Boolean
+) : Parcelable, BaseContract.Model{
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -26,14 +26,14 @@ class Park(
         parcel.readByte() != 0.toByte()
     )
 
-    fun getTextSelected(): Int {
+    override fun getTextSelected(): Int {
         return if (this.select)
             R.string.button_selected
         else
             R.string.button_unselected
     }
 
-    fun getColorSelected(): Int {
+    override fun getColorSelected(): Int {
         return if (this.select)
             Color.GREEN
         else

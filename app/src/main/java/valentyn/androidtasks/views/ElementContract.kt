@@ -19,7 +19,7 @@ interface ElementContract {
         fun loadPhoto(url: String)
     }
 
-    interface Presenter : BaseContract.Presenter<ElementContract.View> {
+    interface Presenter : BaseContract.Presenter<ElementContract.View, BaseContract.Model> {
 
         fun updateSiteText()
 
@@ -36,7 +36,5 @@ interface ElementContract {
         fun loadPhoto()
 
         fun init()
-
-        fun onFinish()
     }
 }

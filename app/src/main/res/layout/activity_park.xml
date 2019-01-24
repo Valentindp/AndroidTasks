@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/сityPhotoView"
+        android:layout_below="@id/parkPhotoView"
         android:layout_margin="@dimen/parkTopEndMargin"
         android:layout_marginStart="@dimen/parkTopEndMargin"
         android:layout_marginTop="@dimen/parkTopEndMargin"
@@ -70,7 +70,7 @@
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/сityPhotoView"
+        android:id="@+id/parkPhotoView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_alignTop="@id/toolbar_park"
@@ -90,8 +90,8 @@
         android:id="@+id/parkNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@id/сityPhotoView"
-        android:layout_alignBottom="@id/сityPhotoView"
+        android:layout_alignStart="@id/parkPhotoView"
+        android:layout_alignBottom="@id/parkPhotoView"
         android:layout_marginStart="@dimen/parkStartEndMargin"
         android:layout_marginLeft="@dimen/parkStartEndMargin"
         android:layout_marginTop="@dimen/parkStartEndMargin"

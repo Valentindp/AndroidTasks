@@ -1,5 +1,6 @@
 package valentyn.androidtasks.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -7,11 +8,12 @@ import android.view.MenuItem
 import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_park.*
-import valentyn.androidtasks.presenters.ParkActivityPresenter
+import valentyn.androidtasks.models.Park
+import valentyn.androidtasks.presenters.ElementPresenter
 
 class ParkActivity : AppCompatActivity(), ElementContract.View {
 
-    private var presenter: ParkActivityPresenter = ParkActivityPresenter()
+    private var presenter: ElementPresenter = ElementPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,12 +25,10 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        presenter.onAttach(this)
-    }
-
-    override fun setOnClickListenerSelectedButton() {
+        presenter.onAttach(this, intent.getParcelableExtra(ParkActivity.PARK_KEY) as Park)
         selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
     }
+
 
     override fun updateTextSelectedButton(value: Int) {
         selectedButton.setText(value)
@@ -59,7 +59,7 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
             .load(url)
             .fit()
             .error(R.drawable.ic_error_black_24dp)
-            .into(сityPhotoView)
+            .into(parkPhotoView)
     }
 
 
@@ -82,7 +82,9 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun finish() {
-        presenter.onFinish()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(ParkActivity.PARK_KEY, presenter.element)
+        setResult(AppCompatActivity.RESULT_OK, intent)
         super.finish()
     }
 
