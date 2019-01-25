@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_city.view.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.models.City
 
-class CitysAdapter(private val dataset: List<City>, private val clickListener: (City) -> Unit):
+class CitysAdapter(private val dataset: List<City>, private val clickListener: (Long) -> Unit):
     RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -29,7 +29,7 @@ class CitysAdapter(private val dataset: List<City>, private val clickListener: (
 
     class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindData(city: City, clickListener: (City) -> Unit) {
+        fun bindData(city: City, clickListener: (Long) -> Unit) {
 
             Picasso.get()
                 .load(city.url)
@@ -42,7 +42,7 @@ class CitysAdapter(private val dataset: List<City>, private val clickListener: (
                 descriptionTextView.text = city.about
                 selectedTextView.setText(city.getTextSelected())
                 selectedTextView.setTextColor(city.getColorSelected())
-                setOnClickListener { clickListener(city) }
+                setOnClickListener { clickListener(city.id) }
             }
         }
     }

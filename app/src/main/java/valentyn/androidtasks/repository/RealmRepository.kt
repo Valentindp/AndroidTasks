@@ -1,39 +1,58 @@
 package valentyn.androidtasks.repository
 
-import android.content.Context
-import io.realm.Realm
+import io.realm.RealmObject
+import valentyn.androidtasks.models.City
+import valentyn.androidtasks.models.Park
 import valentyn.androidtasks.views.BaseContract
 
-class RealmRepository : Storage<BaseContract.Model> {
+object RealmRepository : Storage<RealmObject> {
 
-    private var realm: Realm? = null
+    override fun save(element: RealmObject) {
+        val realm = RealmManager.getRealm()
+        realm.beginTransaction()
+        try {
+            realm.copyToRealmOrUpdate(element)
+            realm.commitTransaction()
+        } catch (e: Exception) {
+            realm.cancelTransaction()
+        }
+    }
 
-    override fun save(element: BaseContract.Model) {
+    fun update(){
 
     }
 
-    override fun saveAll(elements: List<BaseContract.Model>) {
+    override fun saveAll(elements: List<RealmObject>) {
 
     }
 
-    override fun deleteAll(element: List<BaseContract.Model>) {
+    override fun deleteAll(elements: List<RealmObject>) {
 
     }
 
-    override fun delete(element: BaseContract.Model) {
+    override fun delete(element: RealmObject) {
 
     }
 
-    fun getRealm(): Realm? {
+    fun getCity(id: Long): BaseContract.Model = RealmManager.getRealm().where(City::class.java).equalTo("id", id).findFirst() as BaseContract.Model
 
-        if (realm != null) return realm
+    fun getAllCities(): List<City> = RealmManager.getRealm().where(City::class.java).findAll()
 
-        realm = Realm.getInstance(Realm.getDefaultConfiguration())
+    fun getPark(id: Long): BaseContract.Model = RealmManager.getRealm().where(Park::class.java).equalTo("id", id).findFirst() as BaseContract.Model
 
-        return realm
+    fun getAllParks(): List<Park> = RealmManager.getRealm().where(Park::class.java).findAll()
+
+    fun getSomeElement() : BaseContract.Model = RealmManager.getRealm().where(City::class.java).findFirst() as BaseContract.Model
+
+    fun getElement(id: Long, key: String): BaseContract.Model {
+        return when (key) {
+            "CITY_KEY" -> getCity(id)
+            "PARK_KEY" -> getPark(id)
+
+            else -> getSomeElement()
+        }
     }
 
-    fun init(context: Context) {
-        Realm.init(context)
-    }
 }
+
+

@@ -19,7 +19,7 @@ interface ElementContract {
         fun loadPhoto(url: String)
     }
 
-    interface Presenter : BaseContract.Presenter<ElementContract.View, BaseContract.Model> {
+    interface Presenter : BaseContract.Presenter<ElementContract.View, Long, String> {
 
         fun updateSiteText()
 

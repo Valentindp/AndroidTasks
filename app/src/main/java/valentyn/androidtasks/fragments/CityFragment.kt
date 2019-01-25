@@ -13,11 +13,12 @@ import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.CitysAdapter
 import valentyn.androidtasks.models.City
 import valentyn.androidtasks.repository.CityRepository
+import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.views.CityActivity
 
 class CityFragment : Fragment() {
 
-    private val dataset: List<City> = CityRepository.dataCitys
+    private val dataset: List<City> = RealmRepository.getAllCities()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_city, container, false)
@@ -29,20 +30,20 @@ class CityFragment : Fragment() {
         city_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = CitysAdapter(dataset) { city: City -> onCityClicked(city) }
+            adapter = CitysAdapter(dataset) { id: Long -> onCityClicked(id) }
         }
     }
 
-    private fun onCityClicked(city: City) {
+    private fun onCityClicked(id: Long) {
         val intent = Intent(activity, CityActivity::class.java)
-        intent.putExtra(CityActivity.CITY_KEY, city)
+        intent.putExtra(CityActivity.CITY_KEY, id)
         startActivityForResult(intent, 1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
 
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            val city = intent?.getParcelableExtra(CityActivity.CITY_KEY) as City
+            val id = intent?.getLongExtra(CityActivity.CITY_KEY, 0)
             dataset.filter { it.id == city.id }.map { it.select = city.select }
             city_recyclerView.adapter?.notifyDataSetChanged()
         }

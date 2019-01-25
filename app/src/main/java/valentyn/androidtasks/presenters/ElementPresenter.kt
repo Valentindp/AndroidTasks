@@ -1,5 +1,6 @@
 package valentyn.androidtasks.presenters
 
+import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.ElementContract
 
@@ -36,9 +37,9 @@ class ElementPresenter() : ElementContract.Presenter {
         view?.updateColorSelectedButton(element.getColorSelected())
     }
 
-    override fun onAttach(view: ElementContract.View, model: BaseContract.Model) {
+    override fun onAttach(view: ElementContract.View, id: Long, key: String) {
         this.view = view
-        this.element = model
+        this.element = RealmRepository.getElement(id, key)
         init()
     }
 

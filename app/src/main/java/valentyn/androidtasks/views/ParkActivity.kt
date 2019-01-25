@@ -25,7 +25,7 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        presenter.onAttach(this, intent.getParcelableExtra(ParkActivity.PARK_KEY) as Park)
+        presenter.onAttach(this, intent.getLongExtra(ParkActivity.PARK_KEY,0), ParkActivity.PARK_KEY)
         selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
     }
 

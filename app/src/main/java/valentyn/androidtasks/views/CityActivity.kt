@@ -24,7 +24,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
-        presenter.onAttach(this, intent.getParcelableExtra(CityActivity.CITY_KEY) as City)
+        presenter.onAttach(this, intent.getLongExtra(CityActivity.CITY_KEY,0), CityActivity.CITY_KEY)
         selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
     }
 

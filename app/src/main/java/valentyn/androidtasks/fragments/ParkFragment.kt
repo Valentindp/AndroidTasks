@@ -13,11 +13,12 @@ import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.ParksAdapter
 import valentyn.androidtasks.models.Park
 import valentyn.androidtasks.repository.ParkRepository
+import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.views.ParkActivity
 
 class ParkFragment : Fragment() {
 
-    private val dataset: List<Park> = ParkRepository.dataParks
+    private val dataset: List<Park> = RealmRepository.getAllParks()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_park, container, false)
@@ -28,13 +29,13 @@ class ParkFragment : Fragment() {
         park_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = ParksAdapter(dataset) { park: Park -> onParkClicked(park) }
+            adapter = ParksAdapter(dataset) { id: Long -> onParkClicked(id) }
         }
     }
 
-    private fun onParkClicked(park: Park) {
+    private fun onParkClicked(id: Long) {
         val intent = Intent(activity, ParkActivity::class.java)
-        intent.putExtra(ParkActivity.PARK_KEY, park)
+        intent.putExtra(ParkActivity.PARK_KEY, id)
         startActivityForResult(intent, 1)
     }
 

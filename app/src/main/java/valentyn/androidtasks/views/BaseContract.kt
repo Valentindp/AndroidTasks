@@ -1,11 +1,9 @@
 package valentyn.androidtasks.views
 
-import android.os.Parcelable
-
 interface BaseContract {
 
-    interface Presenter<in T,E> {
-        fun onAttach(view: T, model: E)
+    interface Presenter<in T, E, F> {
+        fun onAttach(view: T, id: E, key : F)
         fun onDetach()
     }
 
@@ -13,8 +11,8 @@ interface BaseContract {
 
     }
 
-    interface Model : Parcelable {
-        val id: Int
+    interface Model  {
+        val id: Long
         val name: String
         val url: String
         var about: String
