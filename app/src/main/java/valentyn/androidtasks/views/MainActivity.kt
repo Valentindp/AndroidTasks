@@ -9,6 +9,7 @@ import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_main.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.FragmentsPagerAdapter
+import valentyn.androidtasks.repository.RealmRepository
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Realm.init(this)
-        Realm.setDefaultConfiguration(RealmConfiguration.Builder().build());
+        Realm.setDefaultConfiguration(RealmConfiguration.Builder().build())
+        RealmRepository.initDB()
 
         setSupportActionBar(toolbar)
 

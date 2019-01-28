@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_park.view.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.views.BaseContract
 
-class ParksAdapter(private val dataset: List<BaseContract.Model?>, private val clickListener: (Long?) -> Unit) :
+class ParksAdapter(private val dataset: List<BaseContract.Model>, private val clickListener: (Long?) -> Unit) :
     RecyclerView.Adapter<ParksAdapter.ParkViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -28,18 +28,18 @@ class ParksAdapter(private val dataset: List<BaseContract.Model?>, private val c
 
     class ParkViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindData(park: BaseContract.Model?, clickListener: (Long?) -> Unit) {
+        fun bindData(park: BaseContract.Model, clickListener: (Long?) -> Unit) {
 
             Picasso.get()
-                .load(park?.url)
+                .load(park.url)
                 .fit()
                 .error(R.drawable.ic_error_black_24dp)
                 .into(view.photoView)
 
             view.apply {
-                nameTextView.text = park?.name
-                descriptionTextView.text = park?.about
-                selectedTextView.setText(park!!.getTextSelected())
+                nameTextView.text = park.name
+                descriptionTextView.text = park.about
+                selectedTextView.setText(park.getTextSelected())
                 selectedTextView.setTextColor(park.getColorSelected())
                 setOnClickListener { clickListener(park.id) }
             }

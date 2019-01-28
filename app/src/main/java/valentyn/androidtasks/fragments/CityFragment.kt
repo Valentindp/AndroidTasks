@@ -17,7 +17,7 @@ import valentyn.androidtasks.views.CityActivity
 
 class CityFragment : Fragment() {
 
-    private val dataset: List<BaseContract.Model?> = RealmRepository.getAllCities()
+    private val dataset: List<BaseContract.Model> = RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_city, container, false)
@@ -39,11 +39,7 @@ class CityFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            val id = intent?.getLongExtra(CityActivity.CITY_KEY, 0)
-            dataset.filter { it?.id == id }
-                .map { it?.select = RealmRepository.getElement(id, CityActivity.CITY_KEY)!!.select }
             city_recyclerView.adapter?.notifyDataSetChanged()
         }
     }

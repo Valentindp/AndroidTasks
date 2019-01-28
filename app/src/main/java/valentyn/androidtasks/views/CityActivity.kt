@@ -23,7 +23,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
-        presenter.onAttach(this, intent.getLongExtra(CityActivity.CITY_KEY,0), CityActivity.CITY_KEY)
+        presenter.onAttach(this, intent.getLongExtra(CityActivity.CITY_KEY, 0), CityActivity.CITY_KEY)
         selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
     }
 
@@ -78,9 +78,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun finish() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(CityActivity.CITY_KEY, presenter.element?.id)
-        setResult(AppCompatActivity.RESULT_OK, intent)
+        if (presenter.isChangeElement) setResult(AppCompatActivity.RESULT_OK)
         super.finish()
     }
 

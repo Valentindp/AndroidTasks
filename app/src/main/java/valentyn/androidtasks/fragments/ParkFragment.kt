@@ -17,7 +17,7 @@ import valentyn.androidtasks.views.ParkActivity
 
 class ParkFragment : Fragment() {
 
-    private val dataset: List<BaseContract.Model?> = RealmRepository.getAllParks()
+    private val dataset: List<BaseContract.Model> = RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_park, container, false)
@@ -40,9 +40,6 @@ class ParkFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            val id = intent?.getLongExtra(ParkActivity.PARK_KEY, 0)
-            dataset.filter { it?.id == id }
-                .map { it?.select = RealmRepository.getElement(id, ParkActivity.PARK_KEY)!!.select }
             park_recyclerView.adapter?.notifyDataSetChanged()
         }
     }

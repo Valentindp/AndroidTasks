@@ -1,6 +1,7 @@
 package valentyn.androidtasks.presenters
 
-import valentyn.androidtasks.R
+import valentyn.androidtasks.models.City
+import valentyn.androidtasks.models.Park
 import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.ElementContract
@@ -8,7 +9,8 @@ import valentyn.androidtasks.views.ElementContract
 class ElementPresenter() : ElementContract.Presenter {
 
     private var view: ElementContract.View? = null
-    var element: BaseContract.Model? = null
+    private var element: BaseContract.Model? = null
+    var isChangeElement: Boolean = false
 
     override fun loadPhoto() {
         view?.loadPhoto(element?.url)
@@ -40,12 +42,16 @@ class ElementPresenter() : ElementContract.Presenter {
 
     override fun onAttach(view: ElementContract.View, id: Long?, key: String) {
         this.view = view
-        this.element = RealmRepository.getElement(id, key)
+        this.element = RealmRepository.getRealmObject(id, key)
         init()
     }
 
     fun setOnClickListenerSelectedButton() {
-        element?.select = !element?.select!!
+        when (element) {
+            is City -> RealmRepository.updateSelect(element?.id, "CITY_KEY")
+            is Park -> RealmRepository.updateSelect(element?.id, "PARK_KEY")
+        }
+        isChangeElement = true
         updateTextSelectedButton()
         updateColorSelectedButton()
     }

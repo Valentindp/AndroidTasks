@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
 
-class SwipeLockableViewPager(context: Context, attrs: AttributeSet): ViewPager(context, attrs) {
+class SwipeLockableViewPager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs) {
     private var swipeEnabled = false
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

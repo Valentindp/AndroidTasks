@@ -1,15 +1,12 @@
 package valentyn.androidtasks.repository
 
-interface Storage<ModelType> {
+interface Storage<Model> {
 
-    interface Transaction<T> {
-        fun transact(): T
-    }
+    fun save(element: Model)
+    fun saveAll(elements: List<Model>)
 
-    fun save(element: ModelType)
-    fun saveAll(elements: List<ModelType>)
 
-    fun deleteAll(elements: List<ModelType>)
-    fun delete(element: ModelType)
+    fun deleteAll(elements: List<Model>)
+    fun delete(element: Model)
 
 }

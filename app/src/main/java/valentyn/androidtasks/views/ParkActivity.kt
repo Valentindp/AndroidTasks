@@ -81,9 +81,7 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun finish() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(ParkActivity.PARK_KEY, presenter.element?.id)
-        setResult(AppCompatActivity.RESULT_OK, intent)
+        if (presenter.isChangeElement) setResult(AppCompatActivity.RESULT_OK, intent)
         super.finish()
     }
 
