@@ -1,23 +1,21 @@
 package valentyn.androidtasks.models
 
 import android.graphics.Color
-import android.os.Parcel
-import android.os.Parcelable
+import io.realm.RealmModel
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import io.realm.annotations.Required
 import valentyn.androidtasks.R
 import valentyn.androidtasks.views.BaseContract
 
 class Park(
-    @PrimaryKey @Required override val id: Long,
-    @Required override val name: String,
-    override val url: String,
-    override var about: String,
-    override var country: String,
-    override var site: String,
-    override var select: Boolean
-) : RealmObject(), BaseContract.Model {
+    @PrimaryKey override var id: Long? = null,
+    override var name: String = "",
+    override var url: String = "",
+    override var about: String = "",
+    override var country: String = "",
+    override var site: String = "",
+    override var select: Boolean = false
+) : BaseContract.Model {
 
 
     override fun getTextSelected(): Int {

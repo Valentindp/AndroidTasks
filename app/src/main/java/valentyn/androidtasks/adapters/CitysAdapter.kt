@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_city.view.*
-
 import valentyn.androidtasks.R
-import valentyn.androidtasks.models.City
+import valentyn.androidtasks.views.BaseContract
 
-class CitysAdapter(private val dataset: List<City>, private val clickListener: (Long) -> Unit):
+class CitysAdapter(private val dataset: List<BaseContract.Model?>, private val clickListener: (Long?) -> Unit):
     RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -29,18 +28,18 @@ class CitysAdapter(private val dataset: List<City>, private val clickListener: (
 
     class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindData(city: City, clickListener: (Long) -> Unit) {
+        fun bindData(city: BaseContract.Model?, clickListener: (Long?) -> Unit) {
 
             Picasso.get()
-                .load(city.url)
+                .load(city?.url)
                 .fit()
                 .error(R.drawable.ic_error_black_24dp)
                 .into(view.photoView)
 
             view.apply {
-                nameTextView.text = city.name
-                descriptionTextView.text = city.about
-                selectedTextView.setText(city.getTextSelected())
+                nameTextView.text = city?.name
+                descriptionTextView.text = city?.about
+                selectedTextView.setText(city!!.getTextSelected())
                 selectedTextView.setTextColor(city.getColorSelected())
                 setOnClickListener { clickListener(city.id) }
             }

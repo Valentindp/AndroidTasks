@@ -7,6 +7,7 @@ import valentyn.androidtasks.views.BaseContract
 
 object RealmRepository : Storage<RealmObject> {
 
+
     override fun save(element: RealmObject) {
         val realm = RealmManager.getRealm()
         realm.beginTransaction()
@@ -18,7 +19,7 @@ object RealmRepository : Storage<RealmObject> {
         }
     }
 
-    fun update(){
+    fun update() {
 
     }
 
@@ -34,17 +35,18 @@ object RealmRepository : Storage<RealmObject> {
 
     }
 
-    fun getCity(id: Long): BaseContract.Model = RealmManager.getRealm().where(City::class.java).equalTo("id", id).findFirst() as BaseContract.Model
+    fun getCity(id: Long?): BaseContract.Model? = RealmManager.getRealm().where(BaseContract.Model::class.java).equalTo("id", id).findFirst()
 
-    fun getAllCities(): List<City> = RealmManager.getRealm().where(City::class.java).findAll()
+    fun getAllCities(): List<BaseContract.Model?> = RealmManager.getRealm().where(BaseContract.Model::class.java).findAll()
 
-    fun getPark(id: Long): BaseContract.Model = RealmManager.getRealm().where(Park::class.java).equalTo("id", id).findFirst() as BaseContract.Model
+    fun getPark(id: Long?): BaseContract.Model? = RealmManager.getRealm().where(BaseContract.Model::class.java).equalTo("id", id).findFirst()
 
-    fun getAllParks(): List<Park> = RealmManager.getRealm().where(Park::class.java).findAll()
+    fun getAllParks(): List<BaseContract.Model?> = RealmManager.getRealm().where(BaseContract.Model::class.java).findAll()
 
-    fun getSomeElement() : BaseContract.Model = RealmManager.getRealm().where(City::class.java).findFirst() as BaseContract.Model
+    fun getSomeElement(): BaseContract.Model? =
+        RealmManager.getRealm().where(City::class.java).findFirst()
 
-    fun getElement(id: Long, key: String): BaseContract.Model {
+    fun getElement(id: Long?, key: String): BaseContract.Model? {
         return when (key) {
             "CITY_KEY" -> getCity(id)
             "PARK_KEY" -> getPark(id)

@@ -11,14 +11,13 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_city.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.CitysAdapter
-import valentyn.androidtasks.models.City
-import valentyn.androidtasks.repository.CityRepository
 import valentyn.androidtasks.repository.RealmRepository
+import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.CityActivity
 
 class CityFragment : Fragment() {
 
-    private val dataset: List<City> = RealmRepository.getAllCities()
+    private val dataset: List<BaseContract.Model?> = RealmRepository.getAllCities()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_city, container, false)
@@ -26,15 +25,14 @@ class CityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         city_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = CitysAdapter(dataset) { id: Long -> onCityClicked(id) }
+            adapter = CitysAdapter(dataset) { id: Long? -> onCityClicked(id) }
         }
     }
 
-    private fun onCityClicked(id: Long) {
+    private fun onCityClicked(id: Long?) {
         val intent = Intent(activity, CityActivity::class.java)
         intent.putExtra(CityActivity.CITY_KEY, id)
         startActivityForResult(intent, 1)
@@ -44,7 +42,8 @@ class CityFragment : Fragment() {
 
         if (resultCode == AppCompatActivity.RESULT_OK) {
             val id = intent?.getLongExtra(CityActivity.CITY_KEY, 0)
-            dataset.filter { it.id == city.id }.map { it.select = city.select }
+            dataset.filter { it?.id == id }
+                .map { it?.select = RealmRepository.getElement(id, CityActivity.CITY_KEY)!!.select }
             city_recyclerView.adapter?.notifyDataSetChanged()
         }
     }

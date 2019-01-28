@@ -1,5 +1,6 @@
 package valentyn.androidtasks.presenters
 
+import valentyn.androidtasks.R
 import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.ElementContract
@@ -7,44 +8,44 @@ import valentyn.androidtasks.views.ElementContract
 class ElementPresenter() : ElementContract.Presenter {
 
     private var view: ElementContract.View? = null
-    lateinit var element: BaseContract.Model
+    var element: BaseContract.Model? = null
 
     override fun loadPhoto() {
-        view?.loadPhoto(element.url)
+        view?.loadPhoto(element?.url)
     }
 
     override fun updateSiteText() {
-        view?.updateSiteText(element.site)
+        view?.updateSiteText(element?.site)
     }
 
     override fun updateNameText() {
-        view?.updateNameText(element.name)
+        view?.updateNameText(element?.name)
     }
 
     override fun updateDescriptionText() {
-        view?.updateDescriptionText(element.about)
+        view?.updateDescriptionText(element?.about)
     }
 
     override fun updateCountryText() {
-        view?.updateCountryText(element.country)
+        view?.updateCountryText(element?.country)
     }
 
     override fun updateTextSelectedButton() {
-        view?.updateTextSelectedButton(element.getTextSelected())
+        view?.updateTextSelectedButton(element?.getTextSelected()!!)
     }
 
     override fun updateColorSelectedButton() {
-        view?.updateColorSelectedButton(element.getColorSelected())
+        view?.updateColorSelectedButton(element?.getColorSelected()!!)
     }
 
-    override fun onAttach(view: ElementContract.View, id: Long, key: String) {
+    override fun onAttach(view: ElementContract.View, id: Long?, key: String) {
         this.view = view
         this.element = RealmRepository.getElement(id, key)
         init()
     }
 
     fun setOnClickListenerSelectedButton() {
-        element.select = !element.select
+        element?.select = !element?.select!!
         updateTextSelectedButton()
         updateColorSelectedButton()
     }

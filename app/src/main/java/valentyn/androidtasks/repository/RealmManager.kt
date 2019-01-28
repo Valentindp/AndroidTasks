@@ -7,12 +7,11 @@ object RealmManager {
     private val realmList = ThreadLocal<Realm>()
 
     fun getRealm(): Realm {
-        var realm = realmList.get()
-        if (realm == null) {
-            realm = Realm.getDefaultInstance()
-            realmList.set(realm)
-        }
-        return realm
+        //var realm = realmList.get()
+        //if (realm != null) return realm
+        //realm = Realm.getDefaultInstance()
+        //realmList.set(realm)
+        return Realm.getDefaultInstance()
     }
 
     fun closeConnection() {

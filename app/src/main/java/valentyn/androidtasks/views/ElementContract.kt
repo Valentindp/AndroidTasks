@@ -4,19 +4,19 @@ interface ElementContract {
 
     interface View : BaseContract.View {
 
-        fun updateSiteText(site: String)
+        fun updateSiteText(site: String?)
 
-        fun updateNameText(name: String)
+        fun updateNameText(name: String?)
 
-        fun updateDescriptionText(description: String)
+        fun updateDescriptionText(description: String?)
 
-        fun updateCountryText(country: String)
+        fun updateCountryText(country: String?)
 
         fun updateTextSelectedButton(value: Int)
 
         fun updateColorSelectedButton(value: Int)
 
-        fun loadPhoto(url: String)
+        fun loadPhoto(url: String?)
     }
 
     interface Presenter : BaseContract.Presenter<ElementContract.View, Long, String> {

@@ -1,9 +1,11 @@
 package valentyn.androidtasks.views
 
+import io.realm.RealmModel
+
 interface BaseContract {
 
     interface Presenter<in T, E, F> {
-        fun onAttach(view: T, id: E, key : F)
+        fun onAttach(view: T, id: E?, key : F)
         fun onDetach()
     }
 
@@ -11,10 +13,10 @@ interface BaseContract {
 
     }
 
-    interface Model  {
-        val id: Long
-        val name: String
-        val url: String
+    interface Model: RealmModel  {
+        var id: Long?
+        var name: String
+        var url: String
         var about: String
         var country: String
         var site: String

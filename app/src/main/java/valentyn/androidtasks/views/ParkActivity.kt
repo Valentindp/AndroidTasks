@@ -8,7 +8,6 @@ import android.view.MenuItem
 import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_park.*
-import valentyn.androidtasks.models.Park
 import valentyn.androidtasks.presenters.ElementPresenter
 
 class ParkActivity : AppCompatActivity(), ElementContract.View {
@@ -38,23 +37,23 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         selectedButton.setTextColor(value)
     }
 
-    override fun updateSiteText(site: String) {
+    override fun updateSiteText(site: String?) {
         parkSiteTextView.text = site
     }
 
-    override fun updateNameText(name: String) {
+    override fun updateNameText(name: String?) {
         parkNameTextView.text = name
     }
 
-    override fun updateDescriptionText(description: String) {
+    override fun updateDescriptionText(description: String?) {
         parkDescriptionTextView.text = description
     }
 
-    override fun updateCountryText(country: String) {
+    override fun updateCountryText(country: String?) {
         parkСountryTextView.text = country
     }
 
-    override fun loadPhoto(url: String) {
+    override fun loadPhoto(url: String?) {
         Picasso.get()
             .load(url)
             .fit()
@@ -83,7 +82,7 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
 
     override fun finish() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(ParkActivity.PARK_KEY, presenter.element)
+        intent.putExtra(ParkActivity.PARK_KEY, presenter.element?.id)
         setResult(AppCompatActivity.RESULT_OK, intent)
         super.finish()
     }
