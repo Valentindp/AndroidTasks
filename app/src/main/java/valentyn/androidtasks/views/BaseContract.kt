@@ -1,6 +1,5 @@
 package valentyn.androidtasks.views
 
-import io.realm.RealmModel
 
 interface BaseContract {
 
@@ -13,8 +12,8 @@ interface BaseContract {
 
     }
 
-    interface Model: RealmModel  {
-        var id: Long?
+    interface Model  {
+        var id: Long
         var name: String
         var url: String
         var about: String

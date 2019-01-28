@@ -1,6 +1,7 @@
 package valentyn.androidtasks.repository
 
 import io.realm.RealmObject
+import io.realm.kotlin.where
 import valentyn.androidtasks.models.City
 import valentyn.androidtasks.models.Park
 import valentyn.androidtasks.views.BaseContract
@@ -35,23 +36,23 @@ object RealmRepository : Storage<RealmObject> {
 
     }
 
-    fun getCity(id: Long?): BaseContract.Model? = RealmManager.getRealm().where(BaseContract.Model::class.java).equalTo("id", id).findFirst()
+    fun getCity(id: Long?): BaseContract.Model? =
+        RealmManager.getRealm().where<City>().equalTo("id", id).findFirst()
 
-    fun getAllCities(): List<BaseContract.Model?> = RealmManager.getRealm().where(BaseContract.Model::class.java).findAll()
+    fun getAllCities(): List<BaseContract.Model?> = RealmManager.getRealm().where<City>().findAll()
 
-    fun getPark(id: Long?): BaseContract.Model? = RealmManager.getRealm().where(BaseContract.Model::class.java).equalTo("id", id).findFirst()
+    fun getPark(id: Long?): BaseContract.Model? =
+        RealmManager.getRealm().where<Park>().equalTo("id", id).findFirst()
 
-    fun getAllParks(): List<BaseContract.Model?> = RealmManager.getRealm().where(BaseContract.Model::class.java).findAll()
+    fun getAllParks(): List<BaseContract.Model?> = RealmManager.getRealm().where<Park>().findAll()
 
-    fun getSomeElement(): BaseContract.Model? =
-        RealmManager.getRealm().where(City::class.java).findFirst()
 
     fun getElement(id: Long?, key: String): BaseContract.Model? {
         return when (key) {
             "CITY_KEY" -> getCity(id)
             "PARK_KEY" -> getPark(id)
 
-            else -> getSomeElement()
+            else -> null
         }
     }
 

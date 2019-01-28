@@ -8,15 +8,16 @@ import valentyn.androidtasks.R
 import valentyn.androidtasks.views.BaseContract
 
 
-class City(
-    @PrimaryKey override var id: Long? = null,
+open class City(
+    @PrimaryKey override var id: Long = 0,
     override var name: String = "",
     override var url: String = "",
     override var about: String = "",
     override var country: String = "",
     override var site: String = "",
     override var select: Boolean = false
-) : BaseContract.Model {
+) : BaseContract.Model, RealmObject() {
+
 
 
     override fun getTextSelected(): Int {
