@@ -12,60 +12,24 @@ object RealmRepository : Storage<RealmObject> {
 
     override fun save(element: RealmObject) {
         val realm = RealmManager.getRealm()
-        realm?.beginTransaction()
-        try {
-            realm?.copyToRealmOrUpdate(element)
-            realm?.commitTransaction()
-        } catch (e: Exception) {
-            realm?.cancelTransaction()
-        }
+        realm?.executeTransaction { realm.copyToRealmOrUpdate(element) }
     }
 
-    fun getRealmObject(id: Long?, key: String): BaseContract.Model? {
-        return when (key) {
-            CityActivity.CITY_KEY -> {
-                val realmObject = RealmManager.getRealm()?.where<City>()?.equalTo("id", id)?.findFirst()
-                //RealmManager.closeConnection()
-                realmObject
-            }
-            ParkActivity.PARK_KEY -> {
-                val realmObject = RealmManager.getRealm()?.where<Park>()?.equalTo("id", id)?.findFirst()
-               //RealmManager.closeConnection()
-                realmObject
-            }
-            else -> null
-        }
+    fun getRealmObject(id: Long?, key: String): BaseContract.Model? = when (key) {
+        CityActivity.CITY_KEY -> RealmManager.getRealm()?.where<City>()?.equalTo("id", id)?.findFirst()
+        ParkActivity.PARK_KEY -> RealmManager.getRealm()?.where<Park>()?.equalTo("id", id)?.findFirst()
+        else -> null
     }
 
-    fun getRealmObjectList(key: String): List<BaseContract.Model> {
-        when (key) {
-            CityActivity.CITY_KEY -> {
-                val realmObjectList = RealmManager.getRealm()?.where<City>()?.findAll()
-                if (realmObjectList != null) {
-                    //RealmManager.closeConnection()
-                    return realmObjectList
-                }
-            }
-            ParkActivity.PARK_KEY -> {
-                val realmObjectList = RealmManager.getRealm()?.where<Park>()?.findAll()
-                if (realmObjectList != null) {
-                    //RealmManager.closeConnection()
-                    return realmObjectList
-                }
-            }
-        }
-        return emptyList<BaseContract.Model>()
+    fun getRealmObjectList(key: String): List<BaseContract.Model> = when (key) {
+        CityActivity.CITY_KEY -> RealmManager.getRealm()?.where<City>()?.findAll() as List<BaseContract.Model>
+        ParkActivity.PARK_KEY -> RealmManager.getRealm()?.where<Park>()?.findAll() as List<BaseContract.Model>
+        else -> emptyList()
     }
 
     fun updateSelect(id: Long?, key: String) {
-        val realm = RealmManager.getRealm()
         val element = getRealmObject(id, key)
-
-        if (element != null) {
-            realm?.beginTransaction()
-            element.select = !element.select
-            realm?.commitTransaction()
-        }
+        if (element != null) RealmManager.getRealm()?.executeTransaction { element.select = !element.select }
     }
 
     override fun saveAll(elements: List<RealmObject>) {}
@@ -79,5 +43,7 @@ object RealmRepository : Storage<RealmObject> {
         if (getRealmObjectList(ParkActivity.PARK_KEY).isEmpty()) for (item in ParkRepository.dataParks) save(item)
     }
 }
+
+
 
 

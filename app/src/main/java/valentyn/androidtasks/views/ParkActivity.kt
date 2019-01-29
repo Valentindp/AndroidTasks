@@ -1,6 +1,5 @@
 package valentyn.androidtasks.views
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -81,7 +80,7 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun finish() {
-        if (presenter.isChangeElement) setResult(AppCompatActivity.RESULT_OK, intent)
+        if (presenter.isChangeElement) setResult(AppCompatActivity.RESULT_OK)
         super.finish()
     }
 

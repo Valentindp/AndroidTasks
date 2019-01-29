@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_city.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.CitysAdapter
+import valentyn.androidtasks.repository.RealmManager
 import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.CityActivity

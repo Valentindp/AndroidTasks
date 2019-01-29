@@ -11,7 +11,6 @@ import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.FragmentsPagerAdapter
 import valentyn.androidtasks.repository.RealmRepository
 
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,11 +41,9 @@ class MainActivity : AppCompatActivity() {
         R.id.action_settings -> {
             true
         }
-
         R.id.action_favorite -> {
             true
         }
-
         else -> {
             super.onOptionsItemSelected(item)
         }
