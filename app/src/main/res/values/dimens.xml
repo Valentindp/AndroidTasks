@@ -11,4 +11,6 @@
     <dimen name="parkItemTextPadding">4dp</dimen>
     <dimen name="parkDrawablePadding">10dp</dimen>
     <dimen name="parkItemMargin">4dp</dimen>
+    <dimen name="activity_vertical_margin">10dp</dimen>
+    <dimen name="activity_horizontal_margin">10dp</dimen>
 </resources>
