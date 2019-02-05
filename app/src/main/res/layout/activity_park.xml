@@ -1,108 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFF">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFF">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/parkPhotoView"
-        android:layout_margin="@dimen/parkTopEndMargin"
-        android:layout_marginStart="@dimen/parkTopEndMargin"
-        android:layout_marginTop="@dimen/parkTopEndMargin"
-        android:layout_marginEnd="@dimen/parkTopEndMargin"
-        android:layout_marginBottom="@dimen/parkTopEndMargin"
-        android:background="@drawable/gradient_bg">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/parkPhotoView"
+            android:layout_marginStart="@dimen/parkTopEndMargin"
+            android:layout_marginTop="@dimen/parkTopEndMargin"
+            android:layout_marginEnd="@dimen/parkTopEndMargin"
+            android:layout_marginBottom="@dimen/parkTopEndMargin"
+            android:background="@drawable/gradient_bg">
 
         <TextView
-            android:id="@+id/parkDescriptionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/parkStartEndMargin"
-            android:layout_marginTop="@dimen/parkTopEndMargin"
-            android:layout_marginEnd="@dimen/parkStartEndMargin"
-            android:layout_toStartOf="@id/selectedButton"
-            android:drawableStart="@drawable/info"
-            android:drawablePadding="@dimen/parkDrawablePadding"
-            android:ellipsize="end"
-            tools:text="parkDescriptionTextView" />
+                android:id="@+id/parkDescriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/parkStartEndMargin"
+                android:layout_marginEnd="@dimen/parkStartEndMargin"
+                android:drawableStart="@drawable/info"
+                android:drawablePadding="@dimen/parkDrawablePadding"
+                android:ellipsize="end"
+                tools:text="parkDescriptionTextView"
+                android:layout_below="@id/parkSiteTextView"
+                android:layout_marginTop="@dimen/parkTopEndMargin"/>
 
         <Button
-            android:id="@+id/selectedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/parkTopEndMargin"
-            android:layout_marginEnd="@dimen/parkStartEndMargin"
-            android:background="@android:color/transparent"
-            android:text="@string/button_selected"
-            android:textAllCaps="false" />
+                android:id="@+id/selectedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/parkTopEndMargin"
+                android:layout_marginEnd="@dimen/parkStartEndMargin"
+                android:background="@android:color/transparent"
+                android:text="@string/button_selected"
+                android:textAllCaps="false"/>
 
         <TextView
-            android:id="@+id/parkСountryTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/parkDescriptionTextView"
-            android:layout_marginStart="@dimen/parkStartEndMargin"
-            android:layout_marginTop="@dimen/parkTopEndMargin"
-            android:layout_marginEnd="@dimen/parkStartEndMargin"
-            android:drawableStart="@drawable/mountain"
-            android:drawablePadding="@dimen/parkDrawablePadding"
-            android:ellipsize="end"
-            tools:text="parkСountryTextView" />
+                android:id="@+id/parkСountryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/parkStartEndMargin"
+                android:drawableStart="@drawable/mountain"
+                android:drawablePadding="@dimen/parkDrawablePadding"
+                android:ellipsize="end"
+                tools:text="parkСountryTextView"
+                android:layout_marginTop="@dimen/parkTopEndMargin"
+                android:layout_toStartOf="@id/selectedButton"
+                android:layout_marginEnd="@dimen/parkStartEndMargin"/>
 
         <TextView
-            android:id="@+id/parkSiteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/parkСountryTextView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="@dimen/parkStartEndMargin"
-            android:layout_marginTop="@dimen/parkTopEndMargin"
-            android:layout_marginEnd="@dimen/parkStartEndMargin"
-            android:drawableStart="@drawable/web"
-            android:drawablePadding="@dimen/parkDrawablePadding"
-            android:ellipsize="end"
-            tools:text="parkSiteTextView" />
+                android:id="@+id/parkSiteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/parkСountryTextView"
+                android:layout_marginStart="@dimen/parkStartEndMargin"
+                android:layout_marginTop="@dimen/parkTopEndMargin"
+                android:drawableStart="@drawable/web"
+                android:drawablePadding="@dimen/parkDrawablePadding"
+                android:ellipsize="end"
+                tools:text="parkSiteTextView" android:layout_marginEnd="@dimen/parkStartEndMargin"/>
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/parkPhotoView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_alignTop="@id/toolbar_park"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:src="@drawable/ic_error_black_24dp" />
+            android:id="@+id/parkPhotoView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_alignTop="@id/toolbar_park"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_error_black_24dp"/>
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_park"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:minHeight="?attr/actionBarSize" />
+            android:id="@+id/toolbar_park"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:minHeight="?attr/actionBarSize"/>
 
     <TextView
-        android:id="@+id/parkNameTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@id/parkPhotoView"
-        android:layout_alignBottom="@id/parkPhotoView"
-        android:layout_marginStart="@dimen/parkStartEndMargin"
-        android:layout_marginLeft="@dimen/parkStartEndMargin"
-        android:layout_marginTop="@dimen/parkStartEndMargin"
-        android:layout_marginEnd="@dimen/parkStartEndMargin"
-        android:layout_marginRight="@dimen/parkStartEndMargin"
-        android:layout_marginBottom="@dimen/parkStartEndMargin"
-        android:background="@android:color/transparent"
-        android:ellipsize="end"
-        android:textColor="#ffffff"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        tools:text="parkNameTextView" />
+            android:id="@+id/parkNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/parkPhotoView"
+            android:layout_alignBottom="@id/parkPhotoView"
+            android:layout_marginStart="@dimen/parkStartEndMargin"
+            android:layout_marginLeft="@dimen/parkStartEndMargin"
+            android:layout_marginTop="@dimen/parkStartEndMargin"
+            android:layout_marginEnd="@dimen/parkStartEndMargin"
+            android:layout_marginRight="@dimen/parkStartEndMargin"
+            android:layout_marginBottom="@dimen/parkStartEndMargin"
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:textColor="#ffffff"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            tools:text="parkNameTextView"/>
 
 </RelativeLayout>

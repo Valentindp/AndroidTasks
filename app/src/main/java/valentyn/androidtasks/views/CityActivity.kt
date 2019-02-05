@@ -8,6 +8,10 @@ import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_city.*
 import valentyn.androidtasks.presenters.ElementPresenter
+import android.widget.TextView
+import valentyn.androidtasks.utils.StringUtils
+import valentyn.androidtasks.utils.TextValidator
+
 
 class CityActivity : AppCompatActivity(), ElementContract.View {
 
@@ -35,19 +39,27 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun updateSiteText(site: String?) {
-        citySiteTextView.text = site
+        citySiteTextView.setText(site)
     }
 
     override fun updateNameText(name: String?) {
-        cityNameTextView.text = name
+        cityNameTextView.setText(name)
+        cityNameTextView.addTextChangedListener(object : TextValidator(cityNameTextView) {
+            override fun validate(textView: TextView, text: String) {
+                if (StringUtils.forbiddenCharacterString(text)) cityNameTextView.error =
+                        "There are forbidden characters in the string [${StringUtils.forbiddenCharacterString}]"
+                if (StringUtils.stringLengthCheck(text)) cityNameTextView.error =
+                        "Maximum number of characters exceeded [${StringUtils.stringLengthMax}]"
+            }
+        })
     }
 
     override fun updateDescriptionText(description: String?) {
-        cityDescriptionTextView.text = description
+        cityDescriptionTextView.setText(description)
     }
 
     override fun updateCountryText(country: String?) {
-        cityСountryTextView.text = country
+        cityСountryTextView.setText(country)
     }
 
     override fun loadPhoto(url: String?) {

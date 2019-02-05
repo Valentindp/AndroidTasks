@@ -18,25 +18,37 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        Realm.init(this)
-        Realm.setDefaultConfiguration(RealmConfiguration.Builder().build())
-        RealmRepository.initDB()
-
         handler = Handler(Handler.Callback {
-            progressStatus += 10
+
             progressBarHorizontal.progress = progressStatus
             textViewProgressBar.text = "${progressStatus}/${progressBarHorizontal.max}"
 
-            if (progressStatus == 100) {
-                startActivity(
-                    Intent(
-                        this@SplashScreenActivity,
-                        MainActivity::class.java
+            when (progressStatus) {
+                0 -> {
+                    Realm.init(this)
+                    progressStatus += 30
+                    handler?.sendEmptyMessageDelayed(0, 100)
+                }
+                30 -> {
+                    Realm.setDefaultConfiguration(RealmConfiguration.Builder().build())
+                    progressStatus += 30
+                    handler?.sendEmptyMessageDelayed(0, 100)
+                }
+                60 -> {
+                    RealmRepository.initDB()
+                    progressStatus += 40
+                    handler?.sendEmptyMessageDelayed(0, 100)
+                }
+                100 -> {
+                    startActivity(
+                        Intent(
+                            this@SplashScreenActivity,
+                            MainActivity::class.java
+                        )
                     )
-                )
-                finish()
-
-            } else handler?.sendEmptyMessageDelayed(0, 100)
+                    finish()
+                }
+            }
 
             true
         })
