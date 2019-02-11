@@ -1,5 +1,6 @@
 package valentyn.androidtasks.views
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -35,12 +36,29 @@ class MainActivity : AppCompatActivity() {
         R.id.action_settings -> {
             true
         }
-        R.id.action_favorite -> {
+        R.id.action_add_element -> {
+            startNewElementActivity()
             true
         }
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    fun startNewElementActivity() {
+        when (viewPager.currentItem) {
+            0 -> {
+                val intent = Intent(this, CityActivity::class.java)
+                intent.putExtra(CityActivity.CITY_KEY, -1)
+                startActivityForResult(intent, 1)
+            }
+            1 -> {
+                val intent = Intent(this, ParkActivity::class.java)
+                intent.putExtra(ParkActivity.PARK_KEY, -1)
+                startActivityForResult(intent, 1)
+            }
+        }
+
     }
 
 }

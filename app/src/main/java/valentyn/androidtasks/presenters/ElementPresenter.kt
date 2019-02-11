@@ -3,6 +3,7 @@ package valentyn.androidtasks.presenters
 import valentyn.androidtasks.models.City
 import valentyn.androidtasks.models.Park
 import valentyn.androidtasks.repository.RealmRepository
+import valentyn.androidtasks.utils.StringUtils
 import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.ElementContract
 
@@ -11,6 +12,7 @@ class ElementPresenter() : ElementContract.Presenter {
     private var view: ElementContract.View? = null
     private var element: BaseContract.Model? = null
     var isChangeElement: Boolean = false
+    var isNewElement: Boolean = true
 
     override fun loadPhoto() {
         view?.loadPhoto(element?.url)
@@ -40,20 +42,27 @@ class ElementPresenter() : ElementContract.Presenter {
         view?.updateColorSelectedButton(element?.getColorSelected()!!)
     }
 
+    override fun getNameTextError(text: String): String = StringUtils.checkString(text)
+
     override fun onAttach(view: ElementContract.View, id: Long?, key: String) {
         this.view = view
-        this.element = RealmRepository.getRealmObject(id, key)
-        init()
+        if (id != null && id > 0) {
+            isNewElement = false
+            this.element = RealmRepository.getRealmObject(id, key)
+            init()
+        }
     }
 
     fun setOnClickListenerSelectedButton() {
-        when (element) {
-            is City -> RealmRepository.updateSelect(element?.id, "CITY_KEY")
-            is Park -> RealmRepository.updateSelect(element?.id, "PARK_KEY")
+        if (!isNewElement) {
+            when (element) {
+                is City -> RealmRepository.updateSelect(element?.id, "CITY_KEY")
+                is Park -> RealmRepository.updateSelect(element?.id, "PARK_KEY")
+            }
+            isChangeElement = true
+            updateTextSelectedButton()
+            updateColorSelectedButton()
         }
-        isChangeElement = true
-        updateTextSelectedButton()
-        updateColorSelectedButton()
     }
 
     override fun init() {

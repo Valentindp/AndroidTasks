@@ -9,7 +9,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_city.*
 import valentyn.androidtasks.presenters.ElementPresenter
 import android.widget.TextView
-import valentyn.androidtasks.utils.StringUtils
 import valentyn.androidtasks.utils.TextValidator
 
 
@@ -46,13 +45,11 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
         cityNameTextView.setText(name)
         cityNameTextView.addTextChangedListener(object : TextValidator(cityNameTextView) {
             override fun validate(textView: TextView, text: String) {
-                if (StringUtils.forbiddenCharacterString(text)) cityNameTextView.error =
-                        "There are forbidden characters in the string [${StringUtils.forbiddenCharacterString}]"
-                if (StringUtils.stringLengthCheck(text)) cityNameTextView.error =
-                        "Maximum number of characters exceeded [${StringUtils.stringLengthMax}]"
+                cityNameTextView.error = presenter.getNameTextError(text)
             }
         })
     }
+
 
     override fun updateDescriptionText(description: String?) {
         cityDescriptionTextView.setText(description)

@@ -17,6 +17,7 @@ interface ElementContract {
         fun updateColorSelectedButton(value: Int)
 
         fun loadPhoto(url: String?)
+
     }
 
     interface Presenter : BaseContract.Presenter<ElementContract.View, Long, String> {
@@ -32,6 +33,8 @@ interface ElementContract {
         fun updateTextSelectedButton()
 
         fun updateColorSelectedButton()
+
+        fun getNameTextError(text: String): String
 
         fun loadPhoto()
 
