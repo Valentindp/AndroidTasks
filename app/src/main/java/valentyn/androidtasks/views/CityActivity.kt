@@ -26,7 +26,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
         presenter.onAttach(this, intent.getLongExtra(CityActivity.CITY_KEY, 0), CityActivity.CITY_KEY)
-        selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
+        selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton(intent.getLongExtra(CityActivity.CITY_KEY, 0), CityActivity.CITY_KEY) }
     }
 
     override fun updateTextSelectedButton(value: Int) {

@@ -24,7 +24,7 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         }
 
         presenter.onAttach(this, intent.getLongExtra(ParkActivity.PARK_KEY,0), ParkActivity.PARK_KEY)
-        selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton() }
+        selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton(intent.getLongExtra(ParkActivity.PARK_KEY,0), ParkActivity.PARK_KEY) }
     }
 
 

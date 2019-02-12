@@ -32,6 +32,10 @@ object RealmRepository : Storage<RealmObject> {
         if (element != null) RealmManager.getRealm()?.executeTransaction { element.select = !element.select }
     }
 
+    fun updateSelect(element: BaseContract.Model?) {
+        if (element!=null) RealmManager.getRealm()?.executeTransaction { element.select = !element.select }
+    }
+
     override fun saveAll(elements: List<RealmObject>) {}
 
     override fun deleteAll(elements: List<RealmObject>) {}

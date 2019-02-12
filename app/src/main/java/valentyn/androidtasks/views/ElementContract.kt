@@ -22,22 +22,21 @@ interface ElementContract {
 
     interface Presenter : BaseContract.Presenter<ElementContract.View, Long, String> {
 
-        fun updateSiteText()
+        fun updateSiteText(site: String?)
 
-        fun updateNameText()
+        fun updateNameText(name: String?)
 
-        fun updateDescriptionText()
+        fun updateDescriptionText(description: String?)
 
-        fun updateCountryText()
+        fun updateCountryText(country: String?)
 
-        fun updateTextSelectedButton()
+        fun updateTextSelectedButton(value: Int)
 
-        fun updateColorSelectedButton()
+        fun updateColorSelectedButton(value: Int)
 
         fun getNameTextError(text: String): String
 
-        fun loadPhoto()
+        fun loadPhoto(url: String?)
 
-        fun init()
     }
 }
