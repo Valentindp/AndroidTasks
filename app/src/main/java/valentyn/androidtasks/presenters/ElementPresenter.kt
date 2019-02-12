@@ -60,8 +60,8 @@ class ElementPresenter() : ElementContract.Presenter {
     fun setOnClickListenerSelectedButton(id: Long?, key: String) {
         if (!isNewElement) {
             isChangeElement = true
+            RealmRepository.updateSelect(id, key)
             val element = RealmRepository.getRealmObject(id, key)
-            RealmRepository.updateSelect(element)
             if (element != null) {
                 updateTextSelectedButton(element.getTextSelected())
                 updateColorSelectedButton(element.getColorSelected())
