@@ -1,8 +1,14 @@
 package valentyn.androidtasks.presenters
 
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.utils.StringUtils
 import valentyn.androidtasks.views.ElementContract
+import valentyn.androidtasks.views.BaseContract
 
 class ElementPresenter() : ElementContract.Presenter {
 
@@ -40,32 +46,54 @@ class ElementPresenter() : ElementContract.Presenter {
 
     override fun getNameTextError(text: String): String = StringUtils.checkString(text)
 
+    fun updateSelectedButton(element:BaseContract.Model){
+        updateTextSelectedButton(element.getTextSelected())
+        updateColorSelectedButton(element.getColorSelected())
+    }
+
     override fun onAttach(view: ElementContract.View, id: Long?, key: String) {
         this.view = view
         if (id != null && id > 0) {
             isNewElement = false
-            val element = RealmRepository.getRealmObject(id, key)
-            if (element != null) {
-                loadPhoto(element.url)
-                updateSiteText(element.site)
-                updateNameText(element.name)
-                updateDescriptionText(element.about)
-                updateCountryText(element.country)
-                updateTextSelectedButton(element.getTextSelected())
-                updateColorSelectedButton(element.getColorSelected())
-            }
+            Observable.just(RealmRepository.getRealmObject(id, key))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<BaseContract.Model?> {
+                    override fun onNext(element: BaseContract.Model) {
+                        loadPhoto(element.url)
+                        updateSiteText(element.site)
+                        updateNameText(element.name)
+                        updateDescriptionText(element.about)
+                        updateCountryText(element.country)
+                        updateSelectedButton(element)
+                    }
+
+                    override fun onSubscribe(d: Disposable) {}
+
+                    override fun onError(e: Throwable) {}
+
+                    override fun onComplete() {}
+                })
         }
     }
 
     fun setOnClickListenerSelectedButton(id: Long?, key: String) {
         if (!isNewElement) {
             isChangeElement = true
-            RealmRepository.updateSelect(id, key)
-            val element = RealmRepository.getRealmObject(id, key)
-            if (element != null) {
-                updateTextSelectedButton(element.getTextSelected())
-                updateColorSelectedButton(element.getColorSelected())
-            }
+            Observable.just(RealmRepository.updateSelect(id, key))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<BaseContract.Model?> {
+                    override fun onNext(element: BaseContract.Model) {
+                        updateSelectedButton(element)
+                    }
+
+                    override fun onSubscribe(d: Disposable) {}
+
+                    override fun onError(e: Throwable) {}
+
+                    override fun onComplete() {}
+                })
         }
     }
 
