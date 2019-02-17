@@ -1,5 +1,7 @@
 package valentyn.androidtasks.presenters
 
+import android.text.InputFilter
+import android.widget.TextView
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -7,6 +9,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.utils.StringUtils
+import valentyn.androidtasks.utils.TextValidator
 import valentyn.androidtasks.views.ElementContract
 import valentyn.androidtasks.views.BaseContract
 
@@ -44,9 +47,21 @@ class ElementPresenter() : ElementContract.Presenter {
         view?.updateColorSelectedButton(value)
     }
 
-    override fun getNameTextError(text: String): String = StringUtils.checkString(text)
+    fun getTextValidator(textView: TextView): TextValidator {
+        return object : TextValidator(textView) {
+            override fun validate(textView: TextView, text: String) {
+                val textError = StringUtils.checkString(text)
+                textView.error = if (textError.isEmpty()) null else textError
+            }
+        }
+    }
 
-    fun updateSelectedButton(element:BaseContract.Model){
+    fun getInputFilters(): Array<InputFilter> =
+        arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            if (source != null && StringUtils.forbiddenCharacterString.contains(source)) "" else null
+        })
+
+    fun updateSelectedButton(element: BaseContract.Model) {
         updateTextSelectedButton(element.getTextSelected())
         updateColorSelectedButton(element.getColorSelected())
     }

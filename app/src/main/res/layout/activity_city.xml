@@ -99,10 +99,11 @@
         android:layout_marginBottom="@dimen/cityStartEndMargin"
         android:background="@android:color/transparent"
         android:ellipsize="end"
+        android:inputType="text"
         android:maxLength="20"
         android:textColor="#ffffff"
         android:textSize="36sp"
         android:textStyle="bold"
-        tools:text="cityNameTextView"/>
+        tools:text="cityNameTextView" />
 
 </RelativeLayout>

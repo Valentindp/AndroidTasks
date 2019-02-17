@@ -13,18 +13,17 @@ import kotlin.concurrent.thread
 object RealmRepository : Storage<RealmObject> {
 
     override fun save(element: RealmObject) {
-        Thread(Runnable {
+        thread {
             val realm = Realm.getDefaultInstance()
             realm.use {
                 realm.executeTransaction { realm.copyToRealmOrUpdate(element) }
             }
-        }).start()
+        }
     }
 
     fun getRealmObject(id: Long?, key: String): BaseContract.Model? {
         var realmObject: BaseContract.Model? = null
 
-        //Thread(Runnable {
         val realm = Realm.getDefaultInstance()
         realm.use {
             when (key) {
@@ -34,22 +33,16 @@ object RealmRepository : Storage<RealmObject> {
                     realm.where<Park>().equalTo("id", id).findFirst() as BaseContract.Model
             }
         }
-        // }).start()
         return realmObject
     }
 
     fun getRealmObjectList(key: String): List<BaseContract.Model> {
         var realmList: List<BaseContract.Model> = emptyList()
-
-        //Thread(Runnable {
         val realm = Realm.getDefaultInstance()
-        //realm.use {
         when (key) {
             CityActivity.CITY_KEY -> realmList = realm.where<City>().findAll()
             ParkActivity.PARK_KEY -> realmList = realm.where<Park>().findAll()
         }
-        //}
-        //}).start()
         return realmList
     }
 

@@ -34,8 +34,6 @@ interface ElementContract {
 
         fun updateColorSelectedButton(value: Int)
 
-        fun getNameTextError(text: String): String
-
         fun loadPhoto(url: String?)
 
     }

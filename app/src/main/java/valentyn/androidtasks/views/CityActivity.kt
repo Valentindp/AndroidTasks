@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_city.*
+import valentyn.androidtasks.R
 import valentyn.androidtasks.presenters.ElementPresenter
-import android.widget.TextView
-import valentyn.androidtasks.utils.TextValidator
 
 
 class CityActivity : AppCompatActivity(), ElementContract.View {
@@ -43,11 +41,8 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
 
     override fun updateNameText(name: String?) {
         cityNameTextView.setText(name)
-        cityNameTextView.addTextChangedListener(object : TextValidator(cityNameTextView) {
-            override fun validate(textView: TextView, text: String) {
-                cityNameTextView.error = presenter.getNameTextError(text)
-            }
-        })
+        cityNameTextView.addTextChangedListener(presenter.getTextValidator(cityNameTextView))
+        cityNameTextView.filters = presenter.getInputFilters()
     }
 
 
