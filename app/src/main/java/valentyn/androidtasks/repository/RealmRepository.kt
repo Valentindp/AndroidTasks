@@ -1,5 +1,6 @@
 package valentyn.androidtasks.repository
 
+import io.reactivex.Single
 import io.realm.Realm
 import io.realm.RealmObject
 import io.realm.kotlin.where
@@ -50,29 +51,19 @@ object RealmRepository : Storage<RealmObject> {
         return realmList
     }
 
-    fun updateSelect(id: Long?, key: String): BaseContract.Model? {
-        val realm = Realm.getDefaultInstance()
-        var realmObject: BaseContract.Model? = null
-        realm.use {
-            realmObject = getRealmObject(id, key)
+    fun updateSelect(id: Long?, key: String): Single<BaseContract.Model> {
+        return Single.create {
+            val realm = Realm.getDefaultInstance()
+            val realmObject = getRealmObject(id, key)
             if (realmObject != null) {
-                realmObject!!.select = !realmObject!!.select
-                realm.executeTransaction { realm.insertOrUpdate(realmObject as RealmObject) }
+                realm.use {
+                    realm.executeTransaction { realmObject.select = !realmObject.select }
+                }
+                it.onSuccess(realmObject)
             }
         }
-        return realmObject
     }
 
-    fun updateSelect(realmObject: BaseContract.Model?): BaseContract.Model? {
-        val realm = Realm.getDefaultInstance()
-        realm.use {
-            if (realmObject != null) {
-                realmObject.select = !realmObject.select
-                realm.executeTransaction { realm.insertOrUpdate(realmObject as RealmObject) }
-            }
-            return realmObject
-        }
-    }
 
     override fun saveAll(elements: List<RealmObject>) {}
 

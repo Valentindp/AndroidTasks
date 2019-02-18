@@ -4,7 +4,7 @@ import android.text.InputFilter
 import android.widget.TextView
 import io.reactivex.Observable
 import io.reactivex.Observer
-import io.reactivex.Single
+import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -74,42 +74,40 @@ class ElementPresenter() : ElementContract.Presenter {
             Observable.just(RealmRepository.getRealmObject(id, key))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<BaseContract.Model?> {
-                    override fun onNext(element: BaseContract.Model) {
-                        loadPhoto(element.url)
-                        updateSiteText(element.site)
-                        updateNameText(element.name)
-                        updateDescriptionText(element.about)
-                        updateCountryText(element.country)
-                        updateSelectedButton(element)
+                .subscribe(
+                    object : Observer<BaseContract.Model?> {
+                        override fun onNext(element: BaseContract.Model) {
+                            loadPhoto(element.url)
+                            updateSiteText(element.site)
+                            updateNameText(element.name)
+                            updateDescriptionText(element.about)
+                            updateCountryText(element.country)
+                            updateSelectedButton(element)
+                        }
+
+                        override fun onSubscribe(d: Disposable) {}
+
+                        override fun onError(e: Throwable) {}
+
+                        override fun onComplete() {}
                     }
-
-                    override fun onSubscribe(d: Disposable) {}
-
-                    override fun onError(e: Throwable) {}
-
-                    override fun onComplete() {}
-                })
+                )
         }
     }
+
 
     fun setOnClickListenerSelectedButton(id: Long?, key: String) {
         if (!isNewElement) {
             isChangeElement = true
-            Observable.just(RealmRepository.updateSelect(id, key))
+            RealmRepository.updateSelect(id, key)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<BaseContract.Model?> {
-                    override fun onNext(element: BaseContract.Model) {
-                        updateSelectedButton(element)
-                    }
-
+                .subscribe(
+                    object : SingleObserver<BaseContract.Model> {
                     override fun onSubscribe(d: Disposable) {}
-
                     override fun onError(e: Throwable) {}
-
-                    override fun onComplete() {}
-                })
+                    override fun onSuccess(element: BaseContract.Model) { updateSelectedButton(element) } }
+                )
         }
     }
 
