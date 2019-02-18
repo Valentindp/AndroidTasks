@@ -22,43 +22,54 @@ object RealmRepository : Storage<RealmObject> {
     }
 
     fun getRealmObject(id: Long?, key: String): BaseContract.Model? {
-        var realmObject: BaseContract.Model? = null
+        var realmObject: RealmObject? = null
 
         val realm = Realm.getDefaultInstance()
         realm.use {
             when (key) {
                 CityActivity.CITY_KEY -> realmObject =
-                    realm.where<City>().equalTo("id", id).findFirst() as BaseContract.Model
+                    realm.where<City>().equalTo("id", id).findFirst()
                 ParkActivity.PARK_KEY -> realmObject =
-                    realm.where<Park>().equalTo("id", id).findFirst() as BaseContract.Model
+                    realm.where<Park>().equalTo("id", id).findFirst()
             }
+            if (realmObject != null) realmObject = realm.copyFromRealm(realmObject) else realmObject
         }
-        return realmObject
+
+        return realmObject as BaseContract.Model
     }
 
     fun getRealmObjectList(key: String): List<BaseContract.Model> {
         var realmList: List<BaseContract.Model> = emptyList()
         val realm = Realm.getDefaultInstance()
-        when (key) {
-            CityActivity.CITY_KEY -> realmList = realm.where<City>().findAll()
-            ParkActivity.PARK_KEY -> realmList = realm.where<Park>().findAll()
+        realm.use {
+            when (key) {
+                CityActivity.CITY_KEY -> realmList = realm.copyFromRealm(realm.where<City>().findAll())
+                ParkActivity.PARK_KEY -> realmList = realm.copyFromRealm(realm.where<Park>().findAll())
+            }
         }
         return realmList
     }
 
     fun updateSelect(id: Long?, key: String): BaseContract.Model? {
         val realm = Realm.getDefaultInstance()
+        var realmObject: BaseContract.Model? = null
         realm.use {
-            val realmObject = getRealmObject(id, key)
-            if (realmObject != null) realm.executeTransaction { realmObject.select = !realmObject.select }
-            return realmObject
+            realmObject = getRealmObject(id, key)
+            if (realmObject != null) {
+                realmObject!!.select = !realmObject!!.select
+                realm.executeTransaction { realm.insertOrUpdate(realmObject as RealmObject) }
+            }
         }
+        return realmObject
     }
 
     fun updateSelect(realmObject: BaseContract.Model?): BaseContract.Model? {
         val realm = Realm.getDefaultInstance()
         realm.use {
-            if (realmObject != null) realm.executeTransaction { realmObject.select = !realmObject.select }
+            if (realmObject != null) {
+                realmObject.select = !realmObject.select
+                realm.executeTransaction { realm.insertOrUpdate(realmObject as RealmObject) }
+            }
             return realmObject
         }
     }
