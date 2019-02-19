@@ -1,5 +1,6 @@
 package valentyn.androidtasks.presenters
 
+import android.text.Editable
 import android.text.InputFilter
 import android.widget.TextView
 import io.reactivex.Single
@@ -49,9 +50,16 @@ class ElementPresenter() : ElementContract.Presenter {
 
     fun getTextValidator(textView: TextView): TextValidator {
         return object : TextValidator(textView) {
-            override fun validate(textView: TextView, text: String) {
-                val textError = StringUtils.checkString(text)
-                textView.error = if (textError.isEmpty()) null else textError
+            override fun validate(textView: TextView, s: Editable) {
+                var haveForbiddenCharacter = false
+                for (i in 0 until s.length) {
+                    if (StringUtils.haveForbiddenCharacter(s[i])) {
+                        s.replace(i, i + 1, "")
+                        haveForbiddenCharacter = true
+                    }
+                }
+
+                textView.error = if (!haveForbiddenCharacter) null else "This symbol is not allowed!"
             }
         }
     }

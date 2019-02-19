@@ -6,15 +6,14 @@ import android.text.TextWatcher
 
 abstract class TextValidator(private val textView: TextView) : TextWatcher {
 
-    abstract fun validate(textView: TextView, text: String)
+    abstract fun validate(textView: TextView, s: Editable)
 
     override fun afterTextChanged(s: Editable) {
-
+        validate(textView, s)
     }
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-        val text = textView.text.toString()
-        validate(textView, text)
+
     }
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {

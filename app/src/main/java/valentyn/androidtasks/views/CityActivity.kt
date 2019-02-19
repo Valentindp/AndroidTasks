@@ -25,6 +25,8 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
         }
         presenter.onAttach(this, intent.getLongExtra(CityActivity.CITY_KEY, 0), CityActivity.CITY_KEY)
         selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton(intent.getLongExtra(CityActivity.CITY_KEY, 0), CityActivity.CITY_KEY) }
+        cityNameTextView.addTextChangedListener(presenter.getTextValidator(cityNameTextView))
+        //cityNameTextView.filters = presenter.getInputFilters()
     }
 
     override fun updateTextSelectedButton(value: Int) {
@@ -41,8 +43,6 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
 
     override fun updateNameText(name: String?) {
         cityNameTextView.setText(name)
-        cityNameTextView.addTextChangedListener(presenter.getTextValidator(cityNameTextView))
-        cityNameTextView.filters = presenter.getInputFilters()
     }
 
 
