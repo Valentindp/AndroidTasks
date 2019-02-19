@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,6 @@ import valentyn.androidtasks.views.CityActivity
 
 class CityFragment : Fragment() {
 
-    private val dataset: List<BaseContract.Model> = RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_city, container, false)
@@ -28,7 +28,8 @@ class CityFragment : Fragment() {
         city_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = CitysAdapter(dataset) { id: Long? -> onCityClicked(id) }
+            adapter =
+                CitysAdapter(RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)) { id: Long? -> onCityClicked(id) }
         }
     }
 
@@ -40,7 +41,8 @@ class CityFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            city_recyclerView.adapter?.notifyDataSetChanged()
+            city_recyclerView.adapter =
+                CitysAdapter(RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)) { id: Long? -> onCityClicked(id) }
         }
     }
 

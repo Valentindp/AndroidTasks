@@ -12,12 +12,9 @@ import kotlinx.android.synthetic.main.fragment_park.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.ParksAdapter
 import valentyn.androidtasks.repository.RealmRepository
-import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.ParkActivity
 
 class ParkFragment : Fragment() {
-
-    private val dataset: List<BaseContract.Model> = RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_park, container, false)
@@ -28,7 +25,8 @@ class ParkFragment : Fragment() {
         park_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = ParksAdapter(dataset) { id: Long? -> onParkClicked(id) }
+            adapter =
+                ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: Long? -> onParkClicked(id) }
         }
     }
 
@@ -40,7 +38,8 @@ class ParkFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            park_recyclerView.adapter?.notifyDataSetChanged()
+            park_recyclerView.adapter =
+                ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: Long? -> onParkClicked(id) }
         }
     }
 }

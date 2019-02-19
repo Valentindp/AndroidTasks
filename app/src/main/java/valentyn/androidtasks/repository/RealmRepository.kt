@@ -1,6 +1,5 @@
 package valentyn.androidtasks.repository
 
-import io.reactivex.Single
 import io.realm.Realm
 import io.realm.RealmObject
 import io.realm.kotlin.where
@@ -9,22 +8,18 @@ import valentyn.androidtasks.models.Park
 import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.CityActivity
 import valentyn.androidtasks.views.ParkActivity
-import kotlin.concurrent.thread
 
 object RealmRepository : Storage<RealmObject> {
 
-    override fun save(element: RealmObject) {
-        thread {
-            val realm = Realm.getDefaultInstance()
-            realm.use {
-                realm.executeTransaction { realm.copyToRealmOrUpdate(element) }
-            }
+    override fun save(element: BaseContract.Model) {
+        val realm = Realm.getDefaultInstance()
+        realm.use {
+            realm.executeTransaction { realm.copyToRealmOrUpdate(element) }
         }
     }
 
     fun getRealmObject(id: Long?, key: String): BaseContract.Model? {
-        var realmObject: RealmObject? = null
-
+        var realmObject: BaseContract.Model? = null
         val realm = Realm.getDefaultInstance()
         realm.use {
             when (key) {
@@ -33,10 +28,9 @@ object RealmRepository : Storage<RealmObject> {
                 ParkActivity.PARK_KEY -> realmObject =
                     realm.where<Park>().equalTo("id", id).findFirst()
             }
-            if (realmObject != null) realmObject = realm.copyFromRealm(realmObject) else realmObject
+            if (realmObject != null) realmObject = realm.copyFromRealm(realmObject)
         }
-
-        return realmObject as BaseContract.Model
+        return realmObject
     }
 
     fun getRealmObjectList(key: String): List<BaseContract.Model> {
@@ -51,25 +45,14 @@ object RealmRepository : Storage<RealmObject> {
         return realmList
     }
 
-    fun updateSelect(id: Long?, key: String): Single<BaseContract.Model> {
-        return Single.create {
-            val realm = Realm.getDefaultInstance()
-            val realmObject = getRealmObject(id, key)
-            if (realmObject != null) {
-                realm.use {
-                    realm.executeTransaction { realmObject.select = !realmObject.select }
-                }
-                it.onSuccess(realmObject)
-            }
+    fun updateSelect(id: Long?, key: String): BaseContract.Model? {
+        val realmObject = getRealmObject(id, key)
+        if (realmObject != null) {
+            realmObject.select = !realmObject.select
+            save(realmObject)
         }
+        return realmObject
     }
-
-
-    override fun saveAll(elements: List<RealmObject>) {}
-
-    override fun deleteAll(elements: List<RealmObject>) {}
-
-    override fun delete(element: RealmObject) {}
 
     fun initDB() {
         if (getRealmObjectList(CityActivity.CITY_KEY).isEmpty()) for (item in CityRepository.dataCitys) save(item)

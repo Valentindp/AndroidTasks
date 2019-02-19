@@ -2,8 +2,7 @@ package valentyn.androidtasks.presenters
 
 import android.text.InputFilter
 import android.widget.TextView
-import io.reactivex.Observable
-import io.reactivex.Observer
+import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -71,26 +70,22 @@ class ElementPresenter() : ElementContract.Presenter {
         this.view = view
         if (id != null && id > 0) {
             isNewElement = false
-            Observable.just(RealmRepository.getRealmObject(id, key))
+            Single.just(RealmRepository.getRealmObject(id, key))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    object : Observer<BaseContract.Model?> {
-                        override fun onNext(element: BaseContract.Model) {
-                            loadPhoto(element.url)
-                            updateSiteText(element.site)
-                            updateNameText(element.name)
-                            updateDescriptionText(element.about)
-                            updateCountryText(element.country)
-                            updateSelectedButton(element)
-                        }
-
-                        override fun onSubscribe(d: Disposable) {}
-
-                        override fun onError(e: Throwable) {}
-
-                        override fun onComplete() {}
+                .subscribe(object : SingleObserver<BaseContract.Model?> {
+                    override fun onSuccess(element: BaseContract.Model) {
+                        loadPhoto(element.url)
+                        updateSiteText(element.site)
+                        updateNameText(element.name)
+                        updateDescriptionText(element.about)
+                        updateCountryText(element.country)
+                        updateSelectedButton(element)
                     }
+
+                    override fun onSubscribe(d: Disposable) {}
+                    override fun onError(e: Throwable) {}
+                }
                 )
         }
     }
@@ -99,15 +94,18 @@ class ElementPresenter() : ElementContract.Presenter {
     fun setOnClickListenerSelectedButton(id: Long?, key: String) {
         if (!isNewElement) {
             isChangeElement = true
-            RealmRepository.updateSelect(id, key)
+            Single.just(RealmRepository.updateSelect(id, key))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    object : SingleObserver<BaseContract.Model> {
+                .subscribe(object : SingleObserver<BaseContract.Model?> {
+                    override fun onSuccess(element: BaseContract.Model) {
+                        updateSelectedButton(element)
+                    }
+
                     override fun onSubscribe(d: Disposable) {}
                     override fun onError(e: Throwable) {}
-                    override fun onSuccess(element: BaseContract.Model) { updateSelectedButton(element) } }
-                )
+
+                })
         }
     }
 
