@@ -15,7 +15,7 @@
             android:layout_marginBottom="@dimen/parkTopEndMargin"
             android:background="@drawable/gradient_bg">
 
-        <TextView
+        <EditText
                 android:id="@+id/parkDescriptionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,6 +26,9 @@
                 android:ellipsize="end"
                 tools:text="parkDescriptionTextView"
                 android:layout_below="@id/parkSiteTextView"
+                android:inputType="text"
+                android:maxLength="20"
+                android:hint="@string/enter_description"
                 android:layout_marginTop="@dimen/parkTopEndMargin"/>
 
         <Button
@@ -40,7 +43,7 @@
                 android:text="@string/button_selected"
                 android:textAllCaps="false"/>
 
-        <TextView
+        <EditText
                 android:id="@+id/parkСountryTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,9 +54,12 @@
                 tools:text="parkСountryTextView"
                 android:layout_marginTop="@dimen/parkTopEndMargin"
                 android:layout_toStartOf="@id/selectedButton"
-                android:layout_marginEnd="@dimen/parkStartEndMargin"/>
+                android:layout_marginEnd="@dimen/parkStartEndMargin"
+                android:inputType="text"
+                android:maxLength="20"
+                android:hint="@string/enter_country_name"/>
 
-        <TextView
+        <EditText
                 android:id="@+id/parkSiteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +69,10 @@
                 android:drawableStart="@drawable/web"
                 android:drawablePadding="@dimen/parkDrawablePadding"
                 android:ellipsize="end"
-                tools:text="parkSiteTextView" android:layout_marginEnd="@dimen/parkStartEndMargin"/>
+                android:inputType="text"
+                android:maxLength="20"
+                tools:text="parkSiteTextView"
+                android:layout_marginEnd="@dimen/parkStartEndMargin"/>
     </RelativeLayout>
 
     <ImageView
@@ -74,7 +83,7 @@
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:src="@drawable/no_image" />
+            android:src="@drawable/no_image"/>
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_park"
@@ -83,7 +92,7 @@
             android:background="@android:color/transparent"
             android:minHeight="?attr/actionBarSize"/>
 
-    <TextView
+    <EditText
             android:id="@+id/parkNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,6 +107,9 @@
             android:background="@android:color/transparent"
             android:ellipsize="end"
             android:textColor="#ffffff"
+            android:inputType="text"
+            android:maxLength="20"
+            android:hint="@string/enter_park_name"
             android:textSize="36sp"
             android:textStyle="bold"
             tools:text="parkNameTextView"/>

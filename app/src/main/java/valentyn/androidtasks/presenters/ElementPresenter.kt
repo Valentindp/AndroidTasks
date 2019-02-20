@@ -1,7 +1,6 @@
 package valentyn.androidtasks.presenters
 
 import android.text.Editable
-import android.text.InputFilter
 import android.widget.TextView
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -13,6 +12,7 @@ import valentyn.androidtasks.utils.StringUtils
 import valentyn.androidtasks.utils.TextValidator
 import valentyn.androidtasks.views.ElementContract
 import valentyn.androidtasks.views.BaseContract
+
 
 class ElementPresenter() : ElementContract.Presenter {
 
@@ -52,22 +52,16 @@ class ElementPresenter() : ElementContract.Presenter {
         return object : TextValidator(textView) {
             override fun validate(textView: TextView, s: Editable) {
                 var haveForbiddenCharacter = false
-                for (i in 0 until s.length) {
-                    if (StringUtils.haveForbiddenCharacter(s[i])) {
-                        s.replace(i, i + 1, "")
+                s.forEachIndexed { index, c ->
+                    if (StringUtils.haveForbiddenCharacter(c)) {
+                        s.replace(index, index + 1, "")
                         haveForbiddenCharacter = true
                     }
                 }
-
                 textView.error = if (!haveForbiddenCharacter) null else "This symbol is not allowed!"
             }
         }
     }
-
-    fun getInputFilters(): Array<InputFilter> =
-        arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            if (source != null && StringUtils.forbiddenCharacterString.contains(source)) "" else null
-        })
 
     fun updateSelectedButton(element: BaseContract.Model) {
         updateTextSelectedButton(element.getTextSelected())

@@ -25,6 +25,11 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
 
         presenter.onAttach(this, intent.getLongExtra(ParkActivity.PARK_KEY,0), ParkActivity.PARK_KEY)
         selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton(intent.getLongExtra(ParkActivity.PARK_KEY,0), ParkActivity.PARK_KEY) }
+
+        parkNameTextView.addTextChangedListener(presenter.getTextValidator(parkNameTextView))
+        parkSiteTextView.addTextChangedListener(presenter.getTextValidator(parkSiteTextView))
+        parkDescriptionTextView.addTextChangedListener(presenter.getTextValidator(parkDescriptionTextView))
+        parkСountryTextView.addTextChangedListener(presenter.getTextValidator(parkСountryTextView))
     }
 
 
@@ -37,19 +42,19 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun updateSiteText(site: String?) {
-        parkSiteTextView.text = site
+        parkSiteTextView.setText(site)
     }
 
     override fun updateNameText(name: String?) {
-        parkNameTextView.text = name
+        parkNameTextView.setText(name)
     }
 
     override fun updateDescriptionText(description: String?) {
-        parkDescriptionTextView.text = description
+        parkDescriptionTextView.setText(description)
     }
 
     override fun updateCountryText(country: String?) {
-        parkСountryTextView.text = country
+        parkСountryTextView.setText(country)
     }
 
     override fun loadPhoto(url: String?) {

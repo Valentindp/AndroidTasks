@@ -1,7 +1,6 @@
 package valentyn.androidtasks.repository
 
 import io.realm.Realm
-import io.realm.RealmObject
 import io.realm.kotlin.where
 import valentyn.androidtasks.models.City
 import valentyn.androidtasks.models.Park
@@ -9,7 +8,7 @@ import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.CityActivity
 import valentyn.androidtasks.views.ParkActivity
 
-object RealmRepository : Storage<RealmObject> {
+object RealmRepository : Storage {
 
     override fun save(element: BaseContract.Model) {
         val realm = Realm.getDefaultInstance()
