@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.activity_city.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.presenters.ElementPresenter
 
-
 class CityActivity : AppCompatActivity(), ElementContract.View {
 
     private var presenter: ElementPresenter = ElementPresenter()
@@ -24,7 +23,14 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
         presenter.onAttach(this, intent.getLongExtra(CityActivity.CITY_KEY, 0), CityActivity.CITY_KEY)
-        selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton(intent.getLongExtra(CityActivity.CITY_KEY, 0), CityActivity.CITY_KEY) }
+        selectedButton.setOnClickListener {
+            presenter.setOnClickListenerSelectedButton(
+                intent.getLongExtra(
+                    CityActivity.CITY_KEY,
+                    0
+                ), CityActivity.CITY_KEY
+            )
+        }
 
         cityNameTextView.addTextChangedListener(presenter.getTextValidator(cityNameTextView))
         citySiteTextView.addTextChangedListener(presenter.getTextValidator(citySiteTextView))
@@ -65,6 +71,18 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             .into(сityPhotoView)
     }
 
+     private fun saveElement() {
+        presenter.saveElement(
+            id = intent.getLongExtra(CityActivity.CITY_KEY, 0),
+            name = cityNameTextView.text.toString(),
+            url = "",
+            about = cityDescriptionTextView.text.toString(),
+            country = cityСountryTextView.text.toString(),
+            site = citySiteTextView.text.toString(),
+            key = CityActivity.CITY_KEY
+        )
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_city_menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -72,6 +90,11 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_share -> {
+            true
+        }
+        R.id.action_save -> {
+            saveElement()
+            onBackPressed()
             true
         }
         android.R.id.home -> {

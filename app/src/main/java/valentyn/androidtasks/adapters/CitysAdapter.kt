@@ -30,11 +30,13 @@ class CitysAdapter(private val dataset: List<BaseContract.Model>, private val cl
 
         fun bindData(city: BaseContract.Model, clickListener: (Long?) -> Unit) {
 
-            Picasso.get()
-                .load(city.url)
-                .fit()
-                .error(R.drawable.ic_error_black_24dp)
-                .into(view.photoView)
+            if (city.url.isNotEmpty()) {
+                Picasso.get()
+                    .load(city.url)
+                    .fit()
+                    .error(R.drawable.ic_error_black_24dp)
+                    .into(view.photoView)
+            }
 
             view.apply {
                 nameTextView.text = city.name

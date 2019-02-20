@@ -2,23 +2,27 @@ package valentyn.androidtasks.presenters
 
 import android.text.Editable
 import android.widget.TextView
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import valentyn.androidtasks.models.City
+import valentyn.androidtasks.models.Park
 import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.utils.StringUtils
 import valentyn.androidtasks.utils.TextValidator
 import valentyn.androidtasks.views.ElementContract
 import valentyn.androidtasks.views.BaseContract
+import valentyn.androidtasks.views.CityActivity
+import valentyn.androidtasks.views.ParkActivity
 
 
 class ElementPresenter() : ElementContract.Presenter {
 
     private var view: ElementContract.View? = null
     var isChangeElement: Boolean = false
-    var isNewElement: Boolean = true
 
     override fun loadPhoto(url: String?) {
         view?.loadPhoto(url)
@@ -71,7 +75,6 @@ class ElementPresenter() : ElementContract.Presenter {
     override fun onAttach(view: ElementContract.View, id: Long?, key: String) {
         this.view = view
         if (id != null && id > 0) {
-            isNewElement = false
             Single.just(RealmRepository.getRealmObject(id, key))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -94,7 +97,7 @@ class ElementPresenter() : ElementContract.Presenter {
 
 
     fun setOnClickListenerSelectedButton(id: Long?, key: String) {
-        if (!isNewElement) {
+        if (id != null && id > 0) {
             isChangeElement = true
             Single.just(RealmRepository.updateSelect(id, key))
                 .subscribeOn(Schedulers.io())
@@ -109,6 +112,43 @@ class ElementPresenter() : ElementContract.Presenter {
 
                 })
         }
+    }
+
+    fun saveElement(
+        id: Long,
+        name: String,
+        url: String,
+        about: String,
+        country: String,
+        site: String,
+        key: String
+    ) {
+        var element: BaseContract.Model? = null
+        when (key) {
+            CityActivity.CITY_KEY -> element = City(
+                id = if (id > 0) id else 0,
+                name = name,
+                url = url,
+                about = about,
+                country = country,
+                site = site
+            )
+            ParkActivity.PARK_KEY -> element = Park(
+                id = if (id > 0) id else 0,
+                name = name,
+                url = url,
+                about = about,
+                country = country,
+                site = site
+            )
+        }
+
+        if (element != null) {
+            RealmRepository.save(element)
+            isChangeElement = true
+        }
+
+
     }
 
     override fun onDetach() {

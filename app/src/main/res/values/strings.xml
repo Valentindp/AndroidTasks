@@ -13,4 +13,5 @@
     <string name="enter_country_name">Enter country name</string>
     <string name="enter_description">Enter description</string>
     <string name="enter_park_name">Enter park name</string>
+    <string name="save">Save</string>
 </resources>

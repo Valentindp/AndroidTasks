@@ -1,5 +1,6 @@
 package valentyn.androidtasks.views
 
+
 interface ElementContract {
 
     interface View : BaseContract.View {
