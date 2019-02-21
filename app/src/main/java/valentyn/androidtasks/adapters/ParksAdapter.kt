@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_park.view.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.views.BaseContract
 
-class ParksAdapter(private val dataset: List<BaseContract.Model>, private val clickListener: (Long?) -> Unit) :
+class ParksAdapter(private val dataset: List<BaseContract.Model>, private val clickListener: (String?) -> Unit) :
     RecyclerView.Adapter<ParksAdapter.ParkViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -28,7 +28,7 @@ class ParksAdapter(private val dataset: List<BaseContract.Model>, private val cl
 
     class ParkViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindData(park: BaseContract.Model, clickListener: (Long?) -> Unit) {
+        fun bindData(park: BaseContract.Model, clickListener: (String?) -> Unit) {
 
             Picasso.get()
                 .load(park.url)

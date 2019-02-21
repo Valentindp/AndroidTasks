@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_city.view.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.views.BaseContract
 
-class CitysAdapter(private val dataset: List<BaseContract.Model>, private val clickListener: (Long?) -> Unit) :
+class CitysAdapter(private val dataset: List<BaseContract.Model>, private val clickListener: (String?) -> Unit) :
     RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -28,7 +28,7 @@ class CitysAdapter(private val dataset: List<BaseContract.Model>, private val cl
 
     class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindData(city: BaseContract.Model, clickListener: (Long?) -> Unit) {
+        fun bindData(city: BaseContract.Model, clickListener: (String?) -> Unit) {
 
             if (city.url.isNotEmpty()) {
                 Picasso.get()

@@ -23,8 +23,14 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        presenter.onAttach(this, intent.getLongExtra(ParkActivity.PARK_KEY,0), ParkActivity.PARK_KEY)
-        selectedButton.setOnClickListener { presenter.setOnClickListenerSelectedButton(intent.getLongExtra(ParkActivity.PARK_KEY,0), ParkActivity.PARK_KEY) }
+        presenter.onAttach(this, intent.getStringExtra(ParkActivity.PARK_KEY), ParkActivity.PARK_KEY)
+        selectedButton.setOnClickListener {
+            presenter.setOnClickListenerSelectedButton(
+                intent.getStringExtra(
+                    ParkActivity.PARK_KEY
+                ), ParkActivity.PARK_KEY
+            )
+        }
 
         parkNameTextView.addTextChangedListener(presenter.getTextValidator(parkNameTextView))
         parkSiteTextView.addTextChangedListener(presenter.getTextValidator(parkSiteTextView))
@@ -58,11 +64,13 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun loadPhoto(url: String?) {
-        Picasso.get()
-            .load(url)
-            .fit()
-            .error(R.drawable.ic_error_black_24dp)
-            .into(parkPhotoView)
+
+        if (url != null && url.isNotEmpty())
+            Picasso.get()
+                .load(url)
+                .fit()
+                .error(R.drawable.ic_error_black_24dp)
+                .into(parkPhotoView)
     }
 
 

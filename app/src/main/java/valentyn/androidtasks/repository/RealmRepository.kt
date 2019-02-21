@@ -17,7 +17,7 @@ object RealmRepository : Storage {
         }
     }
 
-    fun getRealmObject(id: Long?, key: String): BaseContract.Model? {
+    fun getRealmObject(id: String?, key: String): BaseContract.Model? {
         var realmObject: BaseContract.Model? = null
         val realm = Realm.getDefaultInstance()
         realm.use {
@@ -44,7 +44,7 @@ object RealmRepository : Storage {
         return realmList
     }
 
-    fun updateSelect(id: Long?, key: String): BaseContract.Model? {
+    fun updateSelect(id: String?, key: String): BaseContract.Model? {
         val realmObject = getRealmObject(id, key)
         if (realmObject != null) {
             realmObject.select = !realmObject.select

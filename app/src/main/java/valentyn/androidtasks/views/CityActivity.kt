@@ -22,12 +22,11 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
-        presenter.onAttach(this, intent.getLongExtra(CityActivity.CITY_KEY, 0), CityActivity.CITY_KEY)
+        presenter.onAttach(this, intent.getStringExtra(CityActivity.CITY_KEY), CityActivity.CITY_KEY)
         selectedButton.setOnClickListener {
             presenter.setOnClickListenerSelectedButton(
-                intent.getLongExtra(
-                    CityActivity.CITY_KEY,
-                    0
+                intent.getStringExtra(
+                    CityActivity.CITY_KEY
                 ), CityActivity.CITY_KEY
             )
         }
@@ -64,16 +63,18 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun loadPhoto(url: String?) {
-        Picasso.get()
-            .load(url)
-            .fit()
-            .error(R.drawable.ic_error_black_24dp)
-            .into(сityPhotoView)
+
+        if (url != null && url.isNotEmpty())
+            Picasso.get()
+                .load(url)
+                .fit()
+                .error(R.drawable.ic_error_black_24dp)
+                .into(сityPhotoView)
     }
 
-     private fun saveElement() {
+    private fun saveElement() {
         presenter.saveElement(
-            id = intent.getLongExtra(CityActivity.CITY_KEY, 0),
+            id = intent.getStringExtra(CityActivity.CITY_KEY),
             name = cityNameTextView.text.toString(),
             url = "",
             about = cityDescriptionTextView.text.toString(),

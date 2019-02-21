@@ -26,11 +26,11 @@ class ParkFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter =
-                ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: Long? -> onParkClicked(id) }
+                ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: String? -> onParkClicked(id) }
         }
     }
 
-    private fun onParkClicked(id: Long?) {
+    private fun onParkClicked(id: String?) {
         val intent = Intent(activity, ParkActivity::class.java)
         intent.putExtra(ParkActivity.PARK_KEY, id)
         startActivityForResult(intent, 1)
@@ -39,7 +39,7 @@ class ParkFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
             park_recyclerView.adapter =
-                ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: Long? -> onParkClicked(id) }
+                ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: String? -> onParkClicked(id) }
         }
     }
 }

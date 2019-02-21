@@ -15,7 +15,7 @@ interface BaseContract {
     }
 
     interface Model : RealmModel {
-        val id: Long
+        val id: String
         var name: String
         var url: String
         var about: String

@@ -29,11 +29,11 @@ class CityFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter =
-                CitysAdapter(RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)) { id: Long? -> onCityClicked(id) }
+                CitysAdapter(RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)) { id: String? -> onCityClicked(id) }
         }
     }
 
-    private fun onCityClicked(id: Long?) {
+    private fun onCityClicked(id: String?) {
         val intent = Intent(activity, CityActivity::class.java)
         intent.putExtra(CityActivity.CITY_KEY, id)
         startActivityForResult(intent, 1)
@@ -42,7 +42,7 @@ class CityFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
             city_recyclerView.adapter =
-                CitysAdapter(RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)) { id: Long? -> onCityClicked(id) }
+                CitysAdapter(RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)) { id: String? -> onCityClicked(id) }
         }
     }
 

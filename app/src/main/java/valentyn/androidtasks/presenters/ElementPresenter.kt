@@ -2,7 +2,6 @@ package valentyn.androidtasks.presenters
 
 import android.text.Editable
 import android.widget.TextView
-import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,7 +16,7 @@ import valentyn.androidtasks.views.ElementContract
 import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.CityActivity
 import valentyn.androidtasks.views.ParkActivity
-
+import java.util.*
 
 class ElementPresenter() : ElementContract.Presenter {
 
@@ -72,9 +71,9 @@ class ElementPresenter() : ElementContract.Presenter {
         updateColorSelectedButton(element.getColorSelected())
     }
 
-    override fun onAttach(view: ElementContract.View, id: Long?, key: String) {
+    override fun onAttach(view: ElementContract.View, id: String?, key: String) {
         this.view = view
-        if (id != null && id > 0) {
+        if (id != null && id.isNotEmpty()) {
             Single.just(RealmRepository.getRealmObject(id, key))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -96,8 +95,8 @@ class ElementPresenter() : ElementContract.Presenter {
     }
 
 
-    fun setOnClickListenerSelectedButton(id: Long?, key: String) {
-        if (id != null && id > 0) {
+    fun setOnClickListenerSelectedButton(id: String?, key: String) {
+        if (id != null && id.isNotEmpty()) {
             isChangeElement = true
             Single.just(RealmRepository.updateSelect(id, key))
                 .subscribeOn(Schedulers.io())
@@ -115,7 +114,7 @@ class ElementPresenter() : ElementContract.Presenter {
     }
 
     fun saveElement(
-        id: Long,
+        id: String?,
         name: String,
         url: String,
         about: String,
@@ -126,7 +125,7 @@ class ElementPresenter() : ElementContract.Presenter {
         var element: BaseContract.Model? = null
         when (key) {
             CityActivity.CITY_KEY -> element = City(
-                id = if (id > 0) id else 0,
+                id = id ?: UUID.randomUUID().toString(),
                 name = name,
                 url = url,
                 about = about,
@@ -134,7 +133,7 @@ class ElementPresenter() : ElementContract.Presenter {
                 site = site
             )
             ParkActivity.PARK_KEY -> element = Park(
-                id = if (id > 0) id else 0,
+                id = id ?: UUID.randomUUID().toString(),
                 name = name,
                 url = url,
                 about = about,

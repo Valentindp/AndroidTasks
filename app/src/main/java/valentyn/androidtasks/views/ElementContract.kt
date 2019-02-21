@@ -21,7 +21,7 @@ interface ElementContract {
 
     }
 
-    interface Presenter : BaseContract.Presenter<ElementContract.View, Long, String> {
+    interface Presenter : BaseContract.Presenter<ElementContract.View, String?, String> {
 
         fun updateSiteText(site: String?)
 

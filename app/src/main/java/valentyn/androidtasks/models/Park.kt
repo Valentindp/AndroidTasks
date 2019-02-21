@@ -1,14 +1,14 @@
 package valentyn.androidtasks.models
 
 import android.graphics.Color
-import io.realm.RealmModel
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import valentyn.androidtasks.R
 import valentyn.androidtasks.views.BaseContract
+import java.util.*
 
 open class Park(
-    @PrimaryKey override var id: Long = 0,
+    @PrimaryKey override var id: String = UUID.randomUUID().toString(),
     override var name: String = "",
     override var url: String = "",
     override var about: String = "",
