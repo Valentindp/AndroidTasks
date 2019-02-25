@@ -14,4 +14,6 @@
     <string name="enter_description">Enter description</string>
     <string name="enter_park_name">Enter park name</string>
     <string name="save">Save</string>
+    <string name="contentDescription_city_image">Photo of the city</string>
+    <string name="contentDescription_park_image">Park photo</string>
 </resources>

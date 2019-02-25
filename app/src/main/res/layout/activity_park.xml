@@ -1,117 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFF">
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/parkPhotoView"
-            android:layout_marginStart="@dimen/parkTopEndMargin"
-            android:layout_marginTop="@dimen/parkTopEndMargin"
-            android:layout_marginEnd="@dimen/parkTopEndMargin"
-            android:layout_marginBottom="@dimen/parkTopEndMargin"
-            android:background="@drawable/gradient_bg">
-
-        <EditText
-                android:id="@+id/parkDescriptionTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/parkStartEndMargin"
-                android:layout_marginEnd="@dimen/parkStartEndMargin"
-                android:drawableStart="@drawable/info"
-                android:drawablePadding="@dimen/parkDrawablePadding"
-                android:ellipsize="end"
-                tools:text="parkDescriptionTextView"
-                android:layout_below="@id/parkSiteTextView"
-                android:inputType="text"
-                android:maxLength="20"
-                android:hint="@string/enter_description"
-                android:layout_marginTop="@dimen/parkTopEndMargin"/>
-
-        <Button
-                android:id="@+id/selectedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/parkTopEndMargin"
-                android:layout_marginEnd="@dimen/parkStartEndMargin"
-                android:background="@android:color/transparent"
-                android:text="@string/button_selected"
-                android:textAllCaps="false"/>
-
-        <EditText
-                android:id="@+id/parkСountryTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/parkStartEndMargin"
-                android:drawableStart="@drawable/mountain"
-                android:drawablePadding="@dimen/parkDrawablePadding"
-                android:ellipsize="end"
-                tools:text="parkСountryTextView"
-                android:layout_marginTop="@dimen/parkTopEndMargin"
-                android:layout_toStartOf="@id/selectedButton"
-                android:layout_marginEnd="@dimen/parkStartEndMargin"
-                android:inputType="text"
-                android:maxLength="20"
-                android:hint="@string/enter_country_name"/>
-
-        <EditText
-                android:id="@+id/parkSiteTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/parkСountryTextView"
-                android:layout_marginStart="@dimen/parkStartEndMargin"
-                android:layout_marginTop="@dimen/parkTopEndMargin"
-                android:drawableStart="@drawable/web"
-                android:drawablePadding="@dimen/parkDrawablePadding"
-                android:ellipsize="end"
-                android:inputType="text"
-                android:maxLength="20"
-                tools:text="parkSiteTextView"
-                android:layout_marginEnd="@dimen/parkStartEndMargin"/>
-    </RelativeLayout>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF">
 
     <ImageView
-            android:id="@+id/parkPhotoView"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_alignTop="@id/toolbar_park"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:src="@drawable/no_image"/>
+        android:id="@+id/parkPhotoView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignTop="@id/toolbar_park"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/contentDescription_park_image"
+        android:src="@drawable/no_image" />
 
     <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_park"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:minHeight="?attr/actionBarSize"/>
+        android:id="@+id/toolbar_park"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize" />
 
     <EditText
-            android:id="@+id/parkNameTextView"
+        android:id="@+id/parkNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/parkPhotoView"
+        android:layout_alignBottom="@id/parkPhotoView"
+        android:layout_marginStart="@dimen/parkStartEndMargin"
+        android:layout_marginLeft="@dimen/parkStartEndMargin"
+        android:layout_marginTop="@dimen/parkStartEndMargin"
+        android:layout_marginEnd="@dimen/parkStartEndMargin"
+        android:layout_marginRight="@dimen/parkStartEndMargin"
+        android:layout_marginBottom="@dimen/parkStartEndMargin"
+        android:background="@android:color/transparent"
+        android:ellipsize="end"
+        android:hint="@string/enter_park_name"
+        android:inputType="text"
+        android:maxLength="20"
+        android:textColor="#ffffff"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        tools:text="parkNameTextView" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/parkPhotoView"
+        android:layout_marginStart="@dimen/parkTopEndMargin"
+        android:layout_marginTop="@dimen/parkTopEndMargin"
+        android:layout_marginEnd="@dimen/parkTopEndMargin"
+        android:layout_marginBottom="@dimen/parkTopEndMargin"
+        android:background="@drawable/gradient_bg">
+
+        <EditText
+            android:id="@+id/parkСountryTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/parkPhotoView"
-            android:layout_alignBottom="@id/parkPhotoView"
             android:layout_marginStart="@dimen/parkStartEndMargin"
-            android:layout_marginLeft="@dimen/parkStartEndMargin"
-            android:layout_marginTop="@dimen/parkStartEndMargin"
+            android:layout_marginTop="@dimen/parkTopEndMargin"
             android:layout_marginEnd="@dimen/parkStartEndMargin"
-            android:layout_marginRight="@dimen/parkStartEndMargin"
-            android:layout_marginBottom="@dimen/parkStartEndMargin"
-            android:background="@android:color/transparent"
+            android:layout_toStartOf="@id/selectedButton"
+            android:drawableStart="@drawable/mountain"
+            android:drawablePadding="@dimen/parkDrawablePadding"
             android:ellipsize="end"
-            android:textColor="#ffffff"
+            android:hint="@string/enter_country_name"
             android:inputType="text"
             android:maxLength="20"
-            android:hint="@string/enter_park_name"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            tools:text="parkNameTextView"/>
+            tools:text="parkСountryTextView" />
+
+        <EditText
+            android:id="@+id/parkSiteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parkСountryTextView"
+            android:layout_marginStart="@dimen/parkStartEndMargin"
+            android:layout_marginTop="@dimen/parkTopEndMargin"
+            android:layout_marginEnd="@dimen/parkStartEndMargin"
+            android:drawableStart="@drawable/web"
+            android:drawablePadding="@dimen/parkDrawablePadding"
+            android:ellipsize="end"
+            android:inputType="text"
+            android:maxLength="20"
+            tools:text="parkSiteTextView" />
+
+        <EditText
+            android:id="@+id/parkDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parkSiteTextView"
+            android:layout_marginStart="@dimen/parkStartEndMargin"
+            android:layout_marginTop="@dimen/parkTopEndMargin"
+            android:layout_marginEnd="@dimen/parkStartEndMargin"
+            android:drawableStart="@drawable/info"
+            android:drawablePadding="@dimen/parkDrawablePadding"
+            android:ellipsize="end"
+            android:hint="@string/enter_description"
+            android:inputType="text"
+            android:maxLength="500"
+            tools:text="parkDescriptionTextView" />
+
+        <Button
+            android:id="@+id/selectedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/parkTopEndMargin"
+            android:layout_marginEnd="@dimen/parkStartEndMargin"
+            android:background="@android:color/transparent"
+            android:text="@string/button_unselected"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/parkUriView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parkDescriptionTextView"
+            android:layout_marginStart="@dimen/parkStartEndMargin"
+            android:layout_marginTop="@dimen/parkTopEndMargin"
+            android:layout_marginEnd="@dimen/parkStartEndMargin"
+            android:drawablePadding="@dimen/parkDrawablePadding"
+            android:ellipsize="end"
+            android:visibility="invisible"
+            tools:text="parkUriView" />
+    </RelativeLayout>
 
 </RelativeLayout>

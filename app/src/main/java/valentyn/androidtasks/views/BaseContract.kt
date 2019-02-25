@@ -12,6 +12,8 @@ interface BaseContract {
 
     interface View {
 
+        fun onFinish()
+
     }
 
     interface Model : RealmModel {

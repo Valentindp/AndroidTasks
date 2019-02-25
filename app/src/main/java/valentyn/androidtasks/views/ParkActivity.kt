@@ -1,5 +1,7 @@
 package valentyn.androidtasks.views
 
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -36,6 +38,9 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         parkSiteTextView.addTextChangedListener(presenter.getTextValidator(parkSiteTextView))
         parkDescriptionTextView.addTextChangedListener(presenter.getTextValidator(parkDescriptionTextView))
         parkСountryTextView.addTextChangedListener(presenter.getTextValidator(parkСountryTextView))
+        parkPhotoView.setOnClickListener {
+            startActivityForResult(presenter.getImageIntent(), REQUEST_TAKE_PHOTO)
+        }
     }
 
 
@@ -63,14 +68,34 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         parkСountryTextView.setText(country)
     }
 
+    override fun updateImageUri(uri: Uri?) {
+        parkPhotoView.setImageURI(uri)
+        parkUriView.text = uri.toString()
+    }
+
     override fun loadPhoto(url: String?) {
 
-        if (url != null && url.isNotEmpty())
+        if (url != null && url.isNotEmpty()) {
+            parkUriView.text = url
             Picasso.get()
                 .load(url)
                 .fit()
                 .error(R.drawable.ic_error_black_24dp)
                 .into(parkPhotoView)
+        }
+    }
+
+    private fun saveElement() {
+        presenter.saveElement(
+            id = intent.getStringExtra(ParkActivity.PARK_KEY),
+            name = parkNameTextView.text.toString(),
+            url = parkUriView.text.toString(),
+            about = parkDescriptionTextView.text.toString(),
+            country = parkСountryTextView.text.toString(),
+            site = parkSiteTextView.text.toString(),
+            select = selectedButton.text.toString(),
+            key = ParkActivity.PARK_KEY
+        )
     }
 
 
@@ -83,6 +108,10 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         R.id.action_share -> {
             true
         }
+        R.id.action_save -> {
+            saveElement()
+            true
+        }
         android.R.id.home -> {
             onBackPressed()
             true
@@ -90,6 +119,14 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun getContextView(): Context {
+        return applicationContext
+    }
+
+    override fun onFinish() {
+        finish()
     }
 
     override fun finish() {
@@ -105,6 +142,7 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
     companion object {
 
         const val PARK_KEY = "PARK_KEY"
+        const val REQUEST_TAKE_PHOTO: Int = 1
 
     }
 }

@@ -28,9 +28,8 @@ class CityFragment : Fragment() {
         city_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter =
-                CitysAdapter(RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)) { id: String? -> onCityClicked(id) }
         }
+        updateRecyclerViewAdapter()
     }
 
     private fun onCityClicked(id: String?) {
@@ -41,9 +40,13 @@ class CityFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            city_recyclerView.adapter =
-                CitysAdapter(RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)) { id: String? -> onCityClicked(id) }
+            updateRecyclerViewAdapter()
         }
+    }
+
+    fun updateRecyclerViewAdapter(){
+        city_recyclerView.adapter =
+            CitysAdapter(RealmRepository.getRealmObjectList(CityActivity.CITY_KEY)) { id: String? -> onCityClicked(id) }
     }
 
 }

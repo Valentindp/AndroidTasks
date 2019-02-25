@@ -2,6 +2,8 @@ package valentyn.androidtasks.presenters
 
 import android.text.Editable
 import android.widget.TextView
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
 import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,6 +19,10 @@ import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.CityActivity
 import valentyn.androidtasks.views.ParkActivity
 import java.util.*
+import android.content.Intent
+import android.net.Uri
+import valentyn.androidtasks.R
+import valentyn.androidtasks.utils.FileUtils
 
 class ElementPresenter() : ElementContract.Presenter {
 
@@ -49,6 +55,10 @@ class ElementPresenter() : ElementContract.Presenter {
 
     override fun updateColorSelectedButton(value: Int) {
         view?.updateColorSelectedButton(value)
+    }
+
+    override fun updateImageUri(uri: Uri?) {
+        view?.updateImageUri(uri)
     }
 
     fun getTextValidator(textView: TextView): TextValidator {
@@ -94,7 +104,6 @@ class ElementPresenter() : ElementContract.Presenter {
         }
     }
 
-
     fun setOnClickListenerSelectedButton(id: String?, key: String) {
         if (id != null && id.isNotEmpty()) {
             isChangeElement = true
@@ -113,6 +122,18 @@ class ElementPresenter() : ElementContract.Presenter {
         }
     }
 
+    fun getImageIntent(): Intent? {
+        val context = view?.getContextView()
+        var intent: Intent? = null
+
+        if (context != null) {
+            val photoUri = FileUtils.getPhotoURI(context)
+            updateImageUri(photoUri)
+            intent = FileUtils.getImageIntent(context, photoUri)
+        }
+        return intent
+    }
+
     fun saveElement(
         id: String?,
         name: String,
@@ -120,6 +141,7 @@ class ElementPresenter() : ElementContract.Presenter {
         about: String,
         country: String,
         site: String,
+        select: String,
         key: String
     ) {
         var element: BaseContract.Model? = null
@@ -130,7 +152,8 @@ class ElementPresenter() : ElementContract.Presenter {
                 url = url,
                 about = about,
                 country = country,
-                site = site
+                site = site,
+                select = select == view?.getContextView()?.resources?.getString(R.string.button_selected)
             )
             ParkActivity.PARK_KEY -> element = Park(
                 id = id ?: UUID.randomUUID().toString(),
@@ -138,17 +161,27 @@ class ElementPresenter() : ElementContract.Presenter {
                 url = url,
                 about = about,
                 country = country,
-                site = site
+                site = site,
+                select = select == view?.getContextView()?.resources?.getString(R.string.button_selected)
             )
         }
 
         if (element != null) {
-            RealmRepository.save(element)
-            isChangeElement = true
+            Completable.fromAction { RealmRepository.save(element) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : CompletableObserver {
+                    override fun onComplete() {
+                        isChangeElement = true
+                        view?.onFinish()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {}
+                    override fun onError(e: Throwable) {}
+                })
         }
-
-
     }
+
 
     override fun onDetach() {
         view = null

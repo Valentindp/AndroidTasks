@@ -1,118 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#EEEBEB">
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/сityPhotoView"
-            android:layout_marginStart="@dimen/cityTopEndMargin"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="@dimen/cityTopEndMargin"
-            android:layout_marginBottom="@dimen/cityTopEndMargin"
-            android:background="@drawable/gradient_bg">
-
-        <EditText
-                android:id="@+id/cityDescriptionTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/citySiteTextView"
-                android:layout_marginStart="@dimen/cityStartEndMargin"
-                android:layout_marginTop="@dimen/cityTopEndMargin"
-                android:layout_marginEnd="@dimen/cityStartEndMargin"
-                android:drawableStart="@drawable/info"
-                android:drawablePadding="@dimen/cityDrawablePadding"
-                android:ellipsize="end"
-                android:inputType="text"
-                android:maxLength="20"
-                android:hint="@string/enter_description"
-                tools:text="cityDescriptionTextView"/>
-
-        <Button
-                android:id="@+id/selectedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/cityTopEndMargin"
-                android:layout_marginEnd="@dimen/cityStartEndMargin"
-                android:background="@android:color/transparent"
-                android:text="@string/button_selected"
-                android:textAllCaps="false"/>
-
-        <EditText
-                android:id="@+id/cityСountryTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/cityStartEndMargin"
-                android:layout_marginTop="@dimen/cityTopEndMargin"
-                android:layout_marginEnd="@dimen/cityStartEndMargin"
-                android:layout_toStartOf="@+id/selectedButton"
-                android:drawableStart="@drawable/mountain"
-                android:drawablePadding="@dimen/cityDrawablePadding"
-                android:ellipsize="end"
-                android:inputType="text"
-                android:maxLength="20"
-                android:hint="@string/enter_country_name"
-                tools:text="cityСountryTextView"/>
-
-        <EditText
-                android:id="@+id/citySiteTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/cityСountryTextView"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/cityStartEndMargin"
-                android:layout_marginTop="@dimen/cityTopEndMargin"
-                android:layout_marginEnd="@dimen/cityStartEndMargin"
-                android:drawableStart="@drawable/web"
-                android:drawablePadding="@dimen/cityDrawablePadding"
-                android:ellipsize="end"
-                android:inputType="text"
-                android:maxLength="20"
-                tools:text="citySiteTextView"/>
-    </RelativeLayout>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEBEB">
 
     <ImageView
-            android:id="@+id/сityPhotoView"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_alignTop="@id/toolbar_city"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:src="@drawable/no_image"/>
+        android:id="@+id/сityPhotoView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignTop="@id/toolbar_city"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/contentDescription_city_image"
+        android:src="@drawable/no_image" />
 
     <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:minHeight="?attr/actionBarSize"/>
+        android:id="@+id/toolbar_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize" />
 
     <EditText
-            android:id="@+id/cityNameTextView"
+        android:id="@+id/cityNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/сityPhotoView"
+        android:layout_alignBottom="@id/сityPhotoView"
+        android:layout_marginStart="@dimen/cityStartEndMargin"
+        android:layout_marginLeft="@dimen/cityStartEndMargin"
+        android:layout_marginTop="@dimen/cityStartEndMargin"
+        android:layout_marginEnd="@dimen/cityStartEndMargin"
+        android:layout_marginRight="@dimen/cityStartEndMargin"
+        android:layout_marginBottom="@dimen/cityStartEndMargin"
+        android:background="@android:color/transparent"
+        android:ellipsize="end"
+        android:hint="@string/enter_the_name_of_the_city"
+        android:inputType="text"
+        android:maxLength="20"
+        android:textColor="#ffffff"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        tools:text="cityNameTextView" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/сityPhotoView"
+        android:layout_marginStart="@dimen/cityTopEndMargin"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/cityTopEndMargin"
+        android:layout_marginBottom="@dimen/cityTopEndMargin"
+        android:background="@drawable/gradient_bg">
+
+        <EditText
+            android:id="@+id/cityСountryTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/сityPhotoView"
-            android:layout_alignBottom="@id/сityPhotoView"
             android:layout_marginStart="@dimen/cityStartEndMargin"
-            android:layout_marginLeft="@dimen/cityStartEndMargin"
-            android:layout_marginTop="@dimen/cityStartEndMargin"
+            android:layout_marginTop="@dimen/cityTopEndMargin"
             android:layout_marginEnd="@dimen/cityStartEndMargin"
-            android:layout_marginRight="@dimen/cityStartEndMargin"
-            android:layout_marginBottom="@dimen/cityStartEndMargin"
-            android:background="@android:color/transparent"
+            android:layout_toStartOf="@+id/selectedButton"
+            android:drawableStart="@drawable/mountain"
+            android:drawablePadding="@dimen/cityDrawablePadding"
+            android:ellipsize="end"
+            android:hint="@string/enter_country_name"
+            android:inputType="text"
+            android:maxLength="20"
+            tools:text="cityСountryTextView" />
+
+        <EditText
+            android:id="@+id/citySiteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cityСountryTextView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/cityStartEndMargin"
+            android:layout_marginTop="@dimen/cityTopEndMargin"
+            android:layout_marginEnd="@dimen/cityStartEndMargin"
+            android:drawableStart="@drawable/web"
+            android:drawablePadding="@dimen/cityDrawablePadding"
             android:ellipsize="end"
             android:inputType="text"
             android:maxLength="20"
-            android:hint="@string/enter_the_name_of_the_city"
-            android:textColor="#ffffff"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            tools:text="cityNameTextView"/>
+            tools:text="citySiteTextView" />
+
+        <EditText
+            android:id="@+id/cityDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/citySiteTextView"
+            android:layout_marginStart="@dimen/cityStartEndMargin"
+            android:layout_marginTop="@dimen/cityTopEndMargin"
+            android:layout_marginEnd="@dimen/cityStartEndMargin"
+            android:drawableStart="@drawable/info"
+            android:drawablePadding="@dimen/cityDrawablePadding"
+            android:ellipsize="end"
+            android:hint="@string/enter_description"
+            android:inputType="text"
+            android:maxLength="500"
+            tools:text="cityDescriptionTextView" />
+
+        <Button
+            android:id="@+id/selectedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/cityTopEndMargin"
+            android:layout_marginEnd="@dimen/cityStartEndMargin"
+            android:background="@android:color/transparent"
+            android:text="@string/button_unselected"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/cityUriView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cityDescriptionTextView"
+            android:layout_marginStart="@dimen/cityStartEndMargin"
+            android:layout_marginTop="@dimen/cityTopEndMargin"
+            android:layout_marginEnd="@dimen/cityStartEndMargin"
+            android:drawablePadding="@dimen/cityDrawablePadding"
+            android:ellipsize="end"
+            android:visibility="invisible"
+            tools:text="cityUriView" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

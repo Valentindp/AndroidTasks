@@ -30,11 +30,13 @@ class ParksAdapter(private val dataset: List<BaseContract.Model>, private val cl
 
         fun bindData(park: BaseContract.Model, clickListener: (String?) -> Unit) {
 
-            Picasso.get()
-                .load(park.url)
-                .fit()
-                .error(R.drawable.ic_error_black_24dp)
-                .into(view.photoView)
+            if (park.url.isNotEmpty()) {
+                Picasso.get()
+                    .load(park.url)
+                    .fit()
+                    .error(R.drawable.ic_error_black_24dp)
+                    .into(view.photoView)
+            }
 
             view.apply {
                 nameTextView.text = park.name

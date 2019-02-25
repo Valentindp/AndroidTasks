@@ -8,6 +8,8 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.FragmentsPagerAdapter
+import valentyn.androidtasks.fragments.CityFragment
+import valentyn.androidtasks.fragments.ParkFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,6 +61,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            when (viewPager.currentItem) {
+                0 -> {
+                    (viewPager.adapter?.instantiateItem(viewPager, viewPager.currentItem) as CityFragment).updateRecyclerViewAdapter()
+                }
+                1 -> {
+                    (viewPager.adapter?.instantiateItem(viewPager, viewPager.currentItem) as ParkFragment).updateRecyclerViewAdapter()
+                }
+            }
+
+        }
     }
 
 }

@@ -25,9 +25,8 @@ class ParkFragment : Fragment() {
         park_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter =
-                ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: String? -> onParkClicked(id) }
         }
+        updateRecyclerViewAdapter()
     }
 
     private fun onParkClicked(id: String?) {
@@ -38,9 +37,13 @@ class ParkFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            park_recyclerView.adapter =
-                ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: String? -> onParkClicked(id) }
+            updateRecyclerViewAdapter()
         }
+    }
+
+    fun updateRecyclerViewAdapter(){
+        park_recyclerView.adapter =
+            ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: String? -> onParkClicked(id) }
     }
 }
 
