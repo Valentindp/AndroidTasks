@@ -99,7 +99,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
 
 
     override fun getContextView(): Context {
-        return applicationContext
+        return this
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
