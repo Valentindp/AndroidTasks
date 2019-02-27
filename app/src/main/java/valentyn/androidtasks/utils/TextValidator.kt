@@ -1,12 +1,13 @@
 package valentyn.androidtasks.utils
 
+import android.content.res.Resources
+import android.support.design.widget.TextInputLayout
 import android.text.Editable
-import android.widget.TextView
 import android.text.TextWatcher
 
-abstract class TextValidator(private val textView: TextView) : TextWatcher {
+abstract class TextValidator(private val textView: TextInputLayout) : TextWatcher {
 
-    abstract fun validate(textView: TextView, s: Editable)
+    abstract fun validate(textView: TextInputLayout, s: Editable)
 
     override fun afterTextChanged(s: Editable) {
         validate(textView, s)

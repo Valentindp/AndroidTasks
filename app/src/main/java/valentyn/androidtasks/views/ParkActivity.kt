@@ -1,8 +1,9 @@
 package valentyn.androidtasks.views
 
-import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -26,7 +27,7 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         }
 
         presenter.onAttach(this, intent.getStringExtra(ParkActivity.PARK_KEY), ParkActivity.PARK_KEY)
-        selectedButton.setOnClickListener {
+        park_select_button.setOnClickListener {
             presenter.setOnClickListenerSelectedButton(
                 intent.getStringExtra(
                     ParkActivity.PARK_KEY
@@ -34,66 +35,68 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
             )
         }
 
-        parkNameTextView.addTextChangedListener(presenter.getTextValidator(parkNameTextView))
-        parkSiteTextView.addTextChangedListener(presenter.getTextValidator(parkSiteTextView))
-        parkDescriptionTextView.addTextChangedListener(presenter.getTextValidator(parkDescriptionTextView))
-        parkСountryTextView.addTextChangedListener(presenter.getTextValidator(parkСountryTextView))
-        parkPhotoView.setOnClickListener {
-            startActivityForResult(presenter.getImageIntent(), REQUEST_TAKE_PHOTO)
+        park_name_edit.addTextChangedListener(presenter.getTextValidator(park_name_input))
+        park_site_edit.addTextChangedListener(presenter.getTextValidator(park_site_input))
+        park_description_edit.addTextChangedListener(presenter.getTextValidator(park_description_input))
+        park_country_edit.addTextChangedListener(presenter.getTextValidator(park_country_input))
+        park_image.setOnClickListener {
+            startActivityForResult(getImageIntent(), REQUEST_TAKE_PHOTO)
         }
+        park_save_button.setOnClickListener { saveElement() }
     }
 
 
     override fun updateTextSelectedButton(value: Int) {
-        selectedButton.setText(value)
+        park_select_button.setText(value)
     }
 
     override fun updateColorSelectedButton(value: Int) {
-        selectedButton.setTextColor(value)
+        park_select_button.setTextColor(value)
     }
 
     override fun updateSiteText(site: String?) {
-        parkSiteTextView.setText(site)
+        park_site_edit.setText(site)
     }
 
     override fun updateNameText(name: String?) {
-        parkNameTextView.setText(name)
+        park_name_edit.setText(name)
     }
 
     override fun updateDescriptionText(description: String?) {
-        parkDescriptionTextView.setText(description)
+        park_description_edit.setText(description)
     }
 
     override fun updateCountryText(country: String?) {
-        parkСountryTextView.setText(country)
+        park_country_edit.setText(country)
     }
 
     override fun updateImageUri(uri: Uri?) {
-        parkPhotoView.setImageURI(uri)
-        parkUriView.text = uri.toString()
+        park_image.setImageURI(uri)
+        park_uri.text = uri.toString()
     }
 
     override fun loadPhoto(url: String?) {
 
         if (url != null && url.isNotEmpty()) {
-            parkUriView.text = url
+            park_uri.text = url
             Picasso.get()
                 .load(url)
                 .fit()
                 .error(R.drawable.ic_error_black_24dp)
-                .into(parkPhotoView)
+                .into(park_image)
         }
     }
 
     private fun saveElement() {
         presenter.saveElement(
+            this,
             id = intent.getStringExtra(ParkActivity.PARK_KEY),
-            name = parkNameTextView.text.toString(),
-            url = parkUriView.text.toString(),
-            about = parkDescriptionTextView.text.toString(),
-            country = parkСountryTextView.text.toString(),
-            site = parkSiteTextView.text.toString(),
-            select = selectedButton.text.toString(),
+            name = park_name_edit.text.toString(),
+            url = park_uri.text.toString(),
+            about = park_description_edit.text.toString(),
+            country = park_country_edit.text.toString(),
+            site = park_site_edit.text.toString(),
+            select = park_select_button.text.toString(),
             key = ParkActivity.PARK_KEY
         )
     }
@@ -108,10 +111,6 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         R.id.action_share -> {
             true
         }
-        R.id.action_save -> {
-            saveElement()
-            true
-        }
         android.R.id.home -> {
             onBackPressed()
             true
@@ -121,8 +120,13 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         }
     }
 
-    override fun getContextView(): Context {
-        return this
+    private fun getImageIntent(): Intent {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        if (takePictureIntent.resolveActivity(packageManager) != null) {
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, presenter.getPhotoURI(this))
+        }
+        return takePictureIntent
     }
 
     override fun onFinish() {

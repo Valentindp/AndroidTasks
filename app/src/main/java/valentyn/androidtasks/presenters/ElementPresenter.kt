@@ -1,5 +1,7 @@
 package valentyn.androidtasks.presenters
 
+import android.content.Context
+import android.content.res.Resources
 import android.text.Editable
 import android.widget.TextView
 import io.reactivex.Completable
@@ -19,14 +21,15 @@ import valentyn.androidtasks.views.BaseContract
 import valentyn.androidtasks.views.CityActivity
 import valentyn.androidtasks.views.ParkActivity
 import java.util.*
-import android.content.Intent
 import android.net.Uri
+import android.support.design.widget.TextInputLayout
 import valentyn.androidtasks.R
 import valentyn.androidtasks.utils.FileUtils
 
 class ElementPresenter() : ElementContract.Presenter {
 
     private var view: ElementContract.View? = null
+    var photoUri: Uri? = null
     var isChangeElement: Boolean = false
 
     override fun loadPhoto(url: String?) {
@@ -61,9 +64,9 @@ class ElementPresenter() : ElementContract.Presenter {
         view?.updateImageUri(uri)
     }
 
-    fun getTextValidator(textView: TextView): TextValidator {
+    fun getTextValidator(textView: TextInputLayout): TextValidator {
         return object : TextValidator(textView) {
-            override fun validate(textView: TextView, s: Editable) {
+            override fun validate(textView: TextInputLayout, s: Editable) {
                 var haveForbiddenCharacter = false
                 s.forEachIndexed { index, c ->
                     if (StringUtils.haveForbiddenCharacter(c)) {
@@ -71,7 +74,10 @@ class ElementPresenter() : ElementContract.Presenter {
                         haveForbiddenCharacter = true
                     }
                 }
-                textView.error = if (!haveForbiddenCharacter) null else "This symbol is not allowed!"
+                if (haveForbiddenCharacter) textView.error = "This symbol is not allowed!" else {
+                    textView.error =
+                        if (s.length == textView.counterMaxLength) "Maximum number of characters reached!" else null
+                }
             }
         }
     }
@@ -122,19 +128,13 @@ class ElementPresenter() : ElementContract.Presenter {
         }
     }
 
-    fun getImageIntent(): Intent? {
-        val context = view?.getContextView()
-        var intent: Intent? = null
-
-        if (context != null) {
-            val photoUri = FileUtils.getPhotoURI(context)
-            updateImageUri(photoUri)
-            intent = FileUtils.getImageIntent(context, photoUri)
-        }
-        return intent
+    fun getPhotoURI(context: Context): Uri? {
+        photoUri = FileUtils.getPhotoURI(context)
+        return photoUri
     }
 
     fun saveElement(
+        context: Context,
         id: String?,
         name: String,
         url: String,
@@ -153,7 +153,7 @@ class ElementPresenter() : ElementContract.Presenter {
                 about = about,
                 country = country,
                 site = site,
-                select = select == view?.getContextView()?.resources?.getString(R.string.button_selected)
+                select = select == context.getString(R.string.button_selected)
             )
             ParkActivity.PARK_KEY -> element = Park(
                 id = id ?: UUID.randomUUID().toString(),
@@ -162,7 +162,7 @@ class ElementPresenter() : ElementContract.Presenter {
                 about = about,
                 country = country,
                 site = site,
-                select = select == view?.getContextView()?.resources?.getString(R.string.button_selected)
+                select = select == context.getString(R.string.button_selected)
             )
         }
 

@@ -1,6 +1,5 @@
 package valentyn.androidtasks.views
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -11,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_city.*
 import valentyn.androidtasks.presenters.ElementPresenter
 import android.content.Intent
 import android.net.Uri
+import android.provider.MediaStore
 
 class CityActivity : AppCompatActivity(), ElementContract.View {
 
@@ -26,7 +26,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
         presenter.onAttach(this, intent.getStringExtra(CityActivity.CITY_KEY), CityActivity.CITY_KEY)
-        selectedButton.setOnClickListener {
+        city_select_button.setOnClickListener {
             presenter.setOnClickListenerSelectedButton(
                 intent.getStringExtra(
                     CityActivity.CITY_KEY
@@ -34,73 +34,80 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             )
         }
 
-        cityNameTextView.addTextChangedListener(presenter.getTextValidator(cityNameTextView))
-        citySiteTextView.addTextChangedListener(presenter.getTextValidator(citySiteTextView))
-        cityDescriptionTextView.addTextChangedListener(presenter.getTextValidator(cityDescriptionTextView))
-        cityСountryTextView.addTextChangedListener(presenter.getTextValidator(cityСountryTextView))
-        сityPhotoView.setOnClickListener {
-            startActivityForResult(presenter.getImageIntent(), REQUEST_TAKE_PHOTO)
+        city_name_edit.addTextChangedListener(presenter.getTextValidator(city_name_input))
+        city_site_edit.addTextChangedListener(presenter.getTextValidator(city_site_input))
+        city_description_edit.addTextChangedListener(presenter.getTextValidator(city_description_input))
+        city_country_edit.addTextChangedListener(presenter.getTextValidator(city_country_input))
+        сity_image.setOnClickListener {
+            startActivityForResult(getImageIntent(), REQUEST_TAKE_PHOTO)
         }
+        city_save_button.setOnClickListener{saveElement()}
     }
 
     override fun updateTextSelectedButton(value: Int) {
-        selectedButton.setText(value)
+        city_select_button.setText(value)
     }
 
     override fun updateColorSelectedButton(value: Int) {
-        selectedButton.setTextColor(value)
+        city_select_button.setTextColor(value)
     }
 
     override fun updateSiteText(site: String?) {
-        citySiteTextView.setText(site)
+        city_site_edit.setText(site)
     }
 
     override fun updateNameText(name: String?) {
-        cityNameTextView.setText(name)
+        city_name_edit.setText(name)
     }
 
     override fun updateDescriptionText(description: String?) {
-        cityDescriptionTextView.setText(description)
+        city_description_edit.setText(description)
     }
 
     override fun updateCountryText(country: String?) {
-        cityСountryTextView.setText(country)
+        city_country_edit.setText(country)
     }
 
     override fun updateImageUri(uri: Uri?) {
-        сityPhotoView.setImageURI(uri)
-        cityUriView.text = uri.toString()
+        сity_image.setImageURI(uri)
+        city_uri.text = uri.toString()
     }
 
     override fun loadPhoto(url: String?) {
 
         if (url != null && url.isNotEmpty()) {
-            cityUriView.text = url
+            city_uri.text = url
             Picasso.get()
                 .load(url)
                 .fit()
                 .error(R.drawable.ic_error_black_24dp)
-                .into(сityPhotoView)
+                .into(сity_image)
         }
     }
 
     private fun saveElement() {
         presenter.saveElement(
+            this,
             id = intent.getStringExtra(CityActivity.CITY_KEY),
-            name = cityNameTextView.text.toString(),
-            url = cityUriView.text.toString(),
-            about = cityDescriptionTextView.text.toString(),
-            country = cityСountryTextView.text.toString(),
-            site = citySiteTextView.text.toString(),
-            select = selectedButton.text.toString(),
+            name = city_name_edit.text.toString(),
+            url = city_uri.text.toString(),
+            about = city_description_edit.text.toString(),
+            country = city_country_edit.text.toString(),
+            site = city_site_edit.text.toString(),
+            select = city_select_button.text.toString(),
             key = CityActivity.CITY_KEY
         )
     }
 
+    private fun getImageIntent(): Intent {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-    override fun getContextView(): Context {
-        return this
+        if (takePictureIntent.resolveActivity(packageManager) != null) {
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, presenter.getPhotoURI(this))
+        }
+        return takePictureIntent
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_city_menu, menu)
@@ -109,10 +116,6 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_share -> {
-            true
-        }
-        R.id.action_save -> {
-            saveElement()
             true
         }
         android.R.id.home -> {
@@ -127,8 +130,8 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == AppCompatActivity.RESULT_OK) {
-
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == AppCompatActivity.RESULT_OK && presenter.photoUri != null) {
+            updateImageUri(presenter.photoUri)
         }
     }
 

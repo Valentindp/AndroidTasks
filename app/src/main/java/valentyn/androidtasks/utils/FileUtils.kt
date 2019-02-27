@@ -19,15 +19,6 @@ object FileUtils {
         context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     )
 
-    fun getImageIntent(context: Context, photoURI: Uri?): Intent {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-        if (takePictureIntent.resolveActivity(context.packageManager) != null) {
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-        }
-        return takePictureIntent
-    }
-
     fun getPhotoURI(context: Context): Uri? {
         var photoFile: File? = null
         var photoURI: Uri? = null

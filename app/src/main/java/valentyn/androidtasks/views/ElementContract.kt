@@ -1,6 +1,5 @@
 package valentyn.androidtasks.views
 
-import android.content.Context
 import android.net.Uri
 
 interface ElementContract {
@@ -20,8 +19,6 @@ interface ElementContract {
         fun updateColorSelectedButton(value: Int)
 
         fun loadPhoto(url: String?)
-
-        fun getContextView(): Context
 
         fun updateImageUri(uri:Uri?)
 

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="cityStartEndMargin">10dp</dimen>
-    <dimen name="cityTopEndMargin">20dp</dimen>
+    <dimen name="city_main_margin">16dp</dimen>
     <dimen name="cityItemMargin">4dp</dimen>
     <dimen name="cityItemTextPadding">4dp</dimen>
-    <dimen name="cityDrawablePadding">10dp</dimen>
+    <dimen name="city_main_padding">12dp</dimen>
 
-    <dimen name="parkStartEndMargin">10dp</dimen>
-    <dimen name="parkTopEndMargin">20dp</dimen>
+    <dimen name="park_maim_margin">16dp</dimen>
     <dimen name="parkItemTextPadding">4dp</dimen>
-    <dimen name="parkDrawablePadding">10dp</dimen>
     <dimen name="parkItemMargin">4dp</dimen>
+    <dimen name="park_main_padding">12dp</dimen>
+
+    <dimen name="drawable_padding">10dp</dimen>
     <dimen name="activity_vertical_margin">10dp</dimen>
     <dimen name="activity_horizontal_margin">10dp</dimen>
+
 </resources>

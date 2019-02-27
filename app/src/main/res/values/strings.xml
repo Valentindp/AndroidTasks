@@ -9,11 +9,15 @@
     <string name="park_page_title">Parks</string>
     <string name="unknown">Unknown</string>
     <string name="add_element">Add</string>
-    <string name="enter_the_name_of_the_city">Enter the name of the city</string>
-    <string name="enter_country_name">Enter country name</string>
-    <string name="enter_description">Enter description</string>
+    <string name="hint_city_name">City</string>
+    <string name="hint_country">Country</string>
+    <string name="hint_description">Description</string>
     <string name="enter_park_name">Enter park name</string>
     <string name="save">Save</string>
-    <string name="contentDescription_city_image">Photo of the city</string>
-    <string name="contentDescription_park_image">Park photo</string>
+    <string name="content_description_city_image">City photo</string>
+    <string name="content_description_park_image">Park photo</string>
+    <string name="hint_site">Site</string>
+    <string name="hint_park_name">Park</string>
+    <string name="Error_max_characters">Maximum number of characters reached!</string>
+    <string name="Error_allowed_symbols">This symbol is not allowed!</string>
 </resources>
