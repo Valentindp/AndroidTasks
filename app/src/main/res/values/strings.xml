@@ -20,4 +20,8 @@
     <string name="hint_park_name">Park</string>
     <string name="Error_max_characters">Maximum number of characters reached!</string>
     <string name="Error_allowed_symbols">This symbol is not allowed!</string>
+    <string name="loading_datas_error">Error while loading datas</string>
+    <string name="data_saved">Data saved</string>
+    <string name="data_updated">Data updated</string>
+    <string name="Error_data_empty">Data cannot be empty!</string>
 </resources>

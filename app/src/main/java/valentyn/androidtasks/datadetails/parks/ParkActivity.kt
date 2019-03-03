@@ -1,4 +1,4 @@
-package valentyn.androidtasks.views
+package valentyn.androidtasks.datadetails.parks
 
 import android.content.Intent
 import android.net.Uri
@@ -10,11 +10,13 @@ import android.view.MenuItem
 import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_park.*
-import valentyn.androidtasks.presenters.ElementPresenter
+import valentyn.androidtasks.datadetails.DataDetailContract
+import valentyn.androidtasks.datadetails.DataDetailPresenter
 
-class ParkActivity : AppCompatActivity(), ElementContract.View {
+class ParkActivity : AppCompatActivity(), DataDetailContract.View {
 
-    private var presenter: ElementPresenter = ElementPresenter()
+    private var presenter: DataDetailPresenter =
+        DataDetailPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +28,14 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        presenter.onAttach(this, intent.getStringExtra(ParkActivity.PARK_KEY), ParkActivity.PARK_KEY)
+        presenter.onAttach(this, intent.getStringExtra(PARK_KEY),
+            PARK_KEY
+        )
         park_select_button.setOnClickListener {
             presenter.setOnClickListenerSelectedButton(
                 intent.getStringExtra(
-                    ParkActivity.PARK_KEY
-                ), ParkActivity.PARK_KEY
+                    PARK_KEY
+                ), PARK_KEY
             )
         }
 
@@ -40,7 +44,9 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
         park_description_edit.addTextChangedListener(presenter.getTextValidator(park_description_input))
         park_country_edit.addTextChangedListener(presenter.getTextValidator(park_country_input))
         park_image.setOnClickListener {
-            startActivityForResult(getImageIntent(), REQUEST_TAKE_PHOTO)
+            startActivityForResult(getImageIntent(),
+                REQUEST_TAKE_PHOTO
+            )
         }
         park_save_button.setOnClickListener { saveElement() }
     }
@@ -90,14 +96,14 @@ class ParkActivity : AppCompatActivity(), ElementContract.View {
     private fun saveElement() {
         presenter.saveElement(
             this,
-            id = intent.getStringExtra(ParkActivity.PARK_KEY),
+            id = intent.getStringExtra(PARK_KEY),
             name = park_name_edit.text.toString(),
             url = park_uri.text.toString(),
             about = park_description_edit.text.toString(),
             country = park_country_edit.text.toString(),
             site = park_site_edit.text.toString(),
             select = park_select_button.text.toString(),
-            key = ParkActivity.PARK_KEY
+            key = PARK_KEY
         )
     }
 

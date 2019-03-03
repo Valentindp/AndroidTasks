@@ -1,26 +1,22 @@
-package valentyn.androidtasks.views
+package valentyn.androidtasks
 
 import io.realm.RealmModel
 
 
 interface BaseContract {
 
-    interface Presenter<in T, E, F> {
-        fun onAttach(view: T, id: E?, key: F)
+    interface Presenter<T> {
         fun onDetach()
+        fun start()
     }
 
-    interface View {
+    interface View {}
 
-        fun onFinish()
-
-    }
-
-    interface Model : RealmModel {
+    interface Data : RealmModel {
         val id: String
         var name: String
         var url: String
-        var about: String
+        var description: String
         var country: String
         var site: String
         var select: Boolean

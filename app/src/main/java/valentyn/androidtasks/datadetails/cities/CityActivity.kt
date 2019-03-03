@@ -1,5 +1,6 @@
-package valentyn.androidtasks.views
+package valentyn.androidtasks.datadetails.cities
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -7,14 +8,17 @@ import android.view.MenuItem
 import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_city.*
-import valentyn.androidtasks.presenters.ElementPresenter
+import valentyn.androidtasks.datadetails.DataDetailPresenter
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
+import android.widget.Toast
+import valentyn.androidtasks.datadetails.DataDetailContract
 
-class CityActivity : AppCompatActivity(), ElementContract.View {
+class CityActivity : AppCompatActivity(), DataDetailContract.View {
 
-    private var presenter: ElementPresenter = ElementPresenter()
+    private var presenter: DataDetailPresenter =
+        DataDetailPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,12 +29,13 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
-        presenter.onAttach(this, intent.getStringExtra(CityActivity.CITY_KEY), CityActivity.CITY_KEY)
+        presenter.onAttach(this, intent.getStringExtra(CITY_KEY), CITY_KEY)
+
         city_select_button.setOnClickListener {
             presenter.setOnClickListenerSelectedButton(
                 intent.getStringExtra(
-                    CityActivity.CITY_KEY
-                ), CityActivity.CITY_KEY
+                    CITY_KEY
+                ), CITY_KEY
             )
         }
 
@@ -39,38 +44,34 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
         city_description_edit.addTextChangedListener(presenter.getTextValidator(city_description_input))
         city_country_edit.addTextChangedListener(presenter.getTextValidator(city_country_input))
         сity_image.setOnClickListener {
-            startActivityForResult(getImageIntent(), REQUEST_TAKE_PHOTO)
+            startActivityForResult(getImageIntent(),
+                REQUEST_TAKE_PHOTO
+            )
         }
         city_save_button.setOnClickListener{saveElement()}
     }
 
-    override fun updateTextSelectedButton(value: Int) {
-        city_select_button.setText(value)
-    }
+    override fun setTextSelectedButton(value: Int) { city_select_button.setText(value) }
 
-    override fun updateColorSelectedButton(value: Int) {
-        city_select_button.setTextColor(value)
-    }
+    override fun setColorSelectedButton(value: Int) { city_select_button.setTextColor(value) }
 
-    override fun updateSiteText(site: String?) {
-        city_site_edit.setText(site)
-    }
+    override fun setSiteText(site: String?) { city_site_edit.setText(site) }
 
-    override fun updateNameText(name: String?) {
-        city_name_edit.setText(name)
-    }
+    override fun setNameText(name: String?) { city_name_edit.setText(name) }
 
-    override fun updateDescriptionText(description: String?) {
-        city_description_edit.setText(description)
-    }
+    override fun setDescriptionText(description: String?) { city_description_edit.setText(description) }
 
-    override fun updateCountryText(country: String?) {
-        city_country_edit.setText(country)
-    }
+    override fun setCountryText(country: String?) { city_country_edit.setText(country) }
 
-    override fun updateImageUri(uri: Uri?) {
+    override fun setImageUri(uri: Uri?) {
         сity_image.setImageURI(uri)
         city_uri.text = uri.toString()
+    }
+
+    private fun showMessage(message: String) { Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
+
+    override fun showEmptyDataError() {
+        showMessage(getString(R.string.Error_data_empty))
     }
 
     override fun loadPhoto(url: String?) {
@@ -88,14 +89,14 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
     private fun saveElement() {
         presenter.saveElement(
             this,
-            id = intent.getStringExtra(CityActivity.CITY_KEY),
+            id = intent.getStringExtra(CITY_KEY),
             name = city_name_edit.text.toString(),
             url = city_uri.text.toString(),
             about = city_description_edit.text.toString(),
             country = city_country_edit.text.toString(),
             site = city_site_edit.text.toString(),
             select = city_select_button.text.toString(),
-            key = CityActivity.CITY_KEY
+            key = CITY_KEY
         )
     }
 
@@ -131,7 +132,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == AppCompatActivity.RESULT_OK && presenter.photoUri != null) {
-            updateImageUri(presenter.photoUri)
+            setImageUri(presenter.photoUri)
         }
     }
 
@@ -140,7 +141,7 @@ class CityActivity : AppCompatActivity(), ElementContract.View {
     }
 
     override fun finish() {
-        if (presenter.isChangeElement) setResult(AppCompatActivity.RESULT_OK)
+        if (presenter.isChangeElement) setResult(Activity.RESULT_OK)
         super.finish()
     }
 

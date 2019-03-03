@@ -1,5 +1,6 @@
-package valentyn.androidtasks.views
+package valentyn.androidtasks.mainview
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -7,9 +8,11 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import valentyn.androidtasks.R
-import valentyn.androidtasks.adapters.FragmentsPagerAdapter
-import valentyn.androidtasks.fragments.CityFragment
-import valentyn.androidtasks.fragments.ParkFragment
+import valentyn.androidtasks.mainview.adapters.FragmentsPagerAdapter
+import valentyn.androidtasks.datadetails.cities.CityActivity
+import valentyn.androidtasks.mainview.mainfragments.CityListFragment
+import valentyn.androidtasks.mainview.mainfragments.ParkListFragment
+import valentyn.androidtasks.datadetails.parks.ParkActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,21 +65,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (resultCode == AppCompatActivity.RESULT_OK) {
-            when (viewPager.currentItem) {
-                0 -> {
-                    (viewPager.adapter?.instantiateItem(viewPager, viewPager.currentItem) as CityFragment).updateRecyclerViewAdapter()
-                }
-                1 -> {
-                    (viewPager.adapter?.instantiateItem(viewPager, viewPager.currentItem) as ParkFragment).updateRecyclerViewAdapter()
-                }
-            }
-
-        }
-    }
-
 }
 
 
