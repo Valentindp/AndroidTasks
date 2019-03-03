@@ -32,12 +32,22 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     var photoUri: Uri? = null
     var isChangeElement: Boolean = false
 
+    override fun onAttach(view: DataDetailContract.View, dataId: String, key: String) {
+        this.view = view
+        this.dataId = dataId
+        this.key = key
+    }
+
     override fun start() {
         DatasRepository.getData(key, dataId, object : DataSource.GetDataCallback {
 
-            override fun onDataLoaded(data: BaseContract.Data) { onDataLoaded(data) }
+            override fun onDataLoaded(data: BaseContract.Data) {
+                onDataLoaded(data)
+            }
 
-            override fun onDataNotAvailable() { onDataNotAvailable() }
+            override fun onDataNotAvailable() {
+                onDataNotAvailable()
+            }
         })
     }
 
@@ -53,6 +63,14 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
 
     override fun onDataNotAvailable() {
         view?.showEmptyDataError()
+    }
+
+    override fun selectData() {
+
+        if (dataId != null) {
+            isChangeElement = true
+            DatasRepository.updateSelect(dataId, key)
+        }
     }
 
 
@@ -79,11 +97,6 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         view?.setColorSelectedButton(element.getColorSelected())
     }
 
-    override fun onAttach(view: DataDetailContract.View, dataId: String, key: String) {
-        this.view = view
-        this.dataId = dataId
-        this.key = key
-    }
 
     fun setOnClickListenerSelectedButton(id: String?, key: String) {
         if (id != null && id.isNotEmpty()) {

@@ -51,6 +51,11 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         city_save_button.setOnClickListener{saveElement()}
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter.start()
+    }
+
     override fun setTextSelectedButton(value: Int) { city_select_button.setText(value) }
 
     override fun setColorSelectedButton(value: Int) { city_select_button.setTextColor(value) }
@@ -68,12 +73,6 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         city_uri.text = uri.toString()
     }
 
-    private fun showMessage(message: String) { Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
-
-    override fun showEmptyDataError() {
-        showMessage(getString(R.string.Error_data_empty))
-    }
-
     override fun loadPhoto(url: String?) {
 
         if (url != null && url.isNotEmpty()) {
@@ -85,6 +84,13 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
                 .into(сity_image)
         }
     }
+
+    private fun showMessage(message: String) { Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
+
+    override fun showEmptyDataError() {
+        showMessage(getString(R.string.Error_data_empty))
+    }
+
 
     private fun saveElement() {
         presenter.saveElement(
@@ -145,9 +151,9 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         super.finish()
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         presenter.onDetach()
-        super.onDestroy()
+        super.onStop()
     }
 
     companion object {

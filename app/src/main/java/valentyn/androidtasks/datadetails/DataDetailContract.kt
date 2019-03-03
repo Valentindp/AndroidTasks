@@ -37,5 +37,7 @@ interface DataDetailContract {
 
         fun onDataNotAvailable()
 
+        fun selectData()
+
     }
 }
