@@ -3,11 +3,11 @@ package valentyn.androidtasks.mainview
 import android.support.v7.app.AppCompatActivity
 import valentyn.androidtasks.BaseContract
 import valentyn.androidtasks.data.source.DataSource
-import valentyn.androidtasks.data.source.repository.DatasRepository
+import valentyn.androidtasks.data.source.repository.DataRepository
 
-class DatasPresenter : DatasContract.Presenter {
+class DatasPresenter : DataContract.Presenter {
 
-    var view: DatasContract.View? = null
+    var view: DataContract.View? = null
     var key: String = ""
 
     override fun openDataDetails(requestedData: BaseContract.Data) {
@@ -18,31 +18,30 @@ class DatasPresenter : DatasContract.Presenter {
 
     }
 
-    override fun loadDatas() {
-
-        DatasRepository.getDatas(key, object : DataSource.LoadDatasCallback {
-            override fun onDatasLoaded(datas: List<BaseContract.Data>) {
-                view?.showDatas(datas)
+    override fun loadAllData() {
+        DataRepository.getAllData(key, object : DataSource.LoadAllDataCallback {
+            override fun onAllDataLoaded(dataList: List<BaseContract.Data>) {
+                view?.showAllData(dataList)
             }
 
             override fun onDataNotAvailable() {
-                view?.showLoadingDatasError()
+                view?.showLoadingDataListError()
             }
         })
     }
 
     override fun result(requestCode: Int, resultCode: Int) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            loadDatas()
+            loadAllData()
             view?.showSuccessfullyUpdatedMessage()
         }
     }
 
     override fun start() {
-        loadDatas()
+        loadAllData()
     }
 
-    override fun onAttach(view: DatasContract.View, key: String) {
+    override fun onAttach(view: DataContract.View, key: String) {
         this.view = view
         this.key = key
     }

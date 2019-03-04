@@ -13,13 +13,13 @@ import valentyn.androidtasks.BaseContract
 import valentyn.androidtasks.R
 import valentyn.androidtasks.mainview.adapters.CityListAdapter
 import valentyn.androidtasks.datadetails.cities.CityActivity
-import valentyn.androidtasks.mainview.DatasContract
+import valentyn.androidtasks.mainview.DataContract
 import valentyn.androidtasks.mainview.DatasPresenter
 import valentyn.androidtasks.mainview.adapters.DataItemListener
 
-class CityListFragment : Fragment(), DatasContract.View {
+class CityListFragment : Fragment(), DataContract.View {
 
-    val presenter: DatasContract.Presenter = DatasPresenter()
+    val presenter: DataContract.Presenter = DatasPresenter()
     private val dataItemListener: DataItemListener = object : DataItemListener {
         override fun onTaskClick(clickedData: BaseContract.Data) {
             presenter.openDataDetails(clickedData)
@@ -51,7 +51,7 @@ class CityListFragment : Fragment(), DatasContract.View {
         }
     }
 
-    override fun showDatas(datas: List<BaseContract.Data>) { adapterCity.updateData(datas) }
+    override fun showAllData(dataList: List<BaseContract.Data>) { adapterCity.updateData(dataList) }
 
     override fun showAddData() {}
 
@@ -63,7 +63,7 @@ class CityListFragment : Fragment(), DatasContract.View {
 
     override fun showSuccessfullySavedMessage() { showMessage(getString(R.string.data_saved)) }
 
-    override fun showLoadingDatasError() { showMessage(getString(R.string.loading_datas_error)) }
+    override fun showLoadingDataListError() { showMessage(getString(R.string.loading_datas_error)) }
 
     override fun showSuccessfullyUpdatedMessage() { showMessage(getString(R.string.data_updated)) }
 

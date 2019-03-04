@@ -4,9 +4,9 @@ import valentyn.androidtasks.BaseContract
 
 interface DataSource {
 
-    interface LoadDatasCallback {
+    interface LoadAllDataCallback {
 
-        fun onDatasLoaded(datas: List<BaseContract.Data>)
+        fun onAllDataLoaded(dataList: List<BaseContract.Data>)
 
         fun onDataNotAvailable()
     }
@@ -20,10 +20,10 @@ interface DataSource {
 
     fun getData(key: String = "", dataId: String?, callback: GetDataCallback)
 
-    fun getDatas(key: String = "", callback: LoadDatasCallback)
+    fun getAllData(key: String = "", callback: LoadAllDataCallback)
 
     fun save(data: BaseContract.Data)
 
-    fun initDatas()
+    fun initAllData()
 
 }

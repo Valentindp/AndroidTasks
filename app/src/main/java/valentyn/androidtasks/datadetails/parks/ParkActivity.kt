@@ -1,12 +1,14 @@
 package valentyn.androidtasks.datadetails.parks
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_park.*
@@ -28,16 +30,8 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        presenter.onAttach(this, intent.getStringExtra(PARK_KEY),
-            PARK_KEY
-        )
-        park_select_button.setOnClickListener {
-            presenter.setOnClickListenerSelectedButton(
-                intent.getStringExtra(
-                    PARK_KEY
-                ), PARK_KEY
-            )
-        }
+        presenter.onAttach(this, intent.getStringExtra(PARK_KEY), PARK_KEY)
+        park_select_button.setOnClickListener {presenter.selectData()}
 
         park_name_edit.addTextChangedListener(presenter.getTextValidator(park_name_input))
         park_site_edit.addTextChangedListener(presenter.getTextValidator(park_site_input))
@@ -52,31 +46,31 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
     }
 
 
-    override fun updateTextSelectedButton(value: Int) {
+    override fun setTextSelectedButton(value: Int) {
         park_select_button.setText(value)
     }
 
-    override fun updateColorSelectedButton(value: Int) {
+    override fun setColorSelectedButton(value: Int) {
         park_select_button.setTextColor(value)
     }
 
-    override fun updateSiteText(site: String?) {
+    override fun setSiteText(site: String?) {
         park_site_edit.setText(site)
     }
 
-    override fun updateNameText(name: String?) {
+    override fun setNameText(name: String?) {
         park_name_edit.setText(name)
     }
 
-    override fun updateDescriptionText(description: String?) {
+    override fun setDescriptionText(description: String?) {
         park_description_edit.setText(description)
     }
 
-    override fun updateCountryText(country: String?) {
+    override fun setCountryText(country: String?) {
         park_country_edit.setText(country)
     }
 
-    override fun updateImageUri(uri: Uri?) {
+    override fun setImageUri(uri: Uri?) {
         park_image.setImageURI(uri)
         park_uri.text = uri.toString()
     }
@@ -91,6 +85,23 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
                 .error(R.drawable.ic_error_black_24dp)
                 .into(park_image)
         }
+    }
+
+    override fun changeTextAndColorSelect() {
+        if (park_select_button.text == getString(R.string.button_selected)) {
+            park_select_button.setText(R.string.button_unselected)
+            park_select_button.setTextColor(Color.GRAY)
+        } else {
+            park_select_button.setText(R.string.button_selected)
+            park_select_button.setTextColor(Color.GREEN)
+        }}
+
+    private fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showEmptyDataError() {
+        showMessage(getString(R.string.Error_data_empty))
     }
 
     private fun saveElement() {

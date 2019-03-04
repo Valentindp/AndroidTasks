@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_city.*
 import valentyn.androidtasks.datadetails.DataDetailPresenter
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
@@ -31,24 +32,19 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         }
         presenter.onAttach(this, intent.getStringExtra(CITY_KEY), CITY_KEY)
 
-        city_select_button.setOnClickListener {
-            presenter.setOnClickListenerSelectedButton(
-                intent.getStringExtra(
-                    CITY_KEY
-                ), CITY_KEY
-            )
-        }
+        city_select_button.setOnClickListener {presenter.selectData() }
 
         city_name_edit.addTextChangedListener(presenter.getTextValidator(city_name_input))
         city_site_edit.addTextChangedListener(presenter.getTextValidator(city_site_input))
         city_description_edit.addTextChangedListener(presenter.getTextValidator(city_description_input))
         city_country_edit.addTextChangedListener(presenter.getTextValidator(city_country_input))
         сity_image.setOnClickListener {
-            startActivityForResult(getImageIntent(),
+            startActivityForResult(
+                getImageIntent(),
                 REQUEST_TAKE_PHOTO
             )
         }
-        city_save_button.setOnClickListener{saveElement()}
+        city_save_button.setOnClickListener { saveElement() }
     }
 
     override fun onStart() {
@@ -56,17 +52,29 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         presenter.start()
     }
 
-    override fun setTextSelectedButton(value: Int) { city_select_button.setText(value) }
+    override fun setTextSelectedButton(value: Int) {
+        city_select_button.setText(value)
+    }
 
-    override fun setColorSelectedButton(value: Int) { city_select_button.setTextColor(value) }
+    override fun setColorSelectedButton(value: Int) {
+        city_select_button.setTextColor(value)
+    }
 
-    override fun setSiteText(site: String?) { city_site_edit.setText(site) }
+    override fun setSiteText(site: String?) {
+        city_site_edit.setText(site)
+    }
 
-    override fun setNameText(name: String?) { city_name_edit.setText(name) }
+    override fun setNameText(name: String?) {
+        city_name_edit.setText(name)
+    }
 
-    override fun setDescriptionText(description: String?) { city_description_edit.setText(description) }
+    override fun setDescriptionText(description: String?) {
+        city_description_edit.setText(description)
+    }
 
-    override fun setCountryText(country: String?) { city_country_edit.setText(country) }
+    override fun setCountryText(country: String?) {
+        city_country_edit.setText(country)
+    }
 
     override fun setImageUri(uri: Uri?) {
         сity_image.setImageURI(uri)
@@ -85,7 +93,19 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         }
     }
 
-    private fun showMessage(message: String) { Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
+    override fun changeTextAndColorSelect() {
+        if (city_select_button.text == getString(R.string.button_selected)) {
+            city_select_button.setText(R.string.button_unselected)
+            city_select_button.setTextColor(Color.GRAY)
+        } else {
+            city_select_button.setText(R.string.button_selected)
+            city_select_button.setTextColor(Color.GREEN)
+        }
+    }
+
+    private fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 
     override fun showEmptyDataError() {
         showMessage(getString(R.string.Error_data_empty))

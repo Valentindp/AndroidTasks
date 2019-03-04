@@ -2,7 +2,7 @@ package valentyn.androidtasks.mainview
 
 import valentyn.androidtasks.BaseContract
 
-interface DatasContract {
+interface DataContract {
 
     interface Presenter : BaseContract.Presenter<View> {
 
@@ -10,7 +10,7 @@ interface DatasContract {
 
         fun addNewData()
 
-        fun loadDatas()
+        fun loadAllData()
 
         fun openDataDetails(requestedData: BaseContract.Data)
 
@@ -19,7 +19,7 @@ interface DatasContract {
 
     interface View : BaseContract.View {
 
-        fun showDatas(datas: List<BaseContract.Data>)
+        fun showAllData(dataList: List<BaseContract.Data>)
 
         fun showAddData()
 
@@ -27,7 +27,7 @@ interface DatasContract {
 
         fun showSuccessfullySavedMessage()
 
-        fun showLoadingDatasError()
+        fun showLoadingDataListError()
 
         fun showSuccessfullyUpdatedMessage()
     }

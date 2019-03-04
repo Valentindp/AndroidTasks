@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import valentyn.androidtasks.data.City
 import valentyn.androidtasks.data.Park
-import valentyn.androidtasks.data.source.repository.DatasRepository
+import valentyn.androidtasks.data.source.repository.DataRepository
 import valentyn.androidtasks.utils.StringUtils
 import valentyn.androidtasks.utils.TextValidator
 import valentyn.androidtasks.BaseContract
@@ -39,19 +39,17 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     }
 
     override fun start() {
-        DatasRepository.getData(key, dataId, object : DataSource.GetDataCallback {
-
+        DataRepository.getData(key, dataId, object : DataSource.GetDataCallback {
             override fun onDataLoaded(data: BaseContract.Data) {
-                onDataLoaded(data)
+                onLoaded(data)
             }
-
             override fun onDataNotAvailable() {
-                onDataNotAvailable()
+                onNotAvailable()
             }
         })
     }
 
-    override fun onDataLoaded(data: BaseContract.Data) {
+    override fun onLoaded(data: BaseContract.Data) {
         view?.setSiteText(data.site)
         view?.setNameText(data.name)
         view?.setDescriptionText(data.description)
@@ -61,18 +59,17 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         view?.loadPhoto(data.url)
     }
 
-    override fun onDataNotAvailable() {
+    override fun onNotAvailable() {
         view?.showEmptyDataError()
     }
 
     override fun selectData() {
-
         if (dataId != null) {
             isChangeElement = true
-            DatasRepository.updateSelect(dataId, key)
+            DataRepository.updateSelect(dataId)
+            view?.changeTextAndColorSelect()
         }
     }
-
 
     fun getTextValidator(textView: TextInputLayout): TextValidator {
         return object : TextValidator(textView) {
@@ -92,29 +89,6 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         }
     }
 
-    fun updateSelectedButton(element: BaseContract.Data) {
-        view?.setTextSelectedButton(element.getTextSelected())
-        view?.setColorSelectedButton(element.getColorSelected())
-    }
-
-
-    fun setOnClickListenerSelectedButton(id: String?, key: String) {
-        if (id != null && id.isNotEmpty()) {
-            isChangeElement = true
-            Single.just(DatasRepository.updateSelect(id, key))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : SingleObserver<BaseContract.Data?> {
-                    override fun onSuccess(element: BaseContract.Data) {
-                        updateSelectedButton(element)
-                    }
-
-                    override fun onSubscribe(d: Disposable) {}
-                    override fun onError(e: Throwable) {}
-
-                })
-        }
-    }
 
     fun getPhotoURI(context: Context): Uri? {
         photoUri = FileUtils.getPhotoURI(context)
@@ -155,7 +129,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         }
 
         if (element != null) {
-            Completable.fromAction { DatasRepository.save(element) }
+            Completable.fromAction { DataRepository.save(element) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : CompletableObserver {

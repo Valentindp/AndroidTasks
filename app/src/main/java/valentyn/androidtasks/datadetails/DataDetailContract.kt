@@ -23,6 +23,8 @@ interface DataDetailContract {
 
         fun loadPhoto(url: String?)
 
+        fun changeTextAndColorSelect()
+
         fun showEmptyDataError()
 
         fun onFinish()
@@ -33,9 +35,9 @@ interface DataDetailContract {
 
         fun onAttach(view: View, dataId: String, key: String){}
 
-        fun onDataLoaded(data : BaseContract.Data)
+        fun onLoaded(data : BaseContract.Data)
 
-        fun onDataNotAvailable()
+        fun onNotAvailable()
 
         fun selectData()
 

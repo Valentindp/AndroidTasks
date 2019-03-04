@@ -1,7 +1,7 @@
 package valentyn.androidtasks.mainview.splashscreen
 
 import valentyn.androidtasks.data.source.local.RealmDatabase
-import valentyn.androidtasks.data.source.repository.DatasRepository
+import valentyn.androidtasks.data.source.repository.DataRepository
 
 class SplashScreenPresenter : SplashScreenContract.Presenter {
 
@@ -28,7 +28,7 @@ class SplashScreenPresenter : SplashScreenContract.Presenter {
     }
 
     override fun initDatas() {
-        DatasRepository.initDatas()
+        DataRepository.initAllData()
         view?.incrementProgressBar(40)
     }
 
