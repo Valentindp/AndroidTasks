@@ -13,7 +13,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.provider.MediaStore
-import android.widget.Toast
 import valentyn.androidtasks.datadetails.DataDetailContract
 
 class CityActivity : AppCompatActivity(), DataDetailContract.View {
@@ -32,8 +31,6 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         }
         presenter.onAttach(this, intent.getStringExtra(CITY_KEY), CITY_KEY)
 
-        city_select_button.setOnClickListener {presenter.selectData() }
-
         city_name_edit.addTextChangedListener(presenter.getTextValidator(city_name_input))
         city_site_edit.addTextChangedListener(presenter.getTextValidator(city_site_input))
         city_description_edit.addTextChangedListener(presenter.getTextValidator(city_description_input))
@@ -44,7 +41,18 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
                 REQUEST_TAKE_PHOTO
             )
         }
-        city_save_button.setOnClickListener { saveElement() }
+
+        city_select_button.setOnClickListener { presenter.selectData() }
+        city_save_button.setOnClickListener {
+            presenter.saveData(
+                name = city_name_edit.text.toString(),
+                url = city_uri.text.toString(),
+                description = city_description_edit.text.toString(),
+                country = city_country_edit.text.toString(),
+                site = city_site_edit.text.toString(),
+                select = city_select_button.text.toString() == getString(R.string.button_selected)
+            )
+        }
     }
 
     override fun onStart() {
@@ -83,7 +91,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
 
     override fun loadPhoto(url: String?) {
 
-        if (url != null && url.isNotEmpty()) {
+        if (!url.isNullOrEmpty()) {
             city_uri.text = url
             Picasso.get()
                 .load(url)
@@ -103,27 +111,8 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         }
     }
 
-    private fun showMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
     override fun showEmptyDataError() {
-        showMessage(getString(R.string.Error_data_empty))
-    }
-
-
-    private fun saveElement() {
-        presenter.saveElement(
-            this,
-            id = intent.getStringExtra(CITY_KEY),
-            name = city_name_edit.text.toString(),
-            url = city_uri.text.toString(),
-            about = city_description_edit.text.toString(),
-            country = city_country_edit.text.toString(),
-            site = city_site_edit.text.toString(),
-            select = city_select_button.text.toString(),
-            key = CITY_KEY
-        )
+        city_name_input.error = getString(R.string.Error_city_empty)
     }
 
     private fun getImageIntent(): Intent {
@@ -134,7 +123,6 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         }
         return takePictureIntent
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_city_menu, menu)
@@ -167,7 +155,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
     }
 
     override fun finish() {
-        if (presenter.isChangeElement) setResult(Activity.RESULT_OK)
+        if (presenter.isDataChange) setResult(Activity.RESULT_OK)
         super.finish()
     }
 

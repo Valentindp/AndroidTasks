@@ -23,5 +23,6 @@
     <string name="loading_datas_error">Error while loading datas</string>
     <string name="data_saved">Data saved</string>
     <string name="data_updated">Data updated</string>
-    <string name="Error_data_empty">Data cannot be empty!</string>
+    <string name="Error_city_empty">City cannot be empty!</string>
+    <string name="Error_park_empty">Park cannot be empty!</string>
 </resources>

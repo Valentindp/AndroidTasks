@@ -8,7 +8,6 @@ import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import valentyn.androidtasks.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_park.*
@@ -31,20 +30,29 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
         }
 
         presenter.onAttach(this, intent.getStringExtra(PARK_KEY), PARK_KEY)
-        park_select_button.setOnClickListener {presenter.selectData()}
 
         park_name_edit.addTextChangedListener(presenter.getTextValidator(park_name_input))
         park_site_edit.addTextChangedListener(presenter.getTextValidator(park_site_input))
         park_description_edit.addTextChangedListener(presenter.getTextValidator(park_description_input))
         park_country_edit.addTextChangedListener(presenter.getTextValidator(park_country_input))
+
         park_image.setOnClickListener {
             startActivityForResult(getImageIntent(),
                 REQUEST_TAKE_PHOTO
             )
         }
-        park_save_button.setOnClickListener { saveElement() }
+        park_select_button.setOnClickListener { presenter.selectData() }
+        park_save_button.setOnClickListener {
+            presenter.saveData(
+                name = park_name_edit.text.toString(),
+                url = park_uri.text.toString(),
+                description = park_description_edit.text.toString(),
+                country = park_country_edit.text.toString(),
+                site = park_site_edit.text.toString(),
+                select = park_select_button.text.toString() == getString(R.string.button_selected)
+            )
+        }
     }
-
 
     override fun setTextSelectedButton(value: Int) {
         park_select_button.setText(value)
@@ -77,7 +85,7 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
 
     override fun loadPhoto(url: String?) {
 
-        if (url != null && url.isNotEmpty()) {
+        if (!url.isNullOrEmpty()) {
             park_uri.text = url
             Picasso.get()
                 .load(url)
@@ -96,28 +104,9 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
             park_select_button.setTextColor(Color.GREEN)
         }}
 
-    private fun showMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
     override fun showEmptyDataError() {
-        showMessage(getString(R.string.Error_data_empty))
+        park_name_input.error = getString(R.string.Error_park_empty)
     }
-
-    private fun saveElement() {
-        presenter.saveElement(
-            this,
-            id = intent.getStringExtra(PARK_KEY),
-            name = park_name_edit.text.toString(),
-            url = park_uri.text.toString(),
-            about = park_description_edit.text.toString(),
-            country = park_country_edit.text.toString(),
-            site = park_site_edit.text.toString(),
-            select = park_select_button.text.toString(),
-            key = PARK_KEY
-        )
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_park_menu, menu)
@@ -151,7 +140,7 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
     }
 
     override fun finish() {
-        if (presenter.isChangeElement) setResult(AppCompatActivity.RESULT_OK)
+        if (presenter.isDataChange) setResult(AppCompatActivity.RESULT_OK)
         super.finish()
     }
 

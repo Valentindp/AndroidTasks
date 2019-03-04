@@ -33,7 +33,7 @@ interface DataDetailContract {
 
     interface Presenter : BaseContract.Presenter<View> {
 
-        fun onAttach(view: View, dataId: String, key: String){}
+        fun onAttach(view: View, dataId: String?, key: String){}
 
         fun onLoaded(data : BaseContract.Data)
 
