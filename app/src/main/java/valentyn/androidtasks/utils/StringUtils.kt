@@ -1,9 +1,10 @@
 package valentyn.androidtasks.utils
 
+
 object StringUtils {
 
-    const val forbiddenCharacterString: String = "+_#@"
+    const val FORBIDDEN_CHARACTER: String = "+_#@"
 
-    fun haveForbiddenCharacter(c:Char):Boolean = forbiddenCharacterString.indexOf(c) > 0
+    fun haveForbiddenCharacter(c:Char):Boolean = FORBIDDEN_CHARACTER.indexOf(c) > 0
 
 }

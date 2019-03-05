@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +14,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_park.*
 import valentyn.androidtasks.datadetails.DataDetailContract
 import valentyn.androidtasks.datadetails.DataDetailPresenter
+import valentyn.androidtasks.utils.ErrorTypeTextValidate
+import valentyn.androidtasks.utils.FileUtils
 
 class ParkActivity : AppCompatActivity(), DataDetailContract.View {
 
@@ -31,20 +34,16 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
 
         presenter.onAttach(this, intent.getStringExtra(PARK_KEY), PARK_KEY)
 
-        park_name_edit.addTextChangedListener(presenter.getTextValidator(park_name_input))
+        park_title_edit.addTextChangedListener(presenter.getTextValidator(park_title_input))
         park_site_edit.addTextChangedListener(presenter.getTextValidator(park_site_input))
         park_description_edit.addTextChangedListener(presenter.getTextValidator(park_description_input))
         park_country_edit.addTextChangedListener(presenter.getTextValidator(park_country_input))
 
-        park_image.setOnClickListener {
-            startActivityForResult(getImageIntent(),
-                REQUEST_TAKE_PHOTO
-            )
-        }
+        park_image.setOnClickListener {presenter.getPhoto() }
         park_select_button.setOnClickListener { presenter.selectData() }
         park_save_button.setOnClickListener {
             presenter.saveData(
-                name = park_name_edit.text.toString(),
+                name = park_title_edit.text.toString(),
                 url = park_uri.text.toString(),
                 description = park_description_edit.text.toString(),
                 country = park_country_edit.text.toString(),
@@ -67,7 +66,7 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
     }
 
     override fun setNameText(name: String?) {
-        park_name_edit.setText(name)
+        park_title_edit.setText(name)
     }
 
     override fun setDescriptionText(description: String?) {
@@ -78,7 +77,16 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
         park_country_edit.setText(country)
     }
 
-    override fun setImageUri(uri: Uri?) {
+    override fun getPhotoIntent(){
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        if (takePictureIntent.resolveActivity(packageManager) != null) {
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtils.getPhotoURI(this))
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+        }
+    }
+
+    override fun setPhoto(uri: Uri?) {
         park_image.setImageURI(uri)
         park_uri.text = uri.toString()
     }
@@ -104,10 +112,22 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
             park_select_button.setTextColor(Color.GREEN)
         }}
 
-    override fun showEmptyDataError() {
-        park_name_input.error = getString(R.string.Error_park_empty)
+    override fun showEmptyError() {
+        showValidateError(park_title_input, ErrorTypeTextValidate.ERROR_TITLE_EMPTY)
     }
 
+    override fun showValidateError(textView: TextInputLayout, errorType: ErrorTypeTextValidate?) {
+        textView.error = getTextError(errorType)
+    }
+
+    private fun getTextError(errorType: ErrorTypeTextValidate?): CharSequence? {
+        return when (errorType) {
+            ErrorTypeTextValidate.ERROR_TITLE_EMPTY -> getString(R.string.Error_title_empty)
+            ErrorTypeTextValidate.ERROR_FORBIDDEN_CHARACTER -> getString(R.string.Error_forbiden_character)
+            ErrorTypeTextValidate.ERROR_MAX_LENGTH -> getString(R.string.Error_max_length)
+            else -> null
+        }
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_park_menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -126,13 +146,12 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
         }
     }
 
-    private fun getImageIntent(): Intent {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-        if (takePictureIntent.resolveActivity(packageManager) != null) {
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, presenter.getPhotoURI(this))
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == AppCompatActivity.RESULT_OK) {
+            // setPhoto(presenter.photoUri)
         }
-        return takePictureIntent
     }
 
     override fun onFinish() {

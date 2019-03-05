@@ -7,7 +7,7 @@ import java.util.*
 
 open class Park(
     @PrimaryKey override var id: String = UUID.randomUUID().toString(),
-    override var name: String = "",
+    override var title: String = "",
     override var url: String = "",
     override var description: String = "",
     override var country: String = "",

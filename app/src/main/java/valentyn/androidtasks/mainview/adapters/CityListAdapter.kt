@@ -47,7 +47,7 @@ class CityListAdapter(datas: List<BaseContract.Data>, listener: DataItemListener
             }
 
             view.apply {
-                nameTextView.text = city.name
+                nameTextView.text = city.title
                 descriptionTextView.text = city.description
                 selectedTextView.setText(city.getTextSelected())
                 selectedTextView.setTextColor(city.getColorSelected())

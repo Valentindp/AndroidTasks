@@ -1,7 +1,9 @@
 package valentyn.androidtasks.datadetails
 
 import android.net.Uri
+import android.support.design.widget.TextInputLayout
 import valentyn.androidtasks.BaseContract
+import valentyn.androidtasks.utils.ErrorTypeTextValidate
 
 interface DataDetailContract {
 
@@ -19,13 +21,17 @@ interface DataDetailContract {
 
         fun setColorSelectedButton(value: Int)
 
-        fun setImageUri(uri:Uri?)
+        fun setPhoto(uri:Uri?)
+
+        fun getPhotoIntent()
 
         fun loadPhoto(url: String?)
 
         fun changeTextAndColorSelect()
 
-        fun showEmptyDataError()
+        fun showEmptyError()
+
+        fun showValidateError(textView: TextInputLayout, errorType: ErrorTypeTextValidate? = null)
 
         fun onFinish()
 
@@ -40,6 +46,9 @@ interface DataDetailContract {
         fun onNotAvailable()
 
         fun selectData()
+
+        fun getPhoto()
+
 
     }
 }

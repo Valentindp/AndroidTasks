@@ -23,6 +23,7 @@
     <string name="loading_datas_error">Error while loading datas</string>
     <string name="data_saved">Data saved</string>
     <string name="data_updated">Data updated</string>
-    <string name="Error_city_empty">City cannot be empty!</string>
-    <string name="Error_park_empty">Park cannot be empty!</string>
+    <string name="Error_title_empty">Title cannot be empty!</string>
+    <string name="Error_forbiden_character">This symbol is not allowed!</string>
+    <string name="Error_max_length">Maximum number of characters reached!</string>
 </resources>

@@ -17,7 +17,7 @@ interface BaseContract {
 
     interface Data : RealmModel {
         val id: String
-        var name: String
+        var title: String
         var url: String
         var description: String
         var country: String
@@ -28,7 +28,7 @@ interface BaseContract {
 
         fun getColorSelected(): Int = if (select) Color.GREEN else Color.GRAY
 
-        fun isEmpty():Boolean = name.isEmpty()
+        fun isEmpty():Boolean = title.isEmpty()
     }
 
 }

@@ -13,7 +13,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.provider.MediaStore
+import android.support.design.widget.TextInputLayout
 import valentyn.androidtasks.datadetails.DataDetailContract
+import valentyn.androidtasks.utils.ErrorTypeTextValidate
+import valentyn.androidtasks.utils.FileUtils
 
 class CityActivity : AppCompatActivity(), DataDetailContract.View {
 
@@ -31,21 +34,15 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         }
         presenter.onAttach(this, intent.getStringExtra(CITY_KEY), CITY_KEY)
 
-        city_name_edit.addTextChangedListener(presenter.getTextValidator(city_name_input))
+        city_title_edit.addTextChangedListener(presenter.getTextValidator(city_title_input))
         city_site_edit.addTextChangedListener(presenter.getTextValidator(city_site_input))
         city_description_edit.addTextChangedListener(presenter.getTextValidator(city_description_input))
         city_country_edit.addTextChangedListener(presenter.getTextValidator(city_country_input))
-        сity_image.setOnClickListener {
-            startActivityForResult(
-                getImageIntent(),
-                REQUEST_TAKE_PHOTO
-            )
-        }
 
         city_select_button.setOnClickListener { presenter.selectData() }
         city_save_button.setOnClickListener {
             presenter.saveData(
-                name = city_name_edit.text.toString(),
+                name = city_title_edit.text.toString(),
                 url = city_uri.text.toString(),
                 description = city_description_edit.text.toString(),
                 country = city_country_edit.text.toString(),
@@ -58,6 +55,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
     override fun onStart() {
         super.onStart()
         presenter.start()
+        сity_image.setOnClickListener {presenter.getPhoto()}
     }
 
     override fun setTextSelectedButton(value: Int) {
@@ -73,7 +71,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
     }
 
     override fun setNameText(name: String?) {
-        city_name_edit.setText(name)
+        city_title_edit.setText(name)
     }
 
     override fun setDescriptionText(description: String?) {
@@ -84,7 +82,16 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         city_country_edit.setText(country)
     }
 
-    override fun setImageUri(uri: Uri?) {
+    override fun getPhotoIntent(){
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        if (takePictureIntent.resolveActivity(packageManager) != null) {
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtils.getPhotoURI(this))
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+        }
+    }
+
+    override fun setPhoto(uri: Uri?) {
         сity_image.setImageURI(uri)
         city_uri.text = uri.toString()
     }
@@ -111,17 +118,21 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         }
     }
 
-    override fun showEmptyDataError() {
-        city_name_input.error = getString(R.string.Error_city_empty)
+    override fun showEmptyError() {
+        showValidateError(city_title_input, ErrorTypeTextValidate.ERROR_TITLE_EMPTY)
     }
 
-    private fun getImageIntent(): Intent {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    override fun showValidateError(textView: TextInputLayout, errorType: ErrorTypeTextValidate?) {
+        textView.error = getTextError(errorType)
+    }
 
-        if (takePictureIntent.resolveActivity(packageManager) != null) {
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, presenter.getPhotoURI(this))
+    private fun getTextError(errorType: ErrorTypeTextValidate?): CharSequence? {
+        return when (errorType) {
+            ErrorTypeTextValidate.ERROR_TITLE_EMPTY -> getString(R.string.Error_title_empty)
+            ErrorTypeTextValidate.ERROR_FORBIDDEN_CHARACTER -> getString(R.string.Error_forbiden_character)
+            ErrorTypeTextValidate.ERROR_MAX_LENGTH -> getString(R.string.Error_max_length)
+            else -> null
         }
-        return takePictureIntent
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -145,8 +156,8 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == AppCompatActivity.RESULT_OK && presenter.photoUri != null) {
-            setImageUri(presenter.photoUri)
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == AppCompatActivity.RESULT_OK) {
+           // setPhoto(presenter.photoUri)
         }
     }
 

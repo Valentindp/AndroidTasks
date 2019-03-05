@@ -13,6 +13,7 @@ import valentyn.androidtasks.datadetails.parks.ParkActivity
 import android.net.Uri
 import android.support.design.widget.TextInputLayout
 import valentyn.androidtasks.data.source.DataSource
+import valentyn.androidtasks.utils.ErrorTypeTextValidate
 import valentyn.androidtasks.utils.FileUtils
 import java.lang.RuntimeException
 
@@ -22,7 +23,6 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     private var dataId: String? = null
     private var key = ""
 
-    var photoUri: Uri? = null
     var isDataChange = false
 
     override fun onAttach(view: DataDetailContract.View, dataId: String?, key: String) {
@@ -48,7 +48,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
 
     override fun onLoaded(data: BaseContract.Data) {
         view?.setSiteText(data.site)
-        view?.setNameText(data.name)
+        view?.setNameText(data.title)
         view?.setDescriptionText(data.description)
         view?.setCountryText(data.country)
         view?.setTextSelectedButton(data.getTextSelected())
@@ -57,7 +57,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     }
 
     override fun onNotAvailable() {
-        view?.showEmptyDataError()
+        view?.showEmptyError()
     }
 
     override fun selectData() {
@@ -67,6 +67,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         }
         view?.changeTextAndColorSelect()
     }
+
 
     fun getTextValidator(textView: TextInputLayout): TextValidator {
         return object : TextValidator(textView) {
@@ -78,18 +79,22 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
                         haveForbiddenCharacter = true
                     }
                 }
-                if (haveForbiddenCharacter) textView.error = "This symbol is not allowed!" else {
-                    textView.error =
-                        if (s.length == textView.counterMaxLength) "Maximum number of characters reached!" else null
+
+                if (haveForbiddenCharacter) view?.showValidateError(
+                    textView,
+                    ErrorTypeTextValidate.ERROR_FORBIDDEN_CHARACTER
+                ) else {
+                    if (s.length == textView.counterMaxLength && !haveForbiddenCharacter) view?.showValidateError(
+                        textView,
+                        ErrorTypeTextValidate.ERROR_MAX_LENGTH
+                    ) else view?.showValidateError(textView)
                 }
             }
         }
     }
 
-
-    fun getPhotoURI(context: Context): Uri? {
-        photoUri = FileUtils.getPhotoURI(context)
-        return photoUri
+    override fun getPhoto() {
+        view?.getPhotoIntent()
     }
 
     fun saveData(name: String, url: String, description: String, country: String, site: String, select: Boolean) {
@@ -114,7 +119,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         var newData: BaseContract.Data? = null
         when (key) {
             CityActivity.CITY_KEY -> newData = City(
-                name = name,
+                title = name,
                 url = url,
                 description = description,
                 country = country,
@@ -122,7 +127,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
                 select = select
             )
             ParkActivity.PARK_KEY -> newData = Park(
-                name = name,
+                title = name,
                 url = url,
                 description = description,
                 country = country,
@@ -132,7 +137,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         }
         if (newData != null) {
             if (newData.isEmpty()) {
-                view?.showEmptyDataError()
+                view?.showEmptyError()
             } else {
                 DataRepository.save(newData)
                 view?.onFinish()
@@ -158,7 +163,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         when (key) {
             CityActivity.CITY_KEY -> data = City(
                 id = dataId!!,
-                name = name,
+                title = name,
                 url = url,
                 description = description,
                 country = country,
@@ -167,7 +172,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
             )
             ParkActivity.PARK_KEY -> data = Park(
                 id = dataId!!,
-                name = name,
+                title = name,
                 url = url,
                 description = description,
                 country = country,

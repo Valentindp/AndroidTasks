@@ -47,7 +47,7 @@ class ParkListAdapter(datas: List<BaseContract.Data>, listener: DataItemListener
             }
 
             view.apply {
-                nameTextView.text = park.name
+                nameTextView.text = park.title
                 descriptionTextView.text = park.description
                 selectedTextView.setText(park.getTextSelected())
                 selectedTextView.setTextColor(park.getColorSelected())
