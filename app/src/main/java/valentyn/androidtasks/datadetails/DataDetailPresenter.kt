@@ -1,6 +1,6 @@
 package valentyn.androidtasks.datadetails
 
-import android.content.Context
+import android.app.Activity
 import android.text.Editable
 import valentyn.androidtasks.data.City
 import valentyn.androidtasks.data.Park
@@ -14,7 +14,6 @@ import android.net.Uri
 import android.support.design.widget.TextInputLayout
 import valentyn.androidtasks.data.source.DataSource
 import valentyn.androidtasks.utils.ErrorTypeTextValidate
-import valentyn.androidtasks.utils.FileUtils
 import java.lang.RuntimeException
 
 class DataDetailPresenter() : DataDetailContract.Presenter {
@@ -22,8 +21,11 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     private var view: DataDetailContract.View? = null
     private var dataId: String? = null
     private var key = ""
+    private var photoUri:Uri? = null
 
     var isDataChange = false
+
+    val REQUEST_TAKE_PHOTO: Int = 1
 
     override fun onAttach(view: DataDetailContract.View, dataId: String?, key: String) {
         this.view = view
@@ -94,7 +96,8 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     }
 
     override fun getPhoto() {
-        view?.getPhotoIntent()
+        photoUri = view?.getPhotoURI()
+        view?.getPhotoIntent(photoUri)
     }
 
     fun saveData(name: String, url: String, description: String, country: String, site: String, select: Boolean) {
@@ -185,6 +188,12 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
             view?.onFinish()
         } else {
             throw RuntimeException("Object key is empty.")
+        }
+    }
+
+    override fun result(requestCode: Int, resultCode: Int) {
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+            view?.setPhoto(photoUri)
         }
     }
 

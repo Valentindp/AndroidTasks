@@ -39,6 +39,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         city_description_edit.addTextChangedListener(presenter.getTextValidator(city_description_input))
         city_country_edit.addTextChangedListener(presenter.getTextValidator(city_country_input))
 
+        сity_image.setOnClickListener {presenter.getPhoto()}
         city_select_button.setOnClickListener { presenter.selectData() }
         city_save_button.setOnClickListener {
             presenter.saveData(
@@ -55,7 +56,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
     override fun onStart() {
         super.onStart()
         presenter.start()
-        сity_image.setOnClickListener {presenter.getPhoto()}
+
     }
 
     override fun setTextSelectedButton(value: Int) {
@@ -82,12 +83,14 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         city_country_edit.setText(country)
     }
 
-    override fun getPhotoIntent(){
+    override fun getPhotoURI(): Uri? = FileUtils.getPhotoURI(this)
+
+    override fun getPhotoIntent(uri: Uri?){
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         if (takePictureIntent.resolveActivity(packageManager) != null) {
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtils.getPhotoURI(this))
-            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+            startActivityForResult(takePictureIntent, presenter.REQUEST_TAKE_PHOTO)
         }
     }
 
@@ -155,10 +158,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == AppCompatActivity.RESULT_OK) {
-           // setPhoto(presenter.photoUri)
-        }
+           presenter.result(requestCode, resultCode)
     }
 
     override fun onFinish() {
@@ -170,16 +170,14 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         super.finish()
     }
 
-    override fun onStop() {
+    override fun onDestroy() {
         presenter.onDetach()
-        super.onStop()
+        super.onDestroy()
     }
 
     companion object {
 
         const val CITY_KEY = "CITY_KEY"
-        const val REQUEST_TAKE_PHOTO: Int = 1
-
     }
 
 }

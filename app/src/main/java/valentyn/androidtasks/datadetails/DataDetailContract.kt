@@ -21,9 +21,11 @@ interface DataDetailContract {
 
         fun setColorSelectedButton(value: Int)
 
-        fun setPhoto(uri:Uri?)
+        fun setPhoto(uri: Uri?)
 
-        fun getPhotoIntent()
+        fun getPhotoURI(): Uri?
+
+        fun getPhotoIntent(uri: Uri?)
 
         fun loadPhoto(url: String?)
 
@@ -39,9 +41,9 @@ interface DataDetailContract {
 
     interface Presenter : BaseContract.Presenter<View> {
 
-        fun onAttach(view: View, dataId: String?, key: String){}
+        fun onAttach(view: View, dataId: String?, key: String) {}
 
-        fun onLoaded(data : BaseContract.Data)
+        fun onLoaded(data: BaseContract.Data)
 
         fun onNotAvailable()
 
@@ -49,6 +51,7 @@ interface DataDetailContract {
 
         fun getPhoto()
 
+        fun result(requestCode: Int, resultCode: Int)
 
     }
 }

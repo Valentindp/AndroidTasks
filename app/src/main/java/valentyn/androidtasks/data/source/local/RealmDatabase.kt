@@ -21,7 +21,7 @@ object RealmDatabase {
         Realm.setDefaultConfiguration(RealmConfiguration.Builder().build())
     }
 
-    fun getRealmDatas(key: String): List<BaseContract.Data> {
+    fun getRealmAllData(key: String): List<BaseContract.Data> {
         var list: List<BaseContract.Data> = emptyList()
         val realm = getInstance()
         realm.use {

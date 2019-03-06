@@ -53,6 +53,12 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter.start()
+
+    }
+
     override fun setTextSelectedButton(value: Int) {
         park_select_button.setText(value)
     }
@@ -77,12 +83,14 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
         park_country_edit.setText(country)
     }
 
-    override fun getPhotoIntent(){
+    override fun getPhotoURI(): Uri? = FileUtils.getPhotoURI(this)
+
+    override fun getPhotoIntent(uri: Uri?){
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         if (takePictureIntent.resolveActivity(packageManager) != null) {
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtils.getPhotoURI(this))
-            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+            startActivityForResult(takePictureIntent, presenter.REQUEST_TAKE_PHOTO)
         }
     }
 
@@ -148,10 +156,7 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == AppCompatActivity.RESULT_OK) {
-            // setPhoto(presenter.photoUri)
-        }
+        presenter.result(requestCode, resultCode)
     }
 
     override fun onFinish() {
@@ -169,9 +174,6 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
     }
 
     companion object {
-
         const val PARK_KEY = "PARK_KEY"
-        const val REQUEST_TAKE_PHOTO: Int = 1
-
     }
 }

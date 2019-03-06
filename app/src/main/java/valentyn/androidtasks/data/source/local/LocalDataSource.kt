@@ -10,10 +10,10 @@ import valentyn.androidtasks.datadetails.parks.ParkActivity
 object LocalDataSource : DataSource {
 
     override fun initAllData() {
-        if (RealmDatabase.getRealmDatas(CityActivity.CITY_KEY).isEmpty()) for (item in CityRepository.dataCitys) save(
+        if (RealmDatabase.getRealmAllData(CityActivity.CITY_KEY).isEmpty()) for (item in CityRepository.dataCitys) save(
             item
         )
-        if (RealmDatabase.getRealmDatas(ParkActivity.PARK_KEY).isEmpty()) for (item in ParkRepository.dataParks) save(
+        if (RealmDatabase.getRealmAllData(ParkActivity.PARK_KEY).isEmpty()) for (item in ParkRepository.dataParks) save(
             item
         )
     }
@@ -25,7 +25,7 @@ object LocalDataSource : DataSource {
     }
 
     override fun getAllData(key: String, callback: DataSource.LoadAllDataCallback) {
-        val list: List<BaseContract.Data> = RealmDatabase.getRealmDatas(key)
+        val list: List<BaseContract.Data> = RealmDatabase.getRealmAllData(key)
 
         if (list.isEmpty()) { callback.onDataNotAvailable() } else callback.onAllDataLoaded(list)
     }
