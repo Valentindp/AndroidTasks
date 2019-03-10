@@ -166,13 +166,13 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
     }
 
     override fun finish() {
-        if (presenter.isDataChange) setResult(Activity.RESULT_OK)
         super.finish()
+        if (presenter.isDataChange) setResult(Activity.RESULT_OK)
     }
 
     override fun onDestroy() {
-        presenter.onDetach()
         super.onDestroy()
+        presenter.onDetach()
     }
 
     companion object {

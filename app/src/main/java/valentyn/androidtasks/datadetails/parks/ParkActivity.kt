@@ -164,13 +164,13 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
     }
 
     override fun finish() {
-        if (presenter.isDataChange) setResult(AppCompatActivity.RESULT_OK)
         super.finish()
+        if (presenter.isDataChange) setResult(AppCompatActivity.RESULT_OK)
     }
 
     override fun onDestroy() {
-        presenter.onDetach()
         super.onDestroy()
+        presenter.onDetach()
     }
 
     companion object {
