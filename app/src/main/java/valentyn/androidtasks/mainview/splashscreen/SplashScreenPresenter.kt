@@ -7,6 +7,8 @@ class SplashScreenPresenter : SplashScreenContract.Presenter {
 
     private var view: SplashScreenContract.View? = null
 
+
+
     override fun onAttach(view: SplashScreenContract.View) {
         this.view = view
     }
@@ -17,19 +19,19 @@ class SplashScreenPresenter : SplashScreenContract.Presenter {
         view?.showProgressBar()
     }
 
-    override fun initDatabase() {
+    override fun initDatabase(progress :Int) {
         view?.initDatabase()
-        view?.incrementProgressBar(30)
+        view?.incrementProgressBar(progress)
     }
 
-    override fun setConfiguration() {
+    override fun setConfiguration(progress :Int) {
         RealmDatabase.setRealmConfiguration()
-        view?.incrementProgressBar(30)
+        view?.incrementProgressBar(progress)
     }
 
-    override fun initDatas() {
+    override fun initData(progress :Int) {
         DataRepository.initAllData()
-        view?.incrementProgressBar(40)
+        view?.incrementProgressBar(progress)
     }
 
     override fun finishProgress() {

@@ -23,6 +23,10 @@ interface DataDetailContract {
 
         fun setPhoto(uri: Uri?)
 
+        fun setUpTextChangeListeners()
+
+        fun setUpOnCliskListeners()
+
         fun getPhotoURI(): Uri?
 
         fun getPhotoIntent(uri: Uri?)

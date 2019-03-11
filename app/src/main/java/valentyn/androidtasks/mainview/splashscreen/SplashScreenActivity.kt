@@ -15,6 +15,13 @@ class SplashScreenActivity : AppCompatActivity(), SplashScreenContract.View {
     private var handler: Handler? = null
     private val presenter: SplashScreenPresenter = SplashScreenPresenter()
 
+    private val PROGRESS_START = 0
+    private val PROGRESS_INIT_DATABASE_PART = 25
+    private val PROGRESS_SET_CONFIG_PART = 35
+    private val PROGRESS_INIT_DATA_PART= 40
+    private val PROGRESS_SET_CONFIG_FINISH = 60
+    private val PROGRESS_FINISH = 100
+
     override fun onStart() {
         super.onStart()
         presenter.onAttach(this)
@@ -29,19 +36,19 @@ class SplashScreenActivity : AppCompatActivity(), SplashScreenContract.View {
             presenter.showProgressBar()
 
             when (progressStatus) {
-                0 -> {
-                    presenter.initDatabase()
+                PROGRESS_START -> {
+                    presenter.initDatabase(PROGRESS_INIT_DATABASE_PART)
                     handler?.sendEmptyMessageDelayed(0, 100)
                 }
-                30 -> {
-                    presenter.setConfiguration()
+                PROGRESS_INIT_DATABASE_PART -> {
+                    presenter.setConfiguration(PROGRESS_SET_CONFIG_PART)
                     handler?.sendEmptyMessageDelayed(0, 100)
                 }
-                60 -> {
-                    presenter.initDatas()
+                PROGRESS_SET_CONFIG_FINISH -> {
+                    presenter.initData(PROGRESS_INIT_DATA_PART)
                     handler?.sendEmptyMessageDelayed(0, 100)
                 }
-                100 -> {
+                PROGRESS_FINISH -> {
                     presenter.finishProgress()
                 }
             }

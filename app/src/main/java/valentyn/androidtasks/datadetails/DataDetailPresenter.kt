@@ -18,10 +18,11 @@ import java.lang.RuntimeException
 
 class DataDetailPresenter() : DataDetailContract.Presenter {
 
+
     private var view: DataDetailContract.View? = null
     private var dataId: String? = null
     private var key = ""
-    private var photoUri:Uri? = null
+    private var photoUri: Uri? = null
 
     var isDataChange = false
 
@@ -31,11 +32,16 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         this.view = view
         this.dataId = dataId
         this.key = key
+
+        view.apply {
+            setUpTextChangeListeners()
+            setUpOnCliskListeners()
+        }
     }
 
     override fun start() {
 
-        if (dataId == null) return
+        if (isNewTask()) return
 
         DataRepository.getData(key, dataId, object : DataSource.GetDataCallback {
             override fun onDataLoaded(data: BaseContract.Data) {
@@ -49,13 +55,15 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     }
 
     override fun onLoaded(data: BaseContract.Data) {
-        view?.setSiteText(data.site)
-        view?.setNameText(data.title)
-        view?.setDescriptionText(data.description)
-        view?.setCountryText(data.country)
-        view?.setTextSelectedButton(data.getTextSelected())
-        view?.setColorSelectedButton(data.getColorSelected())
-        view?.loadPhoto(data.url)
+        view?.apply {
+            setSiteText(data.site)
+            setNameText(data.title)
+            setDescriptionText(data.description)
+            setCountryText(data.country)
+            setTextSelectedButton(data.getTextSelected())
+            setColorSelectedButton(data.getColorSelected())
+            loadPhoto(data.url)
+        }
     }
 
     override fun onNotAvailable() {
@@ -63,9 +71,11 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     }
 
     override fun selectData() {
-        if (dataId != null) {
+        if (!isNewTask()) {
             isDataChange = true
             DataRepository.updateSelect(dataId)
+        } else {
+            /*  In this case, the record in the database does not occur. The form of the new element is open. */
         }
         view?.changeTextAndColorSelect()
     }
@@ -81,15 +91,14 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
                         haveForbiddenCharacter = true
                     }
                 }
-
-                if (haveForbiddenCharacter) view?.showValidateError(
-                    textView,
-                    ErrorTypeTextValidate.ERROR_FORBIDDEN_CHARACTER
-                ) else {
-                    if (s.length == textView.counterMaxLength && !haveForbiddenCharacter) view?.showValidateError(
-                        textView,
-                        ErrorTypeTextValidate.ERROR_MAX_LENGTH
-                    ) else view?.showValidateError(textView)
+                if (haveForbiddenCharacter) {
+                    view?.showValidateError(textView, ErrorTypeTextValidate.ERROR_FORBIDDEN_CHARACTER)
+                } else {
+                    if (s.length == textView.counterMaxLength && !haveForbiddenCharacter) {
+                        view?.showValidateError(textView, ErrorTypeTextValidate.ERROR_MAX_LENGTH)
+                    } else {
+                        view?.showValidateError(textView)
+                    }
                 }
             }
         }

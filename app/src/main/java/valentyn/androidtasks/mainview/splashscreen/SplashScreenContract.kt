@@ -8,13 +8,13 @@ interface SplashScreenContract {
 
         fun onAttach(view: View)
 
+        fun initDatabase(progress :Int)
+
+        fun setConfiguration(progress :Int)
+
+        fun initData(progress :Int)
+
         fun finishProgress()
-
-        fun initDatabase()
-
-        fun setConfiguration()
-
-        fun initDatas()
 
         fun showProgressBar()
 

@@ -33,12 +33,15 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
         presenter.onAttach(this, intent.getStringExtra(CITY_KEY), CITY_KEY)
+    }
 
-        city_title_edit.addTextChangedListener(presenter.getTextValidator(city_title_input))
-        city_site_edit.addTextChangedListener(presenter.getTextValidator(city_site_input))
-        city_description_edit.addTextChangedListener(presenter.getTextValidator(city_description_input))
-        city_country_edit.addTextChangedListener(presenter.getTextValidator(city_country_input))
+    override fun onStart() {
+        super.onStart()
+        presenter.start()
 
+    }
+
+    override fun setUpOnCliskListeners(){
         сity_image.setOnClickListener {presenter.getPhoto()}
         city_select_button.setOnClickListener { presenter.selectData() }
         city_save_button.setOnClickListener {
@@ -53,10 +56,11 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.start()
-
+    override fun setUpTextChangeListeners() {
+        city_title_edit.addTextChangedListener(presenter.getTextValidator(city_title_input))
+        city_site_edit.addTextChangedListener(presenter.getTextValidator(city_site_input))
+        city_description_edit.addTextChangedListener(presenter.getTextValidator(city_description_input))
+        city_country_edit.addTextChangedListener(presenter.getTextValidator(city_country_input))
     }
 
     override fun setTextSelectedButton(value: Int) {

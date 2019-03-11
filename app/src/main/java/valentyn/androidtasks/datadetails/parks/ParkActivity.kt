@@ -31,14 +31,16 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
-
         presenter.onAttach(this, intent.getStringExtra(PARK_KEY), PARK_KEY)
+    }
 
-        park_title_edit.addTextChangedListener(presenter.getTextValidator(park_title_input))
-        park_site_edit.addTextChangedListener(presenter.getTextValidator(park_site_input))
-        park_description_edit.addTextChangedListener(presenter.getTextValidator(park_description_input))
-        park_country_edit.addTextChangedListener(presenter.getTextValidator(park_country_input))
+    override fun onStart() {
+        super.onStart()
+        presenter.start()
 
+    }
+
+    override fun setUpOnCliskListeners(){
         park_image.setOnClickListener {presenter.getPhoto() }
         park_select_button.setOnClickListener { presenter.selectData() }
         park_save_button.setOnClickListener {
@@ -53,10 +55,11 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.start()
-
+    override fun setUpTextChangeListeners() {
+        park_title_edit.addTextChangedListener(presenter.getTextValidator(park_title_input))
+        park_site_edit.addTextChangedListener(presenter.getTextValidator(park_site_input))
+        park_description_edit.addTextChangedListener(presenter.getTextValidator(park_description_input))
+        park_country_edit.addTextChangedListener(presenter.getTextValidator(park_country_input))
     }
 
     override fun setTextSelectedButton(value: Int) {
