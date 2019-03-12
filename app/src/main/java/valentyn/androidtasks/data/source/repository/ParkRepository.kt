@@ -1,6 +1,6 @@
-package valentyn.androidtasks.repository
+package valentyn.androidtasks.data.source.repository
 
-import valentyn.androidtasks.models.Park
+import valentyn.androidtasks.data.Park
 import java.util.*
 
 object ParkRepository {

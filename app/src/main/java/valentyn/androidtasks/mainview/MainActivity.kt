@@ -1,4 +1,4 @@
-package valentyn.androidtasks.views
+package valentyn.androidtasks.mainview
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -7,9 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import valentyn.androidtasks.R
-import valentyn.androidtasks.adapters.FragmentsPagerAdapter
-import valentyn.androidtasks.fragments.CityFragment
-import valentyn.androidtasks.fragments.ParkFragment
+import valentyn.androidtasks.mainview.adapters.FragmentsPagerAdapter
+import valentyn.androidtasks.datadetails.cities.CityActivity
+import valentyn.androidtasks.datadetails.parks.ParkActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
         R.id.action_add_element -> {
-            startNewElementActivity()
+            addData()
             true
         }
         else -> {
@@ -47,36 +47,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun startNewElementActivity() {
+    fun addData() {
         when (viewPager.currentItem) {
             0 -> {
                 val intent = Intent(this, CityActivity::class.java)
-                intent.putExtra(CityActivity.CITY_KEY, -1)
                 startActivityForResult(intent, 1)
             }
             1 -> {
                 val intent = Intent(this, ParkActivity::class.java)
-                intent.putExtra(ParkActivity.PARK_KEY, -1)
                 startActivityForResult(intent, 1)
             }
         }
-
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (resultCode == AppCompatActivity.RESULT_OK) {
-            when (viewPager.currentItem) {
-                0 -> {
-                    (viewPager.adapter?.instantiateItem(viewPager, viewPager.currentItem) as CityFragment).updateRecyclerViewAdapter()
-                }
-                1 -> {
-                    (viewPager.adapter?.instantiateItem(viewPager, viewPager.currentItem) as ParkFragment).updateRecyclerViewAdapter()
-                }
-            }
-
-        }
-    }
-
 }
 
 

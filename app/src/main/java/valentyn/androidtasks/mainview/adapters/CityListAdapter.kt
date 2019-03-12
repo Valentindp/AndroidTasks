@@ -1,4 +1,4 @@
-package valentyn.androidtasks.adapters
+package valentyn.androidtasks.mainview.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_city.view.*
 import valentyn.androidtasks.R
-import valentyn.androidtasks.views.BaseContract
+import valentyn.androidtasks.BaseContract
 
-class CitysAdapter(private val dataset: List<BaseContract.Model>, private val clickListener: (String?) -> Unit) :
-    RecyclerView.Adapter<CitysAdapter.CityViewHolder>() {
+class CityListAdapter(datas: List<BaseContract.Data>, listener: DataItemListener) :
+    RecyclerView.Adapter<CityListAdapter.CityViewHolder>() {
+
+    private var dataset: List<BaseContract.Data> = datas
+    private var itemListener: DataItemListener = listener
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,12 +26,17 @@ class CitysAdapter(private val dataset: List<BaseContract.Model>, private val cl
     }
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
-        holder.bindData(dataset[position], clickListener)
+        holder.bindData(dataset[position], itemListener)
+    }
+
+    fun updateData(datas: List<BaseContract.Data>) {
+        dataset = datas
+        notifyDataSetChanged()
     }
 
     class CityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindData(city: BaseContract.Model, clickListener: (String?) -> Unit) {
+        fun bindData(city: BaseContract.Data, itemListener: DataItemListener) {
 
             if (city.url.isNotEmpty()) {
                 Picasso.get()
@@ -39,11 +47,11 @@ class CitysAdapter(private val dataset: List<BaseContract.Model>, private val cl
             }
 
             view.apply {
-                nameTextView.text = city.name
-                descriptionTextView.text = city.about
+                nameTextView.text = city.title
+                descriptionTextView.text = city.description
                 selectedTextView.setText(city.getTextSelected())
                 selectedTextView.setTextColor(city.getColorSelected())
-                setOnClickListener { clickListener(city.id) }
+                setOnClickListener { itemListener.onTaskClick(city) }
             }
         }
     }

@@ -1,4 +1,4 @@
-package valentyn.androidtasks.adapters
+package valentyn.androidtasks.mainview.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_park.view.*
 import valentyn.androidtasks.R
-import valentyn.androidtasks.views.BaseContract
+import valentyn.androidtasks.BaseContract
 
-class ParksAdapter(private val dataset: List<BaseContract.Model>, private val clickListener: (String?) -> Unit) :
-    RecyclerView.Adapter<ParksAdapter.ParkViewHolder>() {
+class ParkListAdapter(datas: List<BaseContract.Data>, listener: DataItemListener) :
+    RecyclerView.Adapter<ParkListAdapter.ParkViewHolder>() {
+
+    private var dataset: List<BaseContract.Data> = datas
+    private var itemListener: DataItemListener = listener
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,12 +26,17 @@ class ParksAdapter(private val dataset: List<BaseContract.Model>, private val cl
     }
 
     override fun onBindViewHolder(holder: ParkViewHolder, position: Int) {
-        holder.bindData(dataset[position], clickListener)
+        holder.bindData(dataset[position], itemListener)
+    }
+
+    fun updateData(datas: List<BaseContract.Data>){
+        dataset = datas
+        notifyDataSetChanged()
     }
 
     class ParkViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindData(park: BaseContract.Model, clickListener: (String?) -> Unit) {
+        fun bindData(park: BaseContract.Data, itemListener: DataItemListener) {
 
             if (park.url.isNotEmpty()) {
                 Picasso.get()
@@ -39,11 +47,11 @@ class ParksAdapter(private val dataset: List<BaseContract.Model>, private val cl
             }
 
             view.apply {
-                nameTextView.text = park.name
-                descriptionTextView.text = park.about
+                nameTextView.text = park.title
+                descriptionTextView.text = park.description
                 selectedTextView.setText(park.getTextSelected())
                 selectedTextView.setTextColor(park.getColorSelected())
-                setOnClickListener { clickListener(park.id) }
+                setOnClickListener { itemListener.onTaskClick(park) }
             }
         }
     }

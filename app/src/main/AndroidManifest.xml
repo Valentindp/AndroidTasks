@@ -16,19 +16,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".views.SplashScreenActivity"
+            android:name=".mainview.splashscreen.SplashScreenActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.MainActivity" />
+        <activity android:name=".mainview.MainActivity" />
         <activity
-            android:name=".views.CityActivity"
+            android:name="valentyn.androidtasks.datadetails.cities.CityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".views.ParkActivity"
+            android:name="valentyn.androidtasks.datadetails.parks.ParkActivity"
             android:screenOrientation="portrait" />
         <provider
             android:name="android.support.v4.content.FileProvider"

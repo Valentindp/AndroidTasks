@@ -6,7 +6,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                tools:context=".views.MainActivity">
+                tools:context=".mainview.MainActivity">
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -17,7 +17,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <valentyn.androidtasks.adapters.SwipeLockableViewPager
+    <valentyn.androidtasks.mainview.adapters.SwipeLockableViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
