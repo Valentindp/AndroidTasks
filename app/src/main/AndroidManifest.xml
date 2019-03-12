@@ -30,6 +30,7 @@
         <activity
             android:name="valentyn.androidtasks.datadetails.parks.ParkActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".graphics.FingerPaint"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="valentyn.androidtasks.fileprovider"

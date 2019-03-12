@@ -26,4 +26,6 @@
     <string name="Error_title_empty">Title cannot be empty!</string>
     <string name="Error_forbiden_character">This symbol is not allowed!</string>
     <string name="Error_max_length">Maximum number of characters reached!</string>
+    <string name="make_drawing">Make a drawing</string>
+    <string name="make_photo">Make a photo</string>
 </resources>

@@ -14,13 +14,16 @@ import android.graphics.Color
 import android.net.Uri
 import android.provider.MediaStore
 import android.support.design.widget.TextInputLayout
+import android.view.ContextMenu
+import android.view.View
 import valentyn.androidtasks.datadetails.DataDetailContract
+import valentyn.androidtasks.graphics.FingerPaint
 import valentyn.androidtasks.utils.ErrorTypeTextValidate
 import valentyn.androidtasks.utils.FileUtils
 
 class CityActivity : AppCompatActivity(), DataDetailContract.View {
 
-    private var presenter: DataDetailPresenter =
+    private val presenter: DataDetailPresenter =
         DataDetailPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +41,9 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
     override fun onStart() {
         super.onStart()
         presenter.start()
-
     }
 
-    override fun setUpOnCliskListeners(){
-        сity_image.setOnClickListener {presenter.getPhoto()}
+    override fun setUpOnClickListeners() {
         city_select_button.setOnClickListener { presenter.selectData() }
         city_save_button.setOnClickListener {
             presenter.saveData(
@@ -61,6 +62,10 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         city_site_edit.addTextChangedListener(presenter.getTextValidator(city_site_input))
         city_description_edit.addTextChangedListener(presenter.getTextValidator(city_description_input))
         city_country_edit.addTextChangedListener(presenter.getTextValidator(city_country_input))
+    }
+
+    override fun setUpOnCreateContextMenuListener() {
+        сity_image.setOnCreateContextMenuListener(this)
     }
 
     override fun setTextSelectedButton(value: Int) {
@@ -89,13 +94,17 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
 
     override fun getPhotoURI(): Uri? = FileUtils.getPhotoURI(this)
 
-    override fun getPhotoIntent(uri: Uri?){
+    override fun getPhotoIntent(uri: Uri?) {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         if (takePictureIntent.resolveActivity(packageManager) != null) {
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
             startActivityForResult(takePictureIntent, presenter.REQUEST_TAKE_PHOTO)
         }
+    }
+
+    override fun getDrawingIntent() {
+        startActivityForResult(Intent(this, FingerPaint::class.java), presenter.REQUEST_TAKE_DRAWING)
     }
 
     override fun setPhoto(uri: Uri?) {
@@ -162,11 +171,32 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-           presenter.result(requestCode, resultCode)
+        presenter.result(requestCode, resultCode)
     }
 
     override fun onFinish() {
         finish()
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        when (v?.id) {
+            R.id.сity_image -> {
+                menuInflater.inflate(R.menu.image_context_menu, menu)
+            }
+        }
+    }
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.make_photo -> {
+                presenter.getPhoto()
+            }
+            R.id.make_drawing -> {
+                presenter.getPicture()
+            }
+        }
+        return super.onContextItemSelected(item)
     }
 
     override fun finish() {

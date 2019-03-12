@@ -18,7 +18,6 @@ import java.lang.RuntimeException
 
 class DataDetailPresenter() : DataDetailContract.Presenter {
 
-
     private var view: DataDetailContract.View? = null
     private var dataId: String? = null
     private var key = ""
@@ -27,15 +26,17 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     var isDataChange = false
 
     val REQUEST_TAKE_PHOTO: Int = 1
+    val REQUEST_TAKE_DRAWING: Int = 2
 
     override fun onAttach(view: DataDetailContract.View, dataId: String?, key: String) {
         this.view = view
         this.dataId = dataId
         this.key = key
 
-        view.apply {
+        this.view?.apply {
             setUpTextChangeListeners()
-            setUpOnCliskListeners()
+            setUpOnClickListeners()
+            setUpOnCreateContextMenuListener()
         }
     }
 
@@ -107,6 +108,10 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     override fun getPhoto() {
         photoUri = view?.getPhotoURI()
         view?.getPhotoIntent(photoUri)
+    }
+
+    override fun getPicture() {
+        view?.getDrawingIntent()
     }
 
     fun saveData(name: String, url: String, description: String, country: String, site: String, select: Boolean) {

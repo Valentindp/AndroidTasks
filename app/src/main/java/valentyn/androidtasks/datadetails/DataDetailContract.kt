@@ -25,11 +25,15 @@ interface DataDetailContract {
 
         fun setUpTextChangeListeners()
 
-        fun setUpOnCliskListeners()
+        fun setUpOnClickListeners()
+
+        fun setUpOnCreateContextMenuListener()
 
         fun getPhotoURI(): Uri?
 
         fun getPhotoIntent(uri: Uri?)
+
+        fun getDrawingIntent()
 
         fun loadPhoto(url: String?)
 
@@ -54,6 +58,8 @@ interface DataDetailContract {
         fun selectData()
 
         fun getPhoto()
+
+        fun getPicture()
 
         fun result(requestCode: Int, resultCode: Int)
 
