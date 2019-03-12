@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.graphics.Bitmap
+import kotlinx.android.synthetic.main.activity_finger_paint.*
+import valentyn.androidtasks.R
 
 class FingerPaint : Activity() {
 
@@ -15,8 +17,11 @@ class FingerPaint : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_finger_paint)
         dv = DrawingView(this)
-        setContentView(dv)
+        rlDrawing.addView(dv)
+
         paint = Paint()
 
         paint?.apply {
@@ -26,7 +31,7 @@ class FingerPaint : Activity() {
             style = Paint.Style.STROKE
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
-            strokeWidth = 12F
+            strokeWidth = 12f
         }
     }
 
@@ -39,8 +44,9 @@ class FingerPaint : Activity() {
         private val circlePaint: Paint = Paint()
         private val circlePath: Path = Path()
 
-        private var mX: Float = 0.toFloat()
-        private var mY: Float = 0.toFloat()
+        private var mX: Float = 0f
+        private var mY: Float = 0f
+
 
         init {
             circlePaint.isAntiAlias = true
@@ -60,7 +66,7 @@ class FingerPaint : Activity() {
         override fun onDraw(canvas: Canvas) {
             super.onDraw(canvas)
 
-            canvas.drawBitmap(bitmap!!, 0F, 0F, bitmapPaint)
+            canvas.drawBitmap(bitmap!!, 0f, 0f, bitmapPaint)
             canvas.drawPath(path, paint!!)
             canvas.drawPath(circlePath, circlePaint)
         }
@@ -114,6 +120,15 @@ class FingerPaint : Activity() {
             }
             return true
         }
+
+    }
+
+    fun loadBitmapFromView(v: View): Bitmap {
+        val b = Bitmap.createBitmap(v.getLayoutParams().width, v.getLayoutParams().height, Bitmap.Config.ARGB_8888);
+        val c = Canvas(b);
+        v.layout(0, 0, v.getLayoutParams().width, v.getLayoutParams().height);
+        v.draw(c);
+        return b;
     }
 
     companion object {
