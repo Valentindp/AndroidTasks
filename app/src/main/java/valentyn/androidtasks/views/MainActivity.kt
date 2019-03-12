@@ -1,5 +1,6 @@
 package valentyn.androidtasks.views
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -7,6 +8,8 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.FragmentsPagerAdapter
+import valentyn.androidtasks.fragments.CityFragment
+import valentyn.androidtasks.fragments.ParkFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,17 +38,51 @@ class MainActivity : AppCompatActivity() {
         R.id.action_settings -> {
             true
         }
-
-        R.id.action_favorite -> {
+        R.id.action_add_element -> {
+            startNewElementActivity()
             true
         }
-
         else -> {
             super.onOptionsItemSelected(item)
         }
     }
 
+    fun startNewElementActivity() {
+        when (viewPager.currentItem) {
+            0 -> {
+                val intent = Intent(this, CityActivity::class.java)
+                intent.putExtra(CityActivity.CITY_KEY, -1)
+                startActivityForResult(intent, 1)
+            }
+            1 -> {
+                val intent = Intent(this, ParkActivity::class.java)
+                intent.putExtra(ParkActivity.PARK_KEY, -1)
+                startActivityForResult(intent, 1)
+            }
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            when (viewPager.currentItem) {
+                0 -> {
+                    (viewPager.adapter?.instantiateItem(viewPager, viewPager.currentItem) as CityFragment).updateRecyclerViewAdapter()
+                }
+                1 -> {
+                    (viewPager.adapter?.instantiateItem(viewPager, viewPager.currentItem) as ParkFragment).updateRecyclerViewAdapter()
+                }
+            }
+
+        }
+    }
+
 }
+
+
+
+
+
 
 
 

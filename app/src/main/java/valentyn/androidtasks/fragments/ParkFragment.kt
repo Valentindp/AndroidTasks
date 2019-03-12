@@ -11,13 +11,10 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_park.*
 import valentyn.androidtasks.R
 import valentyn.androidtasks.adapters.ParksAdapter
-import valentyn.androidtasks.models.Park
-import valentyn.androidtasks.repository.ParkRepository
+import valentyn.androidtasks.repository.RealmRepository
 import valentyn.androidtasks.views.ParkActivity
 
 class ParkFragment : Fragment() {
-
-    private val dataset: List<Park> = ParkRepository.dataParks
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_park, container, false)
@@ -28,22 +25,25 @@ class ParkFragment : Fragment() {
         park_recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
-            adapter = ParksAdapter(dataset) { park: Park -> cityClicked(park) }
         }
+        updateRecyclerViewAdapter()
+    }
+
+    private fun onParkClicked(id: String?) {
+        val intent = Intent(activity, ParkActivity::class.java)
+        intent.putExtra(ParkActivity.PARK_KEY, id)
+        startActivityForResult(intent, 1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode == AppCompatActivity.RESULT_OK) {
-            val park = intent?.getParcelableExtra(ParkActivity.PARK_KEY) as Park
-            dataset.filter { it.id == park.id }.map { it.select = park.select }
-            park_recyclerView.adapter?.notifyDataSetChanged()
+            updateRecyclerViewAdapter()
         }
     }
 
-    private fun cityClicked(park: Park) {
-        val intent = Intent(activity, ParkActivity::class.java)
-        intent.putExtra(ParkActivity.PARK_KEY, park)
-        startActivityForResult(intent, 1)
+    fun updateRecyclerViewAdapter(){
+        park_recyclerView.adapter =
+            ParksAdapter(RealmRepository.getRealmObjectList(ParkActivity.PARK_KEY)) { id: String? -> onParkClicked(id) }
     }
 }
 
