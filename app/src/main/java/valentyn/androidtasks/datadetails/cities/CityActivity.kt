@@ -23,8 +23,7 @@ import valentyn.androidtasks.utils.FileUtils
 
 class CityActivity : AppCompatActivity(), DataDetailContract.View {
 
-    private val presenter: DataDetailPresenter =
-        DataDetailPresenter()
+    private val presenter = DataDetailPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +35,6 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
         presenter.onAttach(this, intent.getStringExtra(CITY_KEY), CITY_KEY)
-    }
-
-    override fun onStart() {
-        super.onStart()
         presenter.start()
     }
 
@@ -48,7 +43,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         city_save_button.setOnClickListener {
             presenter.saveData(
                 name = city_title_edit.text.toString(),
-                url = city_uri.text.toString(),
+                url = сity_image.tag.toString(),
                 description = city_description_edit.text.toString(),
                 country = city_country_edit.text.toString(),
                 site = city_site_edit.text.toString(),
@@ -92,7 +87,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         city_country_edit.setText(country)
     }
 
-    override fun getPhotoURI(): Uri? = FileUtils.getPhotoURI(this)
+    override fun getPhotoURI(): Uri? = FileUtils.getURI(this)
 
     override fun getPhotoIntent(uri: Uri?) {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -107,19 +102,14 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
         startActivityForResult(Intent(this, FingerPaint::class.java), presenter.REQUEST_TAKE_DRAWING)
     }
 
-    override fun setPhoto(uri: Uri?) {
-        сity_image.setImageURI(uri)
-        city_uri.text = uri.toString()
-    }
-
-    override fun loadPhoto(url: String?) {
+    override fun setImage(url: String?) {
 
         if (!url.isNullOrEmpty()) {
-            city_uri.text = url
+            сity_image.tag = url
             Picasso.get()
                 .load(url)
                 .fit()
-                .error(R.drawable.ic_error_black_24dp)
+                .error(R.drawable.no_image)
                 .into(сity_image)
         }
     }
@@ -171,7 +161,7 @@ class CityActivity : AppCompatActivity(), DataDetailContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        presenter.result(requestCode, resultCode)
+        presenter.result(requestCode, resultCode, data)
     }
 
     override fun onFinish() {

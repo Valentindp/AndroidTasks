@@ -5,7 +5,7 @@ import valentyn.androidtasks.BaseContract
 import valentyn.androidtasks.data.source.DataSource
 import valentyn.androidtasks.data.source.repository.DataRepository
 
-class DatasPresenter : DataContract.Presenter {
+class DataPresenter : DataContract.Presenter {
 
     var view: DataContract.View? = null
     var key: String = ""

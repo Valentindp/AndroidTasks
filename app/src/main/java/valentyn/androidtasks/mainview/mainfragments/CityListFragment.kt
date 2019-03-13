@@ -14,12 +14,12 @@ import valentyn.androidtasks.R
 import valentyn.androidtasks.mainview.adapters.CityListAdapter
 import valentyn.androidtasks.datadetails.cities.CityActivity
 import valentyn.androidtasks.mainview.DataContract
-import valentyn.androidtasks.mainview.DatasPresenter
+import valentyn.androidtasks.mainview.DataPresenter
 import valentyn.androidtasks.mainview.adapters.DataItemListener
 
 class CityListFragment : Fragment(), DataContract.View {
 
-    val presenter: DataContract.Presenter = DatasPresenter()
+    val presenter: DataContract.Presenter = DataPresenter()
     private val dataItemListener: DataItemListener = object : DataItemListener {
         override fun onTaskClick(clickedData: BaseContract.Data) {
             presenter.openDataDetails(clickedData)

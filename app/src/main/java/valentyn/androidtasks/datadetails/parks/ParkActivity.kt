@@ -22,8 +22,7 @@ import valentyn.androidtasks.utils.FileUtils
 
 class ParkActivity : AppCompatActivity(), DataDetailContract.View {
 
-    private val presenter: DataDetailPresenter =
-        DataDetailPresenter()
+    private val presenter = DataDetailPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +34,7 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
         presenter.onAttach(this, intent.getStringExtra(PARK_KEY), PARK_KEY)
-    }
-
-    override fun onStart() {
-        super.onStart()
         presenter.start()
-
     }
 
     override fun setUpOnClickListeners() {
@@ -48,7 +42,7 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
         park_save_button.setOnClickListener {
             presenter.saveData(
                 name = park_title_edit.text.toString(),
-                url = park_uri.text.toString(),
+                url = park_image.tag.toString(),
                 description = park_description_edit.text.toString(),
                 country = park_country_edit.text.toString(),
                 site = park_site_edit.text.toString(),
@@ -92,7 +86,7 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
         park_country_edit.setText(country)
     }
 
-    override fun getPhotoURI(): Uri? = FileUtils.getPhotoURI(this)
+    override fun getPhotoURI(): Uri? = FileUtils.getURI(this)
 
     override fun getPhotoIntent(uri: Uri?) {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -107,19 +101,14 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
         startActivityForResult(Intent(this, FingerPaint::class.java), presenter.REQUEST_TAKE_DRAWING)
     }
 
-    override fun setPhoto(uri: Uri?) {
-        park_image.setImageURI(uri)
-        park_uri.text = uri.toString()
-    }
-
-    override fun loadPhoto(url: String?) {
+    override fun setImage(url: String?) {
 
         if (!url.isNullOrEmpty()) {
-            park_uri.text = url
+            park_image.tag = url
             Picasso.get()
                 .load(url)
                 .fit()
-                .error(R.drawable.ic_error_black_24dp)
+                .error(R.drawable.no_image)
                 .into(park_image)
         }
     }
@@ -171,7 +160,7 @@ class ParkActivity : AppCompatActivity(), DataDetailContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        presenter.result(requestCode, resultCode)
+        presenter.result(requestCode, resultCode, data)
     }
 
     override fun onFinish() {
