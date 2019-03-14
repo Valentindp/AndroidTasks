@@ -13,9 +13,9 @@ interface GraphicsContract {
 
     interface View : BaseContract.View {
 
-        fun setDrawingView()
-
         fun setResult()
+
+        fun setDrawingView()
 
         fun onFinish()
     }
