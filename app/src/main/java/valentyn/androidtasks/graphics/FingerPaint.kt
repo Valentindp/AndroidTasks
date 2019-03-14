@@ -63,13 +63,13 @@ class FingerPaint : AppCompatActivity(), GraphicsContract.View, ColorPickerDialo
 
     override fun setResult() {
         val resultIntent = Intent()
-        resultIntent.putExtra(FILE_DRAWING_URI, dv?.getBitmapUri().toString())
+        resultIntent.putExtra(FILE_DRAWING_URI, getBitmapUri().toString())
         setResult(Activity.RESULT_OK, resultIntent)
     }
 
     inner class DrawingView(internal var context: Context) : View(context) {
 
-        private var bitmap: Bitmap? = null
+        var bitmap: Bitmap? = null
         private var canvas: Canvas? = null
         private val path: Path = Path()
         private val bitmapPaint: Paint = Paint(Paint.DITHER_FLAG)
@@ -154,15 +154,20 @@ class FingerPaint : AppCompatActivity(), GraphicsContract.View, ColorPickerDialo
             return true
         }
 
-        fun getBitmapUri(): Uri? {
-            val file = FileUtils.getTempFile(context)
-            val fileOS = FileOutputStream(file)
-
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 85, fileOS)
-            fileOS.close()
-
-            return FileUtils.getUri(context, file)
+        fun erase(){
+            bitmap?.eraseColor(Color.TRANSPARENT)
+            path.reset()
         }
+    }
+
+    private fun getBitmapUri(): Uri? {
+        val file = FileUtils.getTempFile(this)
+        val fileOS = FileOutputStream(file)
+
+        dv?.bitmap?.compress(Bitmap.CompressFormat.JPEG, 85, fileOS)
+        fileOS.close()
+
+        return FileUtils.getUri(this, file)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -178,8 +183,7 @@ class FingerPaint : AppCompatActivity(), GraphicsContract.View, ColorPickerDialo
 
         when (item.itemId) {
             R.id.action_color -> {
-                val coloDialog = ColorPickerDialog(this, this, paint.color)
-                coloDialog.show()
+                ColorPickerDialog(this, this, paint.color).show()
                 return true
             }
             R.id.action_blur -> {
@@ -191,7 +195,9 @@ class FingerPaint : AppCompatActivity(), GraphicsContract.View, ColorPickerDialo
                 return true
             }
             R.id.action_erase -> {
-                paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+                dv?.apply {
+                    erase()
+                    invalidate()}
                 return true
             }
             R.id.action_srcATop -> {
