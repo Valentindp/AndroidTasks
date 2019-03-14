@@ -1,5 +1,6 @@
 package valentyn.androidtasks.datadetails
 
+import android.content.Intent
 import android.net.Uri
 import android.support.design.widget.TextInputLayout
 import valentyn.androidtasks.BaseContract
@@ -21,17 +22,19 @@ interface DataDetailContract {
 
         fun setColorSelectedButton(value: Int)
 
-        fun setPhoto(uri: Uri?)
-
         fun setUpTextChangeListeners()
 
-        fun setUpOnCliskListeners()
+        fun setUpOnClickListeners()
+
+        fun setUpOnCreateContextMenuListener()
 
         fun getPhotoURI(): Uri?
 
         fun getPhotoIntent(uri: Uri?)
 
-        fun loadPhoto(url: String?)
+        fun getDrawingIntent()
+
+        fun setImage(url: String?)
 
         fun changeTextAndColorSelect()
 
@@ -55,7 +58,9 @@ interface DataDetailContract {
 
         fun getPhoto()
 
-        fun result(requestCode: Int, resultCode: Int)
+        fun getPicture()
+
+        fun result(requestCode: Int, resultCode: Int, data: Intent?)
 
     }
 }

@@ -1,6 +1,7 @@
 package valentyn.androidtasks.datadetails
 
 import android.app.Activity
+import android.content.Intent
 import android.text.Editable
 import valentyn.androidtasks.data.City
 import valentyn.androidtasks.data.Park
@@ -13,11 +14,11 @@ import valentyn.androidtasks.datadetails.parks.ParkActivity
 import android.net.Uri
 import android.support.design.widget.TextInputLayout
 import valentyn.androidtasks.data.source.DataSource
+import valentyn.androidtasks.graphics.FingerPaint
 import valentyn.androidtasks.utils.ErrorTypeTextValidate
 import java.lang.RuntimeException
 
 class DataDetailPresenter() : DataDetailContract.Presenter {
-
 
     private var view: DataDetailContract.View? = null
     private var dataId: String? = null
@@ -27,15 +28,17 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     var isDataChange = false
 
     val REQUEST_TAKE_PHOTO: Int = 1
+    val REQUEST_TAKE_DRAWING: Int = 2
 
     override fun onAttach(view: DataDetailContract.View, dataId: String?, key: String) {
         this.view = view
         this.dataId = dataId
         this.key = key
 
-        view.apply {
+        this.view?.apply {
             setUpTextChangeListeners()
-            setUpOnCliskListeners()
+            setUpOnClickListeners()
+            setUpOnCreateContextMenuListener()
         }
     }
 
@@ -62,7 +65,7 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
             setCountryText(data.country)
             setTextSelectedButton(data.getTextSelected())
             setColorSelectedButton(data.getColorSelected())
-            loadPhoto(data.url)
+            setImage(data.url)
         }
     }
 
@@ -107,6 +110,10 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
     override fun getPhoto() {
         photoUri = view?.getPhotoURI()
         view?.getPhotoIntent(photoUri)
+    }
+
+    override fun getPicture() {
+        view?.getDrawingIntent()
     }
 
     fun saveData(name: String, url: String, description: String, country: String, site: String, select: Boolean) {
@@ -200,14 +207,21 @@ class DataDetailPresenter() : DataDetailContract.Presenter {
         }
     }
 
-    override fun result(requestCode: Int, resultCode: Int) {
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            view?.setPhoto(photoUri)
+    override fun result(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_TAKE_PHOTO -> {
+                    view?.setImage(photoUri.toString())
+                }
+                REQUEST_TAKE_DRAWING -> {
+                    val drawingUri = data?.getStringExtra(FingerPaint.FILE_DRAWING_URI)
+                    view?.setImage(drawingUri)
+                }
+            }
         }
     }
 
     override fun onDetach() {
         view = null
     }
-
 }

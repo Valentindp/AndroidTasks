@@ -136,12 +136,6 @@
                 tools:text="Description" />
         </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/park_uri"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/park_description_input"
-            android:visibility="invisible" />
     </RelativeLayout>
 
     <LinearLayout
